@@ -1,5 +1,7 @@
 package testfirst;
+
 import java.awt.Color;
+
 
 public class Car
 {
@@ -17,13 +19,16 @@ public class Car
 	public Car(Color color, int mpg, Type type, int doors, double price)
 	{
 		super();
+
+		assert (mpg > 0);
+
 		m_color = color;
 		m_mpg = mpg;
 		m_type = type;
 		m_doors = doors;
 		m_price = price;
 	}
-	
+
 	public Color getColor()
 	{
 		return m_color;
@@ -69,7 +74,7 @@ public class Car
 		return m_price;
 	}
 
-	public void setProce(double price)
+	public void setPrice(double price)
 	{
 		m_price = price;
 	}
