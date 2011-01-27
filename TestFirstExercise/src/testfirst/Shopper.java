@@ -5,7 +5,7 @@ import testfirst.Car;
 
 public class Shopper
 {
-	public Car getCheapest(ArrayList<Car> list)
+	public Car getCheapestCar(ArrayList<Car> list)
 	{
 		Car smallest = list.get(0);
 
@@ -24,10 +24,12 @@ public class Shopper
 		return smallest;
 	}
 
-	public Car bestDeal(ArrayList<Car> list)
+	public Car getTotalPrice(ArrayList<Car> list)
 	{
 		Car smallest = list.get(0);
-
+		int gallons = 0;
+		double totalCost = 0.0;
+		
 		assert (!list.isEmpty());
 		assert (list.size() == 9);
 
@@ -39,7 +41,11 @@ public class Shopper
 
 			}
 		}
-
+		//computes total price of car with gas price
+		gallons = 10000 / smallest.getMpg();
+		totalCost = gallons * 3;
+		smallest.setPrice(totalCost + smallest.getPrice());
+		
 		return smallest;
 	}
 }

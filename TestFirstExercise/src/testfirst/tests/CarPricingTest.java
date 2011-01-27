@@ -20,12 +20,13 @@ public class CarPricingTest extends TestCase
 		m_carList.add(new Car(null, 25, null, 0, 6600.00));
 		m_carList.add(new Car(null, 25, null, 0, 7600.00));
 		m_carList.add(new Car(null, 45, null, 0, 8600.00));
-		super.setUp();
+	
 	}
 
 	protected void tearDown() throws Exception
 	{
 		super.tearDown();
+		m_carList.clear();
 	}
 
 	public void testMyCode()
@@ -33,7 +34,7 @@ public class CarPricingTest extends TestCase
 		Shopper m_shopper = new Shopper();
 		Car cheapest;
 		// finds the cheapest car
-		cheapest = m_shopper.getCheapest(m_carList);
+		cheapest = m_shopper.getCheapestCar(m_carList);
 		assertTrue(cheapest.getPrice() == 1500.00);
 		System.out.println(cheapest.getPrice());
 	}
