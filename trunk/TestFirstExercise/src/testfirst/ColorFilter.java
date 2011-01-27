@@ -1,23 +1,19 @@
 package testfirst;
 
 import java.awt.Color;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
-public class ColorFilter implements Filter<Color>
+public class ColorFilter
 {
-
-	@Override
-	public LinkedList<Car> filter(Color color, LinkedList<Car> carList) 
+	public void filter(Color color, ArrayList<Car> carList , ArrayList<Car> filteredList) 
 	{
-		LinkedList<Car> newCarList = new LinkedList<Car>();
+		filteredList.clear();
 		for(Car c: carList)
 		{
 			if(c.getColor().equals(color))
 			{
-				newCarList.add(c);
+				filteredList.add(c);
 			}
 		}
-		return newCarList;
 	}
-
 }
