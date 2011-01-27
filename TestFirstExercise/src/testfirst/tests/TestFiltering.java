@@ -15,12 +15,12 @@ public class TestFiltering extends TestCase
 {
 	TypeFilter typeFilter;
 	ColorFilter colorFilter;
-	LinkedList <Car> carList;
+	ArrayList <Car> carList;
 	
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		carList = new LinkedList <Car>();
+		carList = new ArrayList <Car>();
 		carList.add(new Car(Color.red, 2000, Car.Type.hatchback, 4, 150000));
 		carList.add(new Car(Color.blue, 2000, Car.Type.hatchback, 0, 150000));
 		carList.add(new Car(Color.yellow, 2000, Car.Type.sportscar, 20, 150000));
@@ -41,20 +41,25 @@ public class TestFiltering extends TestCase
 	}
 	
 	public void testThis()
-	{
-		LinkedList<Car> typeTest = typeFilter.filter(Car.Type.hatchback, carList);
-		for(Car c : typeTest) 
+	{	
+		ArrayList<Car> carListFiltered = new ArrayList<Car>();
+		ArrayList<Car> carListFiltered_2 = new ArrayList<Car>();
+		
+		typeFilter.filter(Car.Type.hatchback, carList, carListFiltered);
+		
+		for(Car c : carListFiltered) 
 		{
 			assertTrue(c.getType().equals(Car.Type.hatchback));
 		}
 		
-		LinkedList<Car> colorTest = colorFilter.filter(Color.red, carList);
-		for(Car c : colorTest) 
+		colorFilter.filter(Color.red, carList, carListFiltered);
+		for(Car c : carListFiltered) 
 		{
 			assertTrue(c.getColor().equals(Color.red));
 		}
-		LinkedList<Car> bothTest = colorFilter.filter(Color.red, typeTest);
-		for(Car c : bothTest) 
+		colorFilter.filter(Color.red, carList, carListFiltered);
+		typeFilter.filter(Car.Type.hatchback, carListFiltered, carListFiltered_2);
+		for(Car c : carListFiltered_2) 
 		{
 			assertTrue(c.getType().equals(Car.Type.hatchback));
 			assertTrue(c.getColor().equals(Color.red));
