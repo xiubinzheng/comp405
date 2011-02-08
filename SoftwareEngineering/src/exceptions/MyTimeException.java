@@ -8,4 +8,9 @@ public class MyTimeException extends Exception
 	{
 		super(what);
 	}
+	
+	public MyTimeException(String what, Exception e)
+	{
+		super(what, e);
+	}
 }
