@@ -1,4 +1,4 @@
-package tests1;
+package tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
