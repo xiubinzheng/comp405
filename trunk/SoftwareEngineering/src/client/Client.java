@@ -8,6 +8,7 @@ public class Client
 
 	public Client()
 	{
+		
 	}
 
 	public Client(int clientID, String name, String description)
