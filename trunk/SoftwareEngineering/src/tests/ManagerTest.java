@@ -1,12 +1,13 @@
 package tests;
 import client.Client;
 import java.util.ArrayList;
+//import project.Project;
 
 import junit.framework.TestCase;
 
-public class ClmTest extends TestCase 
+public class ManagerTest extends TestCase 
 {
-
+	//Manager fred = new Manager();
 	protected void setUp() throws Exception 
 	{
 

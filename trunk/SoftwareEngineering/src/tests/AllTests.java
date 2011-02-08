@@ -9,7 +9,7 @@ public class AllTests {
 	{
 		TestSuite suite = new TestSuite(AllTests.class.getName());
 		//$JUnit-BEGIN$
-		suite.addTestSuite(ClmTest.class);
+		suite.addTestSuite(ManagerTest.class);
 		//$JUnit-END$
 		return suite;
 	}
