@@ -2,11 +2,12 @@ package tests;
 
 import junit.framework.TestCase;
 import database.DatabaseConnect;
+import exceptions.MyTimeException;
 
 public class DatabaseConnectTester extends TestCase
 {
 	String m_database = "myTimeDB.s3db";
-	DatabaseConnect m_connect = new DatabaseConnect();
+	DatabaseConnect m_connect;
 
 	protected void setUp() throws Exception
 	{
@@ -18,9 +19,9 @@ public class DatabaseConnectTester extends TestCase
 		super.tearDown();
 	}
 
-	public void testConnection()
+	public void testConnection() throws MyTimeException
 	{
-		assertTrue(DatabaseConnect.open());
-		assertTrue(DatabaseConnect.close());
+		m_connect.open();
+		m_connect.close();
 	}
 }
