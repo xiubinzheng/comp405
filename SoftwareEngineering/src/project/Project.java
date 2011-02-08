@@ -31,6 +31,7 @@ public class Project
 		m_hours=hours;
 		m_clientID=clientID;
 		m_hourly=hourly;
+		m_complete = false;
 	}
 	public String getDescription()
 	{
@@ -55,6 +56,10 @@ public class Project
 	public String getName()
 	{
 		return m_name;
+	}
+	public boolean isComplete()
+	{
+		return m_complete;
 	}
 	public void complete()
 	{
