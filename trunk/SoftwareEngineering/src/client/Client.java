@@ -2,6 +2,7 @@ package client;
 
 public class Client
 {
+	private int		m_clientID			= 0;
 	private String	m_clientName		= "";
 	private String	m_clientDescription	= "";
 
@@ -9,10 +10,21 @@ public class Client
 	{
 	}
 
-	public Client(String name, String description)
+	public Client(int clientID, String name, String description)
 	{
+		m_clientID = clientID;
 		m_clientName = name;
 		m_clientDescription = description;
+	}
+
+	public void setClientID(int clientID)
+	{
+		m_clientID = clientID;
+	}
+
+	public int getClientID()
+	{
+		return m_clientID;
 	}
 
 	public void setClientName(String name)
