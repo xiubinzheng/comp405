@@ -1,34 +1,57 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import exceptions.MyTimeException;
 
-public class DatabaseConnect throws MyTimeException
+public class DatabaseConnect
 {
 	private String m_databaseName = "";
+	private static DatabaseConnect m_singleton;
 	
-	public DatabaseConnect()
-	{
-	}
-	
-	public DatabaseConnect(String databaseName)
+	private DatabaseConnect(String databaseName)
 	{
 		m_databaseName = databaseName;
 	}
-				
-	public static open()
+	
+	public static DatabaseConnect getDatabaseInstance(String databaseName)
+	{
+		if(m_singleton == null)
+		{
+			m_singleton = new DatabaseConnect(databaseName);
+		}
+		return m_singleton;
+	}
+	
+	public void open() throws MyTimeException
 	{
 		//Connect
-		Class.forName("org.sqlite.JDBC");
-		Connection dbConnection = DriverManager.getConnection("jdbc:sqlite:" + m_databaseName);
+		try
+		{
+			Class.forName("org.sqlite.JDBC");
+		}
+		catch (ClassNotFoundException e)
+		{
+			//to be completed
+		}
+		try
+		{
+			Connection dbConnection = DriverManager.getConnection("jdbc:sqlite:" + m_databaseName);
+		}
+		catch (SQLException e)
+		{
+			//to be completed
+		}
 		
 	}
 
-	public static boolean close()
+	public void close()
 	{
 		// TODO Auto-generated method stub
-		return false;
+	
 	} 
 	
 	/*
