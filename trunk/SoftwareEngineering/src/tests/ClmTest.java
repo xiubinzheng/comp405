@@ -1,27 +1,24 @@
 package tests;
-
-
+import client.Client;
 import java.util.ArrayList;
-
-
 
 import junit.framework.TestCase;
 
 public class ClmTest extends TestCase 
 {
 
-	protected void setUp() throws Exception
+	protected void setUp() throws Exception 
 	{
-		
+
 	}
 
-	protected void tearDown() throws Exception
+	protected void tearDown() throws Exception 
 	{
-		
+
 	}
 
-	public void testMyCode()
+	public void testMyCode() 
 	{
-		
+
 	}
 }
