@@ -1,38 +1,59 @@
+/*
+ * This represents an easier interface for the DatabaseConnect
+ * class, which will hide the SQL statements from the rest of
+ * the program.
+ */
+
 package Controls;
 
 import client.Client;
 import project.Project;
 import exceptions.MyTimeException;
+import database.DatabaseConnect;
 import java.util.*;
+import java.sql.*;
 
 public class Manager 
 {
+	private String m_databaseName = "myTimeDB.s3db";
 	ArrayList<Client> m_clients;
 	ArrayList<Project> m_projects;
+	DatabaseConnect m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
 	
 	public Manager()
 	{
-		m_clients = new ArrayList();
-		m_projects = new ArrayList();
-		
+		m_clients = new ArrayList<Client>();
+		m_projects = new ArrayList<Project>();
 	}
 	
+	/*
+	 * 
+	 */
 	public void addClient(Client c)
 	{
 		m_clients.add(c);
 	}
 	
+	/*
+	 * 
+	 */
 	public void addProject(Project p)
 	{
 		m_projects.add(p);
 	}
 	
+	/*
+	 * 
+	 */
 	public void getClient(int id, Client client)
 	{
 		Client c = m_clients.get(id);
 		client = new Client(c.getClientID(), c.getClientName(), c.getClientDescription());
 	}
 	
+	/*
+	 * 
+	 */
 	public void getProject(int id, Project project)
 	{
 		Project p = m_projects.get(id);
@@ -47,6 +68,9 @@ public class Manager
 		}
 	}
 	
+	/*
+	 * 
+	 */
 	public void getClients(ArrayList<Client> client)
 	{	
 		client = new ArrayList<Client>();
@@ -58,6 +82,9 @@ public class Manager
 		}
 	}
 	
+	/*
+	 * 
+	 */
 	public void getProjects(int id, ArrayList<Project> project)
 	{
 		project = new ArrayList<Project>(); 
@@ -77,6 +104,16 @@ public class Manager
 				}
 			}
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString()
+	{
+		//to be completed
+		return null;
 	}
 	
 }
