@@ -11,6 +11,7 @@ public class DatabaseConnect
 {
 	private String m_databaseName = "";
 	private static DatabaseConnect m_singleton;
+	private Connection m_dbConnection;
 	
 	private DatabaseConnect(String databaseName)
 	{
@@ -39,7 +40,7 @@ public class DatabaseConnect
 		}
 		try
 		{
-			Connection dbConnection = DriverManager.getConnection("jdbc:sqlite:" + m_databaseName);
+			m_dbConnection = DriverManager.getConnection("jdbc:sqlite:" + m_databaseName);
 		}
 		catch (SQLException e)
 		{
@@ -47,42 +48,57 @@ public class DatabaseConnect
 		}
 		
 	}
-
-	public void close()
+	public void update(String cmd) throws MyTimeException
 	{
-		// TODO Auto-generated method stub
-	
-	} 
-	
-	/*
-	 * 
-	//Execute update
-	Statement s = null;
-	              try
-	              {
-	                     s = c.createStatement();
-	                     s.executeUpdate(cmd);
-	              }
-	              finally
-	              {
-	                     if ( s != null)
-	                           s.close();
-	              }
-
-	//Execute Query
-
-	              ResultSet rs = null;       
-	              Statement s = null;
-	              try
-	              {
-	                     s = c.createStatement();
-	                     rs = s.executeQuery(cmd);
-	              }
-	              finally
-	              {
-	                     if ( s != null)
-	                           s.close();
-	              }
-	                    return rs;
-	 */
+		Statement s = null;
+        try
+        {
+               s = m_dbConnection.createStatement();
+               s.executeUpdate(cmd);
+        } 
+        catch (SQLException e) 
+        {
+			throw new MyTimeException("Update Error");
+		}
+        finally
+        {
+               if ( s != null)
+				try
+                {
+					s.close();
+				} 
+               	catch (SQLException e) 
+               	{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        }
+	}
+	/*public ResultSet execute()
+	{
+		 ResultSet rs = null;       
+         Statement s = null;
+         try
+         {
+                s = m_dbConnection.createStatement();
+                rs = s.executeQuery(cmd);
+         }
+         finally
+         {
+                if ( s != null)
+                      s.close();
+         }
+         return rs;
+	}*/
+	public void close() throws MyTimeException
+	{
+		try 
+		{
+			m_dbConnection.close();
+		} 
+		catch (SQLException e) 
+		{
+			throw new MyTimeException("It's A Microsoft Thing");
+		}
+	}
 }
