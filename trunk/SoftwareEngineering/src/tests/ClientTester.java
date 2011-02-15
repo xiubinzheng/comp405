@@ -58,5 +58,7 @@ public class ClientTester extends TestCase
 			assertTrue(!m_projectList.isEmpty());
 		}
 		
+		assertTrue(m_clientList.get(2).toString().equals("1236 Pillshere Very Evil corp bent on world domination."));
+		
 	}
 }
