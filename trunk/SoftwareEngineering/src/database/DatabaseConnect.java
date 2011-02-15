@@ -7,6 +7,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import exceptions.MyTimeException;
 
+/**
+ * 
+ * DatabaseConnect
+ * 
+ * This is the class that communicates with the database supplied by the user. All of the exception handling
+ * is handled within the class itself so that any other class that communicates with this one does not need
+ * any extra try/catch statement shenanigans. This class can also only exist once in memory thanks to controlled
+ * instance handling.
+ * 
+ */
 public class DatabaseConnect
 {
 	private String m_databaseName = "";
@@ -19,7 +29,12 @@ public class DatabaseConnect
 		m_databaseName = databaseName;
 		open = false;
 	}
-	
+	/**
+	 * 
+	 * Creates an instance of the DatabaseConnect class if none exists. This method controls all instances
+	 * of the DatabaseConnect class by making it so that only one exists at one time.
+	 * 
+	 */
 	public static DatabaseConnect getDatabaseInstance(String databaseName)
 	{
 		if(m_singleton == null)
@@ -28,7 +43,11 @@ public class DatabaseConnect
 		}
 		return m_singleton;
 	}
-	
+	/**
+	 * 
+	 * Connects the DatabaseConnect class to the databaseName provided by the getDatabaseInstance method.
+	 * @throws MyTimeException
+	 */
 	public void open() throws MyTimeException
 	{
 		//Connect
@@ -51,6 +70,12 @@ public class DatabaseConnect
 		}
 		
 	}
+	
+	/**
+	 * 
+	 * Updates the database with an SQL statement. (ex. INSERT, DELETE)
+	 * @throws MyTimeException
+	 */
 	
 	public void update(String cmd) throws MyTimeException
 	{
@@ -78,6 +103,12 @@ public class DatabaseConnect
 				}
         }
 	}
+	
+	/**
+	 * 
+	 * Executes a search on the database with an SQL statement. (ex. SELECT)
+	 * @throws MyTimeException
+	 */
 	
 	public ResultSet execute(String cmd) throws MyTimeException
 	{
@@ -107,6 +138,13 @@ public class DatabaseConnect
          return rs;
 	}
 	
+	/**
+	 * 
+	 * Closes the connection to the database.
+	 * 
+	 * @throws MyTimeException
+	 */
+	
 	public void close() throws MyTimeException 
 	{
 		try 
@@ -119,8 +157,29 @@ public class DatabaseConnect
 			throw new MyTimeException("It's A Microsoft Thing");
 		}
 	}
+	/**
+	 * Returns a boolean. True means the database is connected; false means the database is not connected.
+	 * 
+	 */
+	
 	public boolean isOpen() 
 	{
 		return open;
 	}
+
+	/**
+	 * Returns a String representation of data in the class.
+	 */
+	
+	public String toString()
+	{
+		String s = "";
+		s += m_databaseName + " ";
+		s += isOpen();
+		return s;
+	}
+
+
+
+
 }
