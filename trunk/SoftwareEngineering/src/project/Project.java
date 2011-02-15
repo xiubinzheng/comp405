@@ -127,8 +127,9 @@ public class Project
 	}
 
 	/**
-	 * 
-	 * */
+	 *Overrides the toString() method to return all the project attributes as a string.
+	 * @return projectAttributes 
+	 */
 	public String toString() 
 	{
 		String projectAttributes = "";
@@ -137,14 +138,14 @@ public class Project
 		projectAttributes += m_desc + ", ";
 		if (m_complete)
 		{
-			projectAttributes += "complete,";
+			projectAttributes += "complete, ";
 		}
 		else
 		{
-			projectAttributes += "incomplete,";
+			projectAttributes += "incomplete, ";
 		}
 		projectAttributes += m_hours + ", ";
-		projectAttributes += m_clientID + ".";
+		projectAttributes += m_clientID + ", ";
 		if (m_hourly)
 		{
 			projectAttributes += "hourly.";
