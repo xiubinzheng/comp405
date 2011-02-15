@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -20,6 +22,19 @@ public class Client
 	public Client()
 	{
 		
+	}
+	
+	/**
+	 * Create a client with the provided arguments.
+	 * @param clientID ID of the client.
+	 * @param name Name of the client.
+	 * @param description Description of the client.
+	 */
+	public Client(int clientID, String name, String description)
+	{
+		m_clientID = clientID;
+		m_clientName = name;
+		m_clientDescription = description;
 	}
 
 	/**
@@ -63,6 +78,11 @@ public class Client
 			}
 		}
 		return false;
+	}
+	
+	public void getProjectList(ArrayList<Project> projectList)
+	{
+		projectList.addAll(m_projects);
 	}
 
 	public void setClientID(int clientID)
