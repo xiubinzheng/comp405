@@ -12,10 +12,12 @@ public class DatabaseConnect
 	private String m_databaseName = "";
 	private static DatabaseConnect m_singleton;
 	private Connection m_dbConnection;
+	private boolean open;
 	
 	private DatabaseConnect(String databaseName)
 	{
 		m_databaseName = databaseName;
+		open = false;
 	}
 	
 	public static DatabaseConnect getDatabaseInstance(String databaseName)
@@ -34,20 +36,22 @@ public class DatabaseConnect
 		{
 			Class.forName("org.sqlite.JDBC");
 		}
-		catch (ClassNotFoundException e)
+		catch (ClassNotFoundException e) 
 		{
-			//to be completed
+			throw new MyTimeException("Something Happened!");
 		}
 		try
 		{
 			m_dbConnection = DriverManager.getConnection("jdbc:sqlite:" + m_databaseName);
+			open = true;
 		}
 		catch (SQLException e)
 		{
-			//to be completed
+			throw new MyTimeException("Something not Happened!");
 		}
 		
 	}
+	
 	public void update(String cmd) throws MyTimeException
 	{
 		Statement s = null;
@@ -74,7 +78,8 @@ public class DatabaseConnect
 				}
         }
 	}
-	/*public ResultSet execute()
+	
+	public ResultSet execute(String cmd) throws MyTimeException
 	{
 		 ResultSet rs = null;       
          Statement s = null;
@@ -83,22 +88,39 @@ public class DatabaseConnect
                 s = m_dbConnection.createStatement();
                 rs = s.executeQuery(cmd);
          }
+         catch(SQLException e)
+         {
+        	 throw new MyTimeException("This is bad");
+         }
          finally
          {
+        	 try
+        	 {
                 if ( s != null)
                       s.close();
+        	 }
+        	 catch (SQLException e)
+        	 {
+        		 throw new MyTimeException("Cohen will probably not appreciate the 'helpfulness' of these error messages");
+        	 }
          }
          return rs;
-	}*/
-	public void close() throws MyTimeException
+	}
+	
+	public void close() throws MyTimeException 
 	{
 		try 
 		{
 			m_dbConnection.close();
+			open = false;
 		} 
 		catch (SQLException e) 
 		{
 			throw new MyTimeException("It's A Microsoft Thing");
 		}
+	}
+	public boolean isOpen() 
+	{
+		return open;
 	}
 }
