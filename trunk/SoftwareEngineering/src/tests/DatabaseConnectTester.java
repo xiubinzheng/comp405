@@ -1,5 +1,7 @@
 package tests;
 
+import java.sql.ResultSet;
+
 import junit.framework.TestCase;
 import database.DatabaseConnect;
 import exceptions.MyTimeException;
@@ -20,13 +22,39 @@ public class DatabaseConnectTester extends TestCase
 		super.tearDown();
 	}
 	
-	public void testConnection() throws MyTimeException
+	public void testConnection()
 	{
 		assertTrue(m_connect != null);
 		
-		m_connect.open();
+		try
+		{
+			m_connect.open();
+		}
+		catch(Exception e)
+		{
+			assertTrue(false);
+		}
 		assertTrue(m_connect.isOpen()== true);
-		m_connect.close();
+		
+		//m_connect.update("");
+		ResultSet s;
+		try
+		{
+			s = m_connect.execute("SELECT * FROM myTimeClients;");
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+		
+		try
+		{
+			m_connect.close();
+		}
+		catch(Exception e)
+		{
+			assertTrue(false);
+		}
 		assertTrue(m_connect.isOpen() == false);
 	}
 	
