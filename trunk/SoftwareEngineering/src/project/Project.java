@@ -125,4 +125,36 @@ public class Project
 	{
 		m_complete = true;
 	}
+
+	/**
+	 * 
+	 * */
+	public String toString() 
+	{
+		String projectAttributes = "";
+		projectAttributes += m_ID + ", ";
+		projectAttributes += m_name + ", ";
+		projectAttributes += m_desc + ", ";
+		if (m_complete)
+		{
+			projectAttributes += "complete,";
+		}
+		else
+		{
+			projectAttributes += "incomplete,";
+		}
+		projectAttributes += m_hours + ", ";
+		projectAttributes += m_clientID + ".";
+		if (m_hourly)
+		{
+			projectAttributes += "hourly.";
+		}
+		else
+		{
+			projectAttributes += "fixed.";
+		}
+
+		return projectAttributes;
+	}
+
 }
