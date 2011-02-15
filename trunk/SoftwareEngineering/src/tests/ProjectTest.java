@@ -19,20 +19,23 @@ public class ProjectTest extends TestCase
 	{
 		super.tearDown();
 	}
-
+	
+	/* 
+	 * Test for the project description and name length. 
+	 */
 	public void testMyCode()
 	{
 		String name = "";
 		for (int x = 0; x < 50; x++)
 			name += "a";
 		String desc = "";
-		for (int x = 0; x < 256; x++)
+		for (int x = 0; x < 255; x++)
 			desc += "a";
 		boolean caughtException = false;
 		try
 		{
 			Project proj = new Project(0, name, desc, 877618735, 98734989, true);
-			System.out.println(proj.toString());
+			proj.toString();
 		}
 		catch (MyTimeException mte)
 		{
