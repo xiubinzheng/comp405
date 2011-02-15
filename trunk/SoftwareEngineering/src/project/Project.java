@@ -1,6 +1,6 @@
 package project;
 
-//import java.util.ArrayList;
+import java.util.ArrayList;
 
 import exceptions.MyTimeException;
 
@@ -18,7 +18,7 @@ public class Project
 	private int						m_hours;
 	private int						m_clientID;
 	private boolean					m_hourly;
-	//private ArrayList<TimeInterval>	m_timeList		= new ArrayList<TimeInterval>();
+	private ArrayList<TimeInterval>	m_timeList		= new ArrayList<TimeInterval>();
 
 	private final int				m_nameLength	= 50;
 	private final int				m_descLength	= 255;
@@ -127,14 +127,48 @@ public class Project
 	}
 
 	/**
-	 *Overrides the toString() method to return all the project attributes as a string.
-	 * @return projectAttributes 
+	 * Adds an interval of time to the list.
+	 * */
+	public void addTime(TimeInterval tInterval) throws MyTimeException
+	{
+		if (tInterval.getStart() == null)
+		{
+			throw new MyTimeException(
+					"TimeInterval does not contain a start time.");
+		}
+		if (tInterval.getStop() == null)
+		{
+			throw new MyTimeException(
+					"TimeInterval does not contain an end time");
+		}
+
+		if (tInterval.getStart().compareTo(tInterval.getStop()) >= 0)
+		{
+			throw new MyTimeException("End time comes before the Start time.");
+		}
+
+		m_timeList.add(tInterval);
+	}
+
+	/*
+	 * 
 	 */
-	public String toString() 
+	public void deleteTime() throws MyTimeException
+	{
+		
+	}
+
+	/**
+	 * Overrides the toString() method to return all the project attributes as a
+	 * string.
+	 * 
+	 * @return projectAttributes
+	 */
+	public String toString()
 	{
 		String projectAttributes = "";
 		projectAttributes += "ID: " + m_ID + "\n";
-		projectAttributes += "Name: " + m_name +"\n";
+		projectAttributes += "Name: " + m_name + "\n";
 		projectAttributes += "Description: " + m_desc + "\n";
 		if (m_complete)
 		{
