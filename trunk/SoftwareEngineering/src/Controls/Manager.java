@@ -13,6 +13,12 @@ import database.DatabaseConnect;
 import java.util.*;
 import java.sql.*;
 
+/**
+ * This class manages clients and projects in memory.
+ * 
+ *
+ */
+
 public class Manager 
 {
 	private String m_databaseName = "myTimeDB.s3db";
@@ -20,52 +26,50 @@ public class Manager
 	ArrayList<Project> m_projects;
 	DatabaseConnect m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
 	
+	/**
+	 * This method creates defaults.
+	 */
 	public Manager()
 	{
 		m_clients = new ArrayList<Client>();
 		m_projects = new ArrayList<Project>();
 	}
-	
-	/*
-	 * 
-	 */
 	public void addClient(Client c)
 	{
 		m_clients.add(c);
 	}
-	
-	/*
-	 * 
-	 */
 	public void addProject(Project p)
 	{
 		m_projects.add(p);
 	}
-	
-	/*
-	 * 
-	 */
 	public void getClient(int id, Client client)
 	{
-		Client c = m_clients.get(id);
-		client = new Client(c.getClientID(), c.getClientName(), c.getClientDescription());
+		for(Client c : m_clients)
+			if(c.getClientID()==id)
+			{
+				client = new Client(c.getClientID(), c.getClientName(), c.getClientDescription());
+				break;
+			}
 	}
-	
-	/*
-	 * 
-	 */
 	public void getProject(int id, Project project)
 	{
-		Project p = m_projects.get(id);
+		//Project p = m_projects.get(id);
+		for(Project p : m_projects)
+			if(p.getID()==id)
+			{
+				project = p;
+				break;
+			}
 		
-		try
+		
+		/*try
 		{
 			project = new Project(p.getID(), p.getName(), p.getDescription(), p.getHours(), p.getClientID(), p.isHourly());
 		}
 		catch(MyTimeException e)
 		{
 			e.getMessage();
-		}
+		}*/
 	}
 	
 	/*
