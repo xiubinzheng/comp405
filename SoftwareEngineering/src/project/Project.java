@@ -1,6 +1,6 @@
 package project;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 import exceptions.MyTimeException;
 
@@ -18,7 +18,7 @@ public class Project
 	private int						m_hours;
 	private int						m_clientID;
 	private boolean					m_hourly;
-	private ArrayList<TimeInterval>	m_timeList		= new ArrayList<TimeInterval>();
+	//private ArrayList<TimeInterval>	m_timeList		= new ArrayList<TimeInterval>();
 
 	private final int				m_nameLength	= 50;
 	private final int				m_descLength	= 255;
