@@ -41,16 +41,26 @@ public class ManagerTest extends TestCase
 
 	public void testMyCode() 
 	{
+		
+		
 		//User tries to add a client
 		String s1 = "0"; //Would be System.in
 		String s2 = "FRED";
 		String s3 = "MANAGER";
 		//Attempt to add a client
-		manager.addClient(new Client(Integer.parseInt(s1), s2, s3));
-		Client test = new Client(3, "RYAN.", "BOSS.");
-		manager.getClient(0, test);
+		try
+		{
+			manager.addClient(new Client(Integer.parseInt(s1), s2, s3));
+		}
+		catch(MyTimeException e)
+		{
+			System.err.println(e);
+			assert false;
+		}
+		Client test = null;// = new Client(3, "RYAN.", "BOSS.");
+		manager.getClientByID(0);
 					  
-		//assertTrue(test.getClientID() == 0);
+		assertTrue(test.getClientID() == 0);
 		
 		//User tries to add a project
 		s1 = "0";
@@ -78,7 +88,15 @@ public class ManagerTest extends TestCase
 		s1 = "1";
 		s2 = "YEORGE";
 		s3 = "JAWS.";
-		manager.addClient(new Client(Integer.parseInt(s1), s2, s3));
+		try
+		{
+			manager.addClient(new Client(Integer.parseInt(s1), s2, s3));
+		}
+		catch(MyTimeException e)
+		{
+			System.err.println(e);
+			assert false;
+		}
 		ArrayList<Client> test3 = new ArrayList<Client>();
 		manager.getClients(test3);
 		//assertTrue(test3.size() == 2);
