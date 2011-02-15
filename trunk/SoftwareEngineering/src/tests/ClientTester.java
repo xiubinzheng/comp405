@@ -48,7 +48,7 @@ public class ClientTester extends TestCase
 		int testVal = 1234;
 		for(int i = 0; i < m_clientList.size(); i++)
 		{
-			assertTrue(m_clientList.get(0).getClientID() == testVal);
+			assertTrue(m_clientList.get(i).getClientID() == testVal);
 			testVal++;
 		}
 		
