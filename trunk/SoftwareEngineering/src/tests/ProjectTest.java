@@ -2,6 +2,8 @@ package tests;
 
 import exceptions.MyTimeException;
 import project.Project;
+import project.TimeInterval;
+import java.util.Date;
 import junit.framework.TestCase;
 
 /*
@@ -10,9 +12,11 @@ import junit.framework.TestCase;
  */
 public class ProjectTest extends TestCase
 {
+	Project proj = new Project();
 	protected void setUp() throws Exception
 	{
 		super.setUp();
+		
 	}
 
 	protected void tearDown() throws Exception
@@ -34,7 +38,7 @@ public class ProjectTest extends TestCase
 		boolean caughtException = false;
 		try
 		{
-			Project proj = new Project(0, name, desc, 877618735, 98734989, true);
+			proj = new Project(0, name, desc, 877618735, 98734989, true);
 			proj.toString();
 		}
 		catch (MyTimeException mte)
@@ -45,5 +49,31 @@ public class ProjectTest extends TestCase
 		
 		assert caughtException;
 	
+	}
+	
+	/*
+	 * Test for the addTime() method and its features.
+	 */
+	public void testTimeInterval() throws InterruptedException
+	{
+		boolean caughtException = false;
+		Date start = new Date();
+		Thread.sleep(1000);
+		Date end = new Date();
+		
+		TimeInterval tInterval = new TimeInterval();
+		try
+		{
+			proj.addTime(tInterval);
+		}
+		catch(MyTimeException mte)
+		{
+			caughtException = true;
+			System.out.println(mte);
+		}
+		assert caughtException;
+		
+		
+		//Still need to test the end time < start time feature
 	}
 }
