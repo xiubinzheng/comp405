@@ -6,6 +6,7 @@
 
 package Controls;
 
+
 import client.Client;
 import project.Project;
 import exceptions.MyTimeException;
@@ -18,95 +19,129 @@ import java.sql.*;
  * 
  *
  */
-
 public class Manager 
 {
+	private final static String m_clientTableName = "myTimeClients";
+	private final static String m_projectTableName = "myTimeProjects";
+	
+	private final static String m_insertClient_CMDFMT = 
+		"INSERT INTO %s values(%d, \'%s\', \'%s\')";
+	private final static String m_selectClient_CMDFMT =
+		"SELECT * FROM %s WHERE %s = %s";
+
 	private String m_databaseName = "myTimeDB.s3db";
-	ArrayList<Client> m_clients;
-	ArrayList<Project> m_projects;
+	Set<Project> m_projects;
 	DatabaseConnect m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
+	Set<Client> m_clients;
 	
 	/**
 	 * This method creates defaults.
 	 */
 	public Manager()
 	{
-		m_clients = new ArrayList<Client>();
-		m_projects = new ArrayList<Project>();
+		m_clients = new HashSet<Client>();
+		m_projects = new HashSet<Project>();
 	}
-	public void addClient(Client c)
+	public void addClient(Client c) throws MyTimeException
 	{
-		m_clients.add(c);
+		if(!m_clients.contains(c))
+		{
+			try
+			{
+				String cmd = String.format(
+						m_insertClient_CMDFMT,
+						m_clientTableName,
+						c.getClientID(),
+						c.getClientName(),
+						c.getClientDescription());
+				m_database.execute(cmd);
+			}
+			catch(MyTimeException e)
+			{
+				throw new MyTimeException("Add Client Error", e);
+			}
+		}
 	}
 	public void addProject(Project p)
 	{
 		m_projects.add(p);
 	}
-	public void getClient(int id, Client client)
+	public Client getClientByID(int id)
 	{
+		Client client = null;
 		for(Client c : m_clients)
 			if(c.getClientID()==id)
 			{
-				client = new Client(c.getClientID(), c.getClientName(), c.getClientDescription());
+				client = c;
 				break;
 			}
+		if(client == null)
+		{
+			try
+			{
+				String cmd = String.format(
+						m_selectClient_CMDFMT,
+						m_clientTableName,
+						"Client_ID",
+						Integer.toString(id));
+				ResultSet result = m_database.execute(cmd);
+				int ID;
+				String name;
+				String desc;
+				if(result.next())
+				{
+					ID = result.getInt("ClientID");
+					name = result.getString("ClientName");
+					desc = result.getString("ClientDesc");
+					client = new Client(ID, name, desc);
+					m_clients.add(client);
+				}
+			}
+			catch(MyTimeException e)
+			{
+				
+			}
+			catch(SQLException e)
+			{
+				
+			}
+		}
+		return client;
 	}
+	
+	public Client getClientByName(String clientName)
+	{
+		return null;
+	}
+	
 	public void getProject(int id, Project project)
 	{
-		//Project p = m_projects.get(id);
 		for(Project p : m_projects)
 			if(p.getID()==id)
 			{
 				project = p;
 				break;
 			}
-		
-		
-		/*try
-		{
-			project = new Project(p.getID(), p.getName(), p.getDescription(), p.getHours(), p.getClientID(), p.isHourly());
-		}
-		catch(MyTimeException e)
-		{
-			e.getMessage();
-		}*/
 	}
 	
 	/*
 	 * 
 	 */
-	public void getClients(ArrayList<Client> client)
+	public void getClients(ArrayList<Client> clientList)
 	{	
-		client = new ArrayList<Client>();
-		
-		for(int x = 0; x < m_clients.size(); x++)
-		{
-			Client c = m_clients.get(x);
-			client.add(new Client(c.getClientID(), c.getClientName(), c.getClientDescription()));
-		}
+		clientList = new ArrayList<Client>();
+		for(Client c : m_clients)
+			clientList.add(c);
 	}
 	
-	/*
-	 * 
-	 */
-	public void getProjects(int id, ArrayList<Project> project)
+	public void getProjects(int clientID, ArrayList<Project> projectList)
 	{
-		project = new ArrayList<Project>(); 
+		projectList = new ArrayList<Project>(); 
 		
-		for(int y = 0; y < m_projects.size(); y++)
+		for(Project p : m_projects)
 		{
-			Project p = m_projects.get(y);
-			if(p.getClientID() == id)
-			{
-				try
-				{
-					project.add (new Project(p.getID(), p.getName(), p.getDescription(), p.getHours(), p.getClientID(), p.isHourly()));
-				}
-				catch(MyTimeException e)
-				{
-					e.getMessage();
-				}
-			}
+			if(p.getClientID()==clientID)
+				projectList.add(p);
 		}
 	}
 	
