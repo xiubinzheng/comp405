@@ -1,25 +1,32 @@
 package tests;
 
+
 import java.sql.ResultSet;
 
 import junit.framework.TestCase;
 import database.DatabaseConnect;
 import exceptions.MyTimeException;
 
+import client.Client;
+
 public class DatabaseConnectTester extends TestCase
 {
 	String m_database = "myTimeDB.s3db";
 	DatabaseConnect m_connect;
+	
+	Client testClient;
 
 	protected void setUp() throws Exception
 	{
 		super.setUp();
 		m_connect = DatabaseConnect.getDatabaseInstance(m_database);
+		testClient = new Client(1001, "Cohen", "Proffesor");
 	}
 
 	protected void tearDown() throws Exception
 	{
 		super.tearDown();
+		
 	}
 	
 	public void testConnection()
@@ -46,6 +53,22 @@ public class DatabaseConnectTester extends TestCase
 		{
 			assertTrue(false);
 		}
+		try
+		{
+			m_connect.update("INSERT INTO myTimeClients VALUES(1001, 'Cohen', 'Proffesor')");
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+		try
+		{
+			m_connect.update("DELETE FROM myTimeClients WHERE client_ID = 1001");
+		}
+		catch(Exception e)
+		{
+			assertTrue(false);
+		}
 		
 		try
 		{
@@ -56,6 +79,9 @@ public class DatabaseConnectTester extends TestCase
 			assertTrue(false);
 		}
 		assertTrue(m_connect.isOpen() == false);
+		
+		
+	
 	}
 	
 	
