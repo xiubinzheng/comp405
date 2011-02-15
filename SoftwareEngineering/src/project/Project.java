@@ -133,26 +133,26 @@ public class Project
 	public String toString() 
 	{
 		String projectAttributes = "";
-		projectAttributes += m_ID + ", ";
-		projectAttributes += m_name + ", ";
-		projectAttributes += m_desc + ", ";
+		projectAttributes += "ID: " + m_ID + "\n";
+		projectAttributes += "Name: " + m_name +"\n";
+		projectAttributes += "Description: " + m_desc + "\n";
 		if (m_complete)
 		{
-			projectAttributes += "complete, ";
+			projectAttributes += "Status: complete \n";
 		}
 		else
 		{
-			projectAttributes += "incomplete, ";
+			projectAttributes += "Status: incomplete  \n";
 		}
-		projectAttributes += m_hours + ", ";
-		projectAttributes += m_clientID + ", ";
+		projectAttributes += "Hours: " + m_hours + "  \n";
+		projectAttributes += "Client ID: " + m_clientID + "  \n";
 		if (m_hourly)
 		{
-			projectAttributes += "hourly.";
+			projectAttributes += "Rate: hourly  \n";
 		}
 		else
 		{
-			projectAttributes += "fixed.";
+			projectAttributes += "Rate: fixed  \n";
 		}
 
 		return projectAttributes;
