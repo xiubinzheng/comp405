@@ -80,6 +80,10 @@ public class Client
 		return false;
 	}
 	
+	/**
+	 * populates a passed list with a client's projects.
+	 * @param projectList
+	 */
 	public void getProjectList(ArrayList<Project> projectList)
 	{
 		projectList.addAll(m_projects);
@@ -115,4 +119,12 @@ public class Client
 		return m_clientDescription;
 	}
 
+	/**
+	 * Returns a string containing the client ID, client name, and client
+	 * description.
+	 */
+	public String toString()
+	{
+		return m_clientID + " " + m_clientName + " " + m_clientDescription;
+	}
 }
