@@ -12,16 +12,24 @@ public class DatabaseConnectTester extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
+		m_connect = DatabaseConnect.getDatabaseInstance(m_database);
 	}
 
 	protected void tearDown() throws Exception
 	{
 		super.tearDown();
 	}
-
+	
 	public void testConnection() throws MyTimeException
 	{
+		assertTrue(m_connect != null);
+		
 		m_connect.open();
+		assertTrue(m_connect.isOpen()== true);
 		m_connect.close();
+		assertTrue(m_connect.isOpen() == false);
 	}
+	
+	
+	
 }
