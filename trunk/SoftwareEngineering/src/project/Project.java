@@ -128,7 +128,7 @@ public class Project
 
 	/**
 	 * Adds an interval of time to the list.
-	 * */
+	 */
 	public void addTime(TimeInterval tInterval) throws MyTimeException
 	{
 		if (tInterval.getStart() == null)
@@ -144,18 +144,18 @@ public class Project
 
 		if (tInterval.getStart().compareTo(tInterval.getStop()) >= 0)
 		{
-			throw new MyTimeException("End time comes before the Start time.");
+			throw new MyTimeException("End time does not come after the Start time.");
 		}
 
 		m_timeList.add(tInterval);
 	}
 
-	/*
-	 * 
+	/**
+	 * Used to manually delete a time from the interval list.
 	 */
 	public void deleteTime() throws MyTimeException
 	{
-		
+
 	}
 
 	/**
