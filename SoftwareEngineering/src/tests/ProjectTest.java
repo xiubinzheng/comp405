@@ -6,26 +6,27 @@ import project.TimeInterval;
 import java.util.Date;
 import junit.framework.TestCase;
 
-/*
+/**
  * A tester for the Project class that adds a project
  * and reads a project from the database.
  */
 public class ProjectTest extends TestCase
 {
-	Project proj = new Project();
+	Project	proj	= new Project();
+
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		
+
 	}
 
 	protected void tearDown() throws Exception
 	{
 		super.tearDown();
 	}
-	
-	/* 
-	 * Test for the project description and name length. 
+
+	/**
+	 * Test for the project description and name length.
 	 */
 	public void testMyCode()
 	{
@@ -46,34 +47,56 @@ public class ProjectTest extends TestCase
 			caughtException = true;
 			System.out.println(mte);
 		}
-		
+
 		assert caughtException;
-	
+
 	}
-	
-	/*
+
+	/**
 	 * Test for the addTime() method and its features.
 	 */
-	public void testTimeInterval() throws InterruptedException
+	public void testAddTimeInterval() throws InterruptedException
 	{
 		boolean caughtException = false;
-		Date start = new Date();
-		Thread.sleep(1000);
-		Date end = new Date();
-		
 		TimeInterval tInterval = new TimeInterval();
+
 		try
 		{
 			proj.addTime(tInterval);
 		}
-		catch(MyTimeException mte)
+		catch (MyTimeException mte)
 		{
 			caughtException = true;
 			System.out.println(mte);
 		}
 		assert caughtException;
-		
-		
-		//Still need to test the end time < start time feature
+
+		caughtException = false;
+		tInterval.start();
+		try
+		{
+			proj.addTime(tInterval);
+		}
+		catch (MyTimeException mte)
+		{
+			caughtException = true;
+			System.out.println(mte);
+		}
+		assert caughtException;
+
+		caughtException = false;
+		Thread.sleep(1000);
+		tInterval.stop();
+		try
+		{
+			proj.addTime(tInterval);
+		}
+		catch (MyTimeException mte)
+		{
+			caughtException = true;
+			System.out.println(mte);
+		}
+		assert caughtException;
+
 	}
 }
