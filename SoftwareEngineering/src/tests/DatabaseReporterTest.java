@@ -4,15 +4,16 @@ import client.Client;
 import database.DatabaseConnect;
 import junit.framework.TestCase;
 
+import Controls.DatabaseReporter;
 public class DatabaseReporterTest extends TestCase {
 	
-	DatabaseConnect m_databaseConnection;
+	DatabaseReporter dr; 
 	
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		m_databaseConnection = DatabaseConnect.getDatabaseInstance("myTimeDB.s3db");
 		//table populated
+		dr = DatabaseReporter.getReporterInstance("myTimeDB.s3db");
 	}
 
 	protected void tearDown() throws Exception
@@ -23,6 +24,20 @@ public class DatabaseReporterTest extends TestCase {
 	
 	public void test()
 	{
+		String s = "";
+		try
+		{
+			s = dr.reportClient(); 
+			System.out.println(s);
+			assertTrue(s.contains("html"));
+		}
+		catch(Exception e)
+		{
+			 assertTrue(false);
+		}
+		
 		
 	}
+	
+	
 }
