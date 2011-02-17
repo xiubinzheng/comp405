@@ -25,13 +25,13 @@ public class Manager
 	private final static String m_projectTableName = "myTimeProjects";
 	
 	private final static String m_insertClient_CMDFMT = 
-		"INSERT INTO %s values(%d, \'%s\', \'%s\')";
+		"INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
 	private final static String m_selectClient_CMDFMT =
 		"SELECT * FROM %s WHERE %s = %s";
 
 	private String m_databaseName = "myTimeDB.s3db";
 	Set<Project> m_projects;
-	DatabaseConnect m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
+	DatabaseConnect m_database;
 	Set<Client> m_clients;
 	
 	/**
@@ -41,6 +41,13 @@ public class Manager
 	{
 		m_clients = new HashSet<Client>();
 		m_projects = new HashSet<Project>();
+		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
+		try {
+			m_database.open();
+		} catch (MyTimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void addClient(Client c) throws MyTimeException
 	{
@@ -51,10 +58,12 @@ public class Manager
 				String cmd = String.format(
 						m_insertClient_CMDFMT,
 						m_clientTableName,
-						c.getClientID(),
+						"null",
 						c.getClientName(),
 						c.getClientDescription());
+				System.out.println(cmd);
 				m_database.execute(cmd);
+				//"SELECT seq from SQLITE_SEQUENCE where name = '%s';";
 			}
 			catch(MyTimeException e)
 			{
@@ -85,14 +94,18 @@ public class Manager
 						"Client_ID",
 						Integer.toString(id));
 				ResultSet result = m_database.execute(cmd);
+				System.out.println("RESULT : "+result);
+				System.out.println(cmd);
 				int ID;
 				String name;
 				String desc;
+				System.out.println("RESULT is "+(result.next()));
 				if(result.next())
 				{
 					ID = result.getInt("ClientID");
 					name = result.getString("ClientName");
 					desc = result.getString("ClientDesc");
+					System.out.println("Client = "+ID+" "+name+" "+desc);
 					client = new Client(ID, name, desc);
 					m_clients.add(client);
 				}
