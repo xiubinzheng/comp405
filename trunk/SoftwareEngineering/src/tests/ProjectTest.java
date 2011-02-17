@@ -3,7 +3,6 @@ package tests;
 import exceptions.MyTimeException;
 import project.Project;
 import project.TimeInterval;
-import java.util.Date;
 import junit.framework.TestCase;
 
 /**
@@ -13,31 +12,31 @@ import junit.framework.TestCase;
 public class ProjectTest extends TestCase
 {
 	Project	proj	= new Project();
+	TimeInterval tInt1 = new TimeInterval();
+	TimeInterval tInt2 = new TimeInterval();
+	TimeInterval tInt3 = new TimeInterval();
+	TimeInterval tInt4 = new TimeInterval();
 
 	protected void setUp() throws Exception
 	{
 		super.setUp();
 
 		// to test the deleteTime() method
-		TimeInterval tInt1 = new TimeInterval();
 		tInt1.start();
 		Thread.sleep(800);
 		tInt1.stop();
 		proj.addTime(tInt1);
 
-		TimeInterval tInt2 = new TimeInterval();
 		tInt2.start();
 		Thread.sleep(1000);
 		tInt2.stop();
 		proj.addTime(tInt2);
 
-		TimeInterval tInt3 = new TimeInterval();
 		tInt3.start();
 		Thread.sleep(1200);
 		tInt3.stop();
 		proj.addTime(tInt3);
 
-		TimeInterval tInt4 = new TimeInterval();
 		tInt4.start();
 		Thread.sleep(1400);
 		tInt4.stop();
@@ -124,15 +123,14 @@ public class ProjectTest extends TestCase
 	}
 
 	/**
-	 * 
-	 * 
+	 * Test for deleteTime() method.
 	 */
 	public void testDeleteTimeInterval() throws MyTimeException
 	{
 		boolean caughtException = false;
 		try
 		{
-			proj.deleteTime(2);
+			proj.deleteTime(tInt2);
 		}
 		catch (MyTimeException mte)
 		{
@@ -144,19 +142,7 @@ public class ProjectTest extends TestCase
 		caughtException = false;
 		try
 		{
-			proj.deleteTime(3);
-		}
-		catch (MyTimeException mte)
-		{
-			caughtException = true;
-			System.out.println(mte);
-		}
-		assert caughtException;
-
-		caughtException = false;
-		try
-		{
-			proj.deleteTime(-1);
+			proj.deleteTime(tInt2);
 		}
 		catch (MyTimeException mte)
 		{
@@ -169,7 +155,7 @@ public class ProjectTest extends TestCase
 		Project emptyProj = new Project();
 		try
 		{
-			emptyProj.deleteTime(2);
+			emptyProj.deleteTime(tInt3);
 		}
 		catch (MyTimeException mte)
 		{
