@@ -159,22 +159,31 @@ public class Project
 	 * 
 	 * @param index
 	 */
-	public void deleteTime(int index) throws MyTimeException
+	public void deleteTime(TimeInterval tInterval) throws MyTimeException
 	{
 		if (m_timeList.isEmpty())
 		{
 			throw new MyTimeException("There are no time intervals to delete!");
 		}
 		
-		else if (index >= m_timeList.size() || index < 0)
-		{
-			throw new MyTimeException(
-					"Time Interval does not exist in the list!");
-		}
-
 		else
 		{
-			m_timeList.remove(index);
+			int index = -1;
+			for(int i=0; i<m_timeList.size(); i++)
+			{
+				if(tInterval == m_timeList.get(i))
+				{
+					index = i;
+					m_timeList.remove(index);
+					break;
+				}
+			}
+			
+			if(index == -1)
+			{
+				throw new MyTimeException(
+					"Time Interval does not exist in the list!");
+			}
 		}
 	}
 
