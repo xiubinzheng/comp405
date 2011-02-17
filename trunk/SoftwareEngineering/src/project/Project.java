@@ -134,28 +134,48 @@ public class Project
 		if (tInterval.getStart() == null)
 		{
 			throw new MyTimeException(
-					"TimeInterval does not contain a start time.");
+					"TimeInterval does not contain a start time!");
 		}
-		if (tInterval.getStop() == null)
+		else if (tInterval.getStop() == null)
 		{
 			throw new MyTimeException(
-					"TimeInterval does not contain an end time");
+					"TimeInterval does not contain an end time!");
 		}
 
-		if (tInterval.getStart().compareTo(tInterval.getStop()) >= 0)
+		else if (tInterval.getStart().compareTo(tInterval.getStop()) >= 0)
 		{
-			throw new MyTimeException("End time does not come after the Start time.");
+			throw new MyTimeException(
+					"End time does not come after the Start time!");
 		}
 
-		m_timeList.add(tInterval);
+		else
+		{
+			m_timeList.add(tInterval);
+		}
 	}
 
 	/**
 	 * Used to manually delete a time from the interval list.
+	 * 
+	 * @param index
 	 */
-	public void deleteTime() throws MyTimeException
+	public void deleteTime(int index) throws MyTimeException
 	{
+		if (m_timeList.isEmpty())
+		{
+			throw new MyTimeException("There are no time intervals to delete!");
+		}
+		
+		else if (index >= m_timeList.size() || index < 0)
+		{
+			throw new MyTimeException(
+					"Time Interval does not exist in the list!");
+		}
 
+		else
+		{
+			m_timeList.remove(index);
+		}
 	}
 
 	/**
