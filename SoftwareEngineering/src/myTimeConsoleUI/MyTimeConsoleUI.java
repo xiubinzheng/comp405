@@ -127,6 +127,7 @@ public class MyTimeConsoleUI
 				case 3: //Takes client name and edits both name and description.
 					System.out.printf("Please input which Client name you would like to edit.\n");
 					m_clientName = g_in.next();
+					//commented out to avoid error until exception is thrown by manager
 					/*try
 					{
 						g_uiManager.getClientByName(m_clientName);
