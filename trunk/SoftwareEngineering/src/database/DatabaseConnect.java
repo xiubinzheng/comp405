@@ -121,7 +121,7 @@ public class DatabaseConnect
          }
          catch(SQLException e)
          {
-        	 throw new MyTimeException("This is bad");
+        	 throw new MyTimeException("This is bad", e);
          }
          finally
          {
