@@ -184,6 +184,7 @@ public class MyTimeConsoleUI
 		String m_projectName;
 		String m_projectDescription;
 		boolean m_projectStatus = true;
+		boolean m_found = false;
 		
 		while(true)
 		{
@@ -209,8 +210,6 @@ public class MyTimeConsoleUI
 					System.out.printf("\nInput client name for Project you would like to add.\n");
 					m_clientName = g_in.next();
 					
-					g_uiManager.getClientByName(m_clientName);
-					
 					//getClientByName is not finished!
 					/*try
 					{
@@ -229,13 +228,13 @@ public class MyTimeConsoleUI
 						}
 					}*/
 					
-					System.out.printf("\nPlease input project name for %s: ", m_clientName);
+					System.out.printf("\nPlease input project name for %s: \n", m_clientName);
 					m_projectName = g_in.next();
 					
-					System.out.printf("\nPlease input project description: ");
+					System.out.printf("\nPlease input project description: \n");
 					m_projectDescription = g_in.next();
 					
-					System.out.printf("\nIs this project hourly? (y or n)");
+					System.out.printf("\nIs this project hourly? (y or n)\n");
 					char m_in = g_in.next().charAt(0);
 					boolean m_input = true;
 					while(m_input)
@@ -278,10 +277,8 @@ public class MyTimeConsoleUI
 					break;
 					
 				case 2: 
-					System.out.printf("\nInput client name for Project you would like to add: ");
+					System.out.printf("\nInput client name for Project you would like info for: \n");
 					m_clientName = g_in.next();
-					
-					g_uiManager.getClientByName(m_clientName);
 					
 					//getClientByName is not finished!
 					/*try
@@ -305,19 +302,145 @@ public class MyTimeConsoleUI
 					m_projectName = g_in.next();
 					
 					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					
+					m_found = false;
+					
 					for(Project p : g_projectList)
 					{
 						if(p.getName().equals(m_projectName))
 						{
-							p.toString();
+							m_found = true;
+							System.out.printf("%s", p.toString());
 							break;
 						}
 					}
 					
+					if(!m_found)
+						System.out.printf("Project not found");
 					break;
 					
 				case 3: //edit project info
+					System.out.printf("\nNot Funtional Yet.");
+					break;
 					
+				case 4:
+					System.out.printf("\nInput client name for Project you would like info for: \n");
+					m_clientName = g_in.next();
+					
+					//getClientByName is not finished!
+					/*try
+					{
+						g_uiManager.getClientByName(m_clientName);
+					}catch(MyTimeException e)
+					{
+						System.out.printf("Customer does not exist please retype name and try again.\n");
+						m_clientName = g_in.next();
+						try
+						{
+							g_uiManager.getClientByName(m_clientName);
+						}catch(MyTimeException e)
+						{
+							System.out.printf("Invalid client name returning to Project Menu.\n");
+							break;
+						}
+					}*/
+					
+					System.out.printf("\nPlease input project name for %s: \n", m_clientName);
+					m_projectName = g_in.next();
+					
+					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					
+					System.out.printf("\n");
+					
+					for(Project p : g_projectList)
+					{
+						System.out.printf("%s\n", p.toString());
+					}			
+					break;
+					
+				case 5:
+					System.out.printf("\nInput client name for Project you would like info for: \n");
+					m_clientName = g_in.next();
+					
+					//getClientByName is not finished!
+					/*try
+					{
+						g_uiManager.getClientByName(m_clientName);
+					}catch(MyTimeException e)
+					{
+						System.out.printf("Customer does not exist please retype name and try again.\n");
+						m_clientName = g_in.next();
+						try
+						{
+							g_uiManager.getClientByName(m_clientName);
+						}catch(MyTimeException e)
+						{
+							System.out.printf("Invalid client name returning to Project Menu.\n");
+							break;
+						}
+					}*/
+					
+					System.out.printf("\nPlease input project name for %s: ", m_clientName);
+					m_projectName = g_in.next();
+					
+					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					
+					m_found = false;
+					
+					for(Project p : g_projectList)
+					{
+						if(p.getName().equals(m_projectName))
+						{
+							m_found = true;
+							p.complete();
+							break;
+						}
+					}
+					
+					if(!m_found)
+						System.out.printf("Project not found");
+					break;
+				case 6:
+					System.out.printf("\nInput client name for Project you would like info for: \n");
+					m_clientName = g_in.next();
+					
+					//getClientByName is not finished!
+					/*try
+					{
+						g_uiManager.getClientByName(m_clientName);
+					}catch(MyTimeException e)
+					{
+						System.out.printf("Customer does not exist please retype name and try again.\n");
+						m_clientName = g_in.next();
+						try
+						{
+							g_uiManager.getClientByName(m_clientName);
+						}catch(MyTimeException e)
+						{
+							System.out.printf("Invalid client name returning to Project Menu.\n");
+							break;
+						}
+					}*/
+					
+					System.out.printf("\nPlease input project name for %s: ", m_clientName);
+					m_projectName = g_in.next();
+					
+					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					
+					
+					for(Project p : g_projectList)
+					{
+						if(!p.isComplete())
+						{
+							System.out.printf("%s", p.toString());
+						}
+					}
+
+					break;
+				case 7:
+					return;
+				default:
+					System.out.printf("\nInvalid choice please enter a new option.\n");
 					break;
 			}
 		}
@@ -326,10 +449,13 @@ public class MyTimeConsoleUI
 	
 	public static void timeTrackingMenu()
 	{
+		System.out.printf("Not Functional Yet.");
+		return;
 	}
 	
 	public static void settingsMenu()
 	{
-		
+		System.out.printf("Not Functional Yet.");
+		return;
 	}
 }
