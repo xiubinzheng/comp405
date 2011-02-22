@@ -123,18 +123,6 @@ public class DatabaseConnect
          {
         	 throw new MyTimeException("This is bad", e);
          }
-         finally
-         {
-        	 try
-        	 {
-                if ( s != null)
-                      s.close();
-        	 }
-        	 catch (SQLException e)
-        	 {
-        		 throw new MyTimeException("Cohen will probably not appreciate the 'helpfulness' of these error messages");
-        	 }
-         }
          return rs;
 	}
 	
