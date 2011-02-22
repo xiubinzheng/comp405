@@ -14,7 +14,7 @@ import Controls.Manager;
 public class MyTimeConsoleUI
 {
 	static Scanner g_in = new Scanner(System.in);
-	static Manager g_uiManager = new Manager();
+	static Manager g_uiManager = null;
 	static ArrayList<Client> g_clientList = new ArrayList<Client>();
 	static ArrayList<Project> g_projectList = new ArrayList<Project>();
 	
@@ -23,6 +23,16 @@ public class MyTimeConsoleUI
 	 */
 	public static void main(String[] args)
 	{
+		try
+		{
+			g_uiManager = new Manager();
+		}
+		catch (MyTimeException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		int choice = 0;
 		
 		while(true)
@@ -117,46 +127,70 @@ public class MyTimeConsoleUI
 						e.printStackTrace();
 					}
 					
-					assert(g_uiManager.getClientByName(m_clientName).getClientID() != -1);
+					try
+					{
+						assert(g_uiManager.getClientByName(m_clientName).getClientID() != -1);
+					}
+					catch (MyTimeException e3)
+					{
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					}
 					break;
 					
 				case 2: //returns information on client name given by user.
 					System.out.printf("Please input which Client name you would like information for.\n");
 					m_clientName = g_in.next();
 					
-					System.out.printf("Info for %s", g_uiManager.getClientByName(m_clientName).toString());
+					try
+					{
+						System.out.printf("Info for %s", g_uiManager.getClientByName(m_clientName).toString());
+					}
+					catch (MyTimeException e2)
+					{
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 					break;
 					
 				case 3: //Takes client name and edits both name and description.
 					System.out.printf("Please input which Client name you would like to edit.\n");
 					m_clientName = g_in.next();
 					
-					//commented out to avoid error until exception is thrown by manager
-					/*try
+					try
 					{
 						g_uiManager.getClientByName(m_clientName);
 					}catch(MyTimeException e)
 					{
-						System.out.printf("Customer does not exist please retype name and try again.\n");
-						m_clientName = g_in.next();
-						try
-						{
-							g_uiManager.getClientByName(m_clientName);
-						}catch(MyTimeException e)
-						{
-							System.out.printf("Invalid client name returning to Client Menu.\n");
-							break;
-						}
-					}*/
+						System.out.printf("Invalid client name returning to Project Menu.\n");
+						e.printStackTrace();
+						break;
+					}
 					
 					System.out.printf("Please input new name for:", m_clientName);
 					String m_clientNameNew = g_in.next();
 					
-					g_uiManager.getClientByName(m_clientName).setClientName(m_clientNameNew);
+					try
+					{
+						g_uiManager.getClientByName(m_clientName).setClientName(m_clientNameNew);
+					}
+					catch (MyTimeException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					System.out.printf("Please input new description for:\n", m_clientNameNew);
 					m_clientDescription = g_in.next();
 					
-					g_uiManager.getClientByName(m_clientNameNew).setClientDescription(m_clientNameNew);
+					try
+					{
+						g_uiManager.getClientByName(m_clientNameNew).setClientDescription(m_clientNameNew);
+					}
+					catch (MyTimeException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					break;
 					
 				case 4:
@@ -210,23 +244,15 @@ public class MyTimeConsoleUI
 					System.out.printf("\nInput client name for Project you would like to add.\n");
 					m_clientName = g_in.next();
 					
-					//getClientByName is not finished!
-					/*try
+					try
 					{
 						g_uiManager.getClientByName(m_clientName);
 					}catch(MyTimeException e)
 					{
-						System.out.printf("Customer does not exist please retype name and try again.\n");
-						m_clientName = g_in.next();
-						try
-						{
-							g_uiManager.getClientByName(m_clientName);
-						}catch(MyTimeException e)
-						{
-							System.out.printf("Invalid client name returning to Project Menu.\n");
-							break;
-						}
-					}*/
+						System.out.printf("Invalid client name returning to Project Menu.\n");
+						e.printStackTrace();
+						break;
+					}
 					
 					System.out.printf("\nPlease input project name for %s: \n", m_clientName);
 					m_projectName = g_in.next();
@@ -280,28 +306,28 @@ public class MyTimeConsoleUI
 					System.out.printf("\nInput client name for Project you would like info for: \n");
 					m_clientName = g_in.next();
 					
-					//getClientByName is not finished!
-					/*try
+					try
 					{
 						g_uiManager.getClientByName(m_clientName);
 					}catch(MyTimeException e)
 					{
-						System.out.printf("Customer does not exist please retype name and try again.\n");
-						m_clientName = g_in.next();
-						try
-						{
-							g_uiManager.getClientByName(m_clientName);
-						}catch(MyTimeException e)
-						{
-							System.out.printf("Invalid client name returning to Project Menu.\n");
-							break;
-						}
-					}*/
+						System.out.printf("Invalid client name returning to Project Menu.\n");
+						e.printStackTrace();
+						break;
+					}
 					
 					System.out.printf("\nPlease input project name for %s: ", m_clientName);
 					m_projectName = g_in.next();
 					
-					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					try
+					{
+						g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					}
+					catch (MyTimeException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					m_found = false;
 					
@@ -327,28 +353,28 @@ public class MyTimeConsoleUI
 					System.out.printf("\nInput client name for Project you would like info for: \n");
 					m_clientName = g_in.next();
 					
-					//getClientByName is not finished!
-					/*try
+					try
 					{
 						g_uiManager.getClientByName(m_clientName);
 					}catch(MyTimeException e)
 					{
-						System.out.printf("Customer does not exist please retype name and try again.\n");
-						m_clientName = g_in.next();
-						try
-						{
-							g_uiManager.getClientByName(m_clientName);
-						}catch(MyTimeException e)
-						{
-							System.out.printf("Invalid client name returning to Project Menu.\n");
-							break;
-						}
-					}*/
+						System.out.printf("Invalid client name returning to Project Menu.\n");
+						e.printStackTrace();
+						break;
+					}
 					
 					System.out.printf("\nPlease input project name for %s: \n", m_clientName);
 					m_projectName = g_in.next();
 					
-					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					try
+					{
+						g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					}
+					catch (MyTimeException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					System.out.printf("\n");
 					
@@ -362,28 +388,28 @@ public class MyTimeConsoleUI
 					System.out.printf("\nInput client name for Project you would like info for: \n");
 					m_clientName = g_in.next();
 					
-					//getClientByName is not finished!
-					/*try
+					try
 					{
 						g_uiManager.getClientByName(m_clientName);
 					}catch(MyTimeException e)
 					{
-						System.out.printf("Customer does not exist please retype name and try again.\n");
-						m_clientName = g_in.next();
-						try
-						{
-							g_uiManager.getClientByName(m_clientName);
-						}catch(MyTimeException e)
-						{
-							System.out.printf("Invalid client name returning to Project Menu.\n");
-							break;
-						}
-					}*/
+						System.out.printf("Invalid client name returning to Project Menu.\n");
+						e.printStackTrace();
+						break;
+					}
 					
 					System.out.printf("\nPlease input project name for %s: ", m_clientName);
 					m_projectName = g_in.next();
 					
-					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					try
+					{
+						g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					}
+					catch (MyTimeException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					m_found = false;
 					
@@ -405,27 +431,28 @@ public class MyTimeConsoleUI
 					m_clientName = g_in.next();
 					
 					//getClientByName is not finished!
-					/*try
+					try
 					{
 						g_uiManager.getClientByName(m_clientName);
 					}catch(MyTimeException e)
 					{
-						System.out.printf("Customer does not exist please retype name and try again.\n");
-						m_clientName = g_in.next();
-						try
-						{
-							g_uiManager.getClientByName(m_clientName);
-						}catch(MyTimeException e)
-						{
-							System.out.printf("Invalid client name returning to Project Menu.\n");
-							break;
-						}
-					}*/
+						System.out.printf("Invalid client name returning to Project Menu.\n");
+						e.printStackTrace();
+						break;
+					}
 					
 					System.out.printf("\nPlease input project name for %s: ", m_clientName);
 					m_projectName = g_in.next();
 					
-					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					try
+					{
+						g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					}
+					catch (MyTimeException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					
 					for(Project p : g_projectList)
