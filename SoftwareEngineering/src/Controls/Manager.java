@@ -63,7 +63,11 @@ public class Manager
 						c.getClientDescription());
 				System.out.println(cmd);
 				m_database.execute(cmd);
-				//"SELECT seq from SQLITE_SEQUENCE where name = '%s';";
+				ResultSet result = m_database.execute(
+						String.format(
+								"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
+								"myTimeClients"));
+				
 			}
 			catch(MyTimeException e)
 			{
