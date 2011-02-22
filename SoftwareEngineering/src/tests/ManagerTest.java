@@ -44,7 +44,7 @@ public class ManagerTest extends TestCase
 		
 		
 		//User tries to add a client
-		String s1 = "null"; //Would be System.in
+		String s1 = "-1"; //Would be System.in
 		String s2 = "FRED";
 		String s3 = "MANAGER";
 		//Attempt to add a client
