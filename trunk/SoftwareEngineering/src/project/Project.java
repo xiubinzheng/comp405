@@ -60,7 +60,6 @@ public class Project
 	/**
 	 * Changes the project's description also checks if the description is
 	 * within the required length of 255 characters
-	 * 
 	 * @param desc
 	 * @throws MyTimeException
 	 */
@@ -100,7 +99,6 @@ public class Project
 	/**
 	 * Sets Project name with a String and checks if the name is within the
 	 * length of 50 characters.
-	 * 
 	 * @param name
 	 * @throws MyTimeException
 	 */
@@ -128,6 +126,7 @@ public class Project
 
 	/**
 	 * Adds an interval of time to the list.
+	 * @throws MyTimeException
 	 */
 	public void addTime(TimeInterval tInterval) throws MyTimeException
 	{
@@ -155,8 +154,8 @@ public class Project
 	}
 
 	/**
-	 * Used to manually delete a time from the interval list.
-	 * 
+	 * Used to manually delete a time from the interval list.* 
+	 * @throws MyTimeException
 	 * @param index
 	 */
 	public void deleteTime(TimeInterval tInterval) throws MyTimeException
@@ -190,7 +189,6 @@ public class Project
 	/**
 	 * Overrides the toString() method to return all the project attributes as a
 	 * string.
-	 * 
 	 * @return projectAttributes
 	 */
 	public String toString()
