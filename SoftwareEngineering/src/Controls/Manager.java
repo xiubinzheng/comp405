@@ -62,12 +62,24 @@ public class Manager
 						c.getClientName(),
 						c.getClientDescription());
 				System.out.println(cmd);
-				m_database.execute(cmd);
+				m_database.update(cmd);
 				ResultSet result = m_database.execute(
 						String.format(
 								"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
 								"myTimeClients"));
-				
+				int ID = -1;
+				try {
+					if(result.next())
+					{
+						ID = result.getInt("seq");
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(ID==-1)
+					throw new MyTimeException("Could not add client");
+				c.setClientID(ID);
 			}
 			catch(MyTimeException e)
 			{
@@ -171,5 +183,4 @@ public class Manager
 		//to be completed
 		return null;
 	}
-	
 }
