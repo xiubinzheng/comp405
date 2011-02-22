@@ -29,21 +29,29 @@ public class DatabaseReporter
 
 		
 		String s = "";
-		
+		s += "<Style Type = text/css>";
+		s += "<td.strong{font-weight: bolder; color: black;}>";
+		s += "</Style>";
 		s += "<html>";
-		
-		
+		s += "<table border=\"1\">";
 		ResultSet rs;
 		m_databaseConnection.open();
 		try 
 		{
-			rs = m_databaseConnection.execute("SELECT * FROM myTimeClients;");
+			rs = m_databaseConnection.execute("SELECT * FROM myTimeClients");
+			//System.out.print(rs.getFetchSize()+ "\n");
+			
+			s += "<tr>\n";
+			s += "<th>ID</th><th>Name</th><th>Description</th>\n";
+			s += "</tr>\n";
+			
 			while(rs.next())
 			{
-				//table formatting jank
-				s += rs.getString("Client_ID") + " ";
-				s += rs.getString("Client_Name") + " ";
-				s += rs.getString("Client_Description") + " ";
+				s += "<tr>\n";
+				s += "<td>" + rs.getString("Client_ID") + "</td>\n";
+				s += "<td class=\"strong\">" + rs.getString("Client_Name") + "</td>\n";
+				s += "<td>" + rs.getString("Client_Description") + "</td>\n";
+				s += "</tr>\n";
 			}
 		}
 		catch(Exception e)
@@ -52,7 +60,7 @@ public class DatabaseReporter
 		}
 		m_databaseConnection.close();		
 		
-		
+		s += "</table>";
 		s += "</html>";
 		
 		return s;
