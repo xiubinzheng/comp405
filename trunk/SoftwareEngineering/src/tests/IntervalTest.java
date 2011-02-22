@@ -2,7 +2,6 @@ package tests;
 
 import junit.framework.TestCase;
 import project.TimeInterval;
-import java.util.*;
 
 public class IntervalTest extends TestCase
 {
