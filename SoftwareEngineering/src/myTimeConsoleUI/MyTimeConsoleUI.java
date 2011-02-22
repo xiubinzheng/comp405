@@ -37,6 +37,8 @@ public class MyTimeConsoleUI
 		
 		while(true)
 		{
+			g_in.nextLine();
+			
 			System.out.printf("\nMAIN MENU\n");
 			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
 			System.out.printf("   1. Start Time\n");
@@ -49,6 +51,7 @@ public class MyTimeConsoleUI
 			System.out.printf("   8. Settings\n");
 			
 			choice = g_in.nextInt();
+			g_in.nextLine();
 			
 			switch(choice)
 			{
@@ -95,6 +98,8 @@ public class MyTimeConsoleUI
 		
 		while(true)
 		{
+			g_in.nextLine();
+			
 			System.out.printf("\nCLIENT MENU\n");
 			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
 			System.out.printf("   1. Add Client\n");
@@ -103,7 +108,9 @@ public class MyTimeConsoleUI
 			System.out.printf("   4. Display All Clients\n");
 			System.out.printf("   5. Back to Main Menu\n");
 			
-			m_clientMenuChoice = g_in.nextInt();
+			String temp = g_in.nextLine();
+			System.out.printf("Your Choise: %s\n", temp);
+			m_clientMenuChoice = Integer.parseInt(temp);
 			
 			switch(m_clientMenuChoice)
 			{
@@ -149,6 +156,7 @@ public class MyTimeConsoleUI
 					catch (MyTimeException e2)
 					{
 						// TODO Auto-generated catch block
+						System.out.printf("Client not in database.\n");
 						e2.printStackTrace();
 					}
 					break;
@@ -205,7 +213,7 @@ public class MyTimeConsoleUI
 					return;
 				default:
 					System.out.printf("\nInvalid choice please enter a new option.\n");
-					break;
+					break;	
 			}
 		}
 	}
@@ -222,6 +230,9 @@ public class MyTimeConsoleUI
 		
 		while(true)
 		{
+			g_in.nextLine();
+			
+			
 			System.out.printf("\nPROJECT MENU\n");
 			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
 			System.out.printf("   1. Add Project\n");
@@ -233,6 +244,7 @@ public class MyTimeConsoleUI
 			System.out.printf("   7. Back to Main Menu\n");
 			
 			m_projectMenuChoice = g_in.nextInt();
+			g_in.nextLine();
 			
 			switch(m_projectMenuChoice)
 			{
