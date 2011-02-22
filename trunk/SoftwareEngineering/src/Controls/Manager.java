@@ -37,16 +37,18 @@ public class Manager
 	/**
 	 * This method creates defaults.
 	 */
-	public Manager()
+	public Manager() throws MyTimeException
 	{
 		m_clients = new HashSet<Client>();
 		m_projects = new HashSet<Project>();
 		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
-		try {
+		try 
+		{
 			m_database.open();
-		} catch (MyTimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} 
+		catch (MyTimeException e)
+		{
+			throw new MyTimeException("Failure to open database", e);
 		}
 	}
 	public void addClient(Client c) throws MyTimeException
@@ -61,25 +63,30 @@ public class Manager
 						"null",
 						c.getClientName(),
 						c.getClientDescription());
-				System.out.println(cmd);
+				ResultSet rs = m_database.execute(String.format(m_selectClient_CMDFMT, m_clientTableName, "Client_Name", "'"+c.getClientName()+"'"));
+				if(rs!=null)
+					throw new MyTimeException("Client Name must be unique");
 				m_database.update(cmd);
 				ResultSet result = m_database.execute(
 						String.format(
 								"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
 								"myTimeClients"));
 				int ID = -1;
-				try {
+				try 
+				{
 					if(result.next())
 					{
 						ID = result.getInt("seq");
 					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} 
+				catch (SQLException e) 
+				{
+					throw new MyTimeException("Could not get Result Set", e);
 				}
 				if(ID==-1)
 					throw new MyTimeException("Could not add client");
 				c.setClientID(ID);
+				m_clients.add(c);
 			}
 			catch(MyTimeException e)
 			{
@@ -91,7 +98,7 @@ public class Manager
 	{
 		m_projects.add(p);
 	}
-	public Client getClientByID(int id)
+	public Client getClientByID(int id) throws MyTimeException
 	{
 		Client client = null;
 		for(Client c : m_clients)
@@ -110,37 +117,71 @@ public class Manager
 						"Client_ID",
 						Integer.toString(id));
 				ResultSet result = m_database.execute(cmd);
-				System.out.println("RESULT : "+result);
-				System.out.println(cmd);
 				int ID;
 				String name;
 				String desc;
-				System.out.println("RESULT is "+(result.next()));
 				if(result.next())
 				{
-					ID = result.getInt("ClientID");
-					name = result.getString("ClientName");
-					desc = result.getString("ClientDesc");
-					System.out.println("Client = "+ID+" "+name+" "+desc);
+					ID = result.getInt("Client_ID");
+					name = result.getString("Client_Name");
+					desc = result.getString("Client_Description");
 					client = new Client(ID, name, desc);
 					m_clients.add(client);
 				}
 			}
 			catch(MyTimeException e)
 			{
-				
+				throw new MyTimeException("Could not execute SQL command", e);
 			}
 			catch(SQLException e)
 			{
-				
+				throw new MyTimeException("Could not get result set",e);
 			}
 		}
 		return client;
 	}
 	
-	public Client getClientByName(String clientName)
+	public Client getClientByName(String clientName) throws MyTimeException
 	{
-		return null;
+		Client client = null;
+		for(Client c : m_clients)
+			if(c.getClientName().equals(clientName))
+			{
+				client = c;
+				break;
+			}
+		if(client == null)
+		{
+			try
+			{
+				String cmd = String.format(
+						m_selectClient_CMDFMT,
+						m_clientTableName,
+						"Client_Name",
+						"'"+clientName+"'");
+				ResultSet result = m_database.execute(cmd);
+				int ID;
+				String name;
+				String desc;
+				if(result.next())
+				{
+					ID = result.getInt("Client_ID");
+					name = result.getString("Client_Name");
+					desc = result.getString("Client_Description");
+					client = new Client(ID, name, desc);
+					m_clients.add(client);
+				}
+			}
+			catch(MyTimeException e)
+			{
+				throw new MyTimeException("Could not execute SQL command", e);
+			}
+			catch(SQLException e)
+			{
+				throw new MyTimeException("Could not get result set",e);
+			}
+		}
+		return client;
 	}
 	
 	public void getProject(int id, Project project)
@@ -152,10 +193,6 @@ public class Manager
 				break;
 			}
 	}
-	
-	/*
-	 * 
-	 */
 	public void getClients(ArrayList<Client> clientList)
 	{	
 		clientList = new ArrayList<Client>();
