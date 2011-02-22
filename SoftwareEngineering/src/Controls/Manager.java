@@ -68,31 +68,26 @@ public class Manager
 						c.getClientName(),
 						c.getClientDescription());
 				ResultSet rs = m_database.execute(String.format(m_selectClient_CMDFMT, m_clientTableName, "Client_Name", "'"+c.getClientName()+"'"));
-				if(rs!=null)
-					throw new MyTimeException("Client Name must be unique");
+
+				if(!rs.next())
+					throw new MyTimeException("Client already exists!");
+
 				m_database.update(cmd);
 				ResultSet result = m_database.execute(
 						String.format(
 								"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
 								"myTimeClients"));
 				int ID = -1;
-				try 
+				if(result.next())
 				{
-					if(result.next())
-					{
-						ID = result.getInt("seq");
-					}
-				} 
-				catch (SQLException e) 
-				{
-					throw new MyTimeException("Could not get Result Set", e);
+					ID = result.getInt("seq");
 				}
 				if(ID==-1)
 					throw new MyTimeException("Could not add client");
 				c.setClientID(ID);
 				m_clients.add(c);
 			}
-			catch(MyTimeException e)
+			catch(SQLException e)
 			{
 				throw new MyTimeException("Add Client Error", e);
 			}
@@ -207,6 +202,14 @@ public class Manager
 				project = p;
 				break;
 			}
+	}
+	/*private final static String m_insertClient_CMDFMT = 
+		"INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
+	private final static String m_selectClient_CMDFMT =
+		"SELECT * FROM %s WHERE %s = %s";*/
+	private String generateInsert(String table_names, String values)
+	{
+		return null;
 	}
 	public void getClients(ArrayList<Client> clientList)
 	{	
