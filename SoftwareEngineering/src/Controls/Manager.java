@@ -16,14 +16,13 @@ import java.sql.*;
 
 /**
  * This class manages clients and projects in memory.
- * 
- *
  */
 public class Manager 
 {
 	private final static String m_clientTableName = "myTimeClients";
 	private final static String m_projectTableName = "myTimeProjects";
 	
+	//SQL Format for Inserts and Selects
 	private final static String m_insertClient_CMDFMT = 
 		"INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
 	private final static String m_selectClient_CMDFMT =
@@ -35,7 +34,7 @@ public class Manager
 	Set<Client> m_clients;
 	
 	/**
-	 * This method creates defaults.
+	 * This method creates a manager with default attributes.
 	 */
 	public Manager() throws MyTimeException
 	{
@@ -50,7 +49,12 @@ public class Manager
 		{
 			throw new MyTimeException("Failure to open database", e);
 		}
-	}
+	} 
+	/**
+	 * adds Client to database
+	 * @param c
+	 * @throws MyTimeException
+	 */
 	public void addClient(Client c) throws MyTimeException
 	{
 		if(!m_clients.contains(c))
@@ -98,6 +102,12 @@ public class Manager
 	{
 		m_projects.add(p);
 	}
+	/**
+	 * Returns client from database by ID if it exists
+	 * @param id
+	 * @return
+	 * @throws MyTimeException
+	 */
 	public Client getClientByID(int id) throws MyTimeException
 	{
 		Client client = null;
@@ -140,7 +150,12 @@ public class Manager
 		}
 		return client;
 	}
-	
+	/**
+	 * Returns client from database by Name if it exists
+	 * @param clientName
+	 * @return
+	 * @throws MyTimeException
+	 */
 	public Client getClientByName(String clientName) throws MyTimeException
 	{
 		Client client = null;
@@ -209,15 +224,5 @@ public class Manager
 			if(p.getClientID()==clientID)
 				projectList.add(p);
 		}
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString()
-	{
-		//to be completed
-		return null;
 	}
 }
