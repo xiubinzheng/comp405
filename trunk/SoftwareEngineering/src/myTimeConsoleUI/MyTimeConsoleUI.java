@@ -25,23 +25,27 @@ public class MyTimeConsoleUI
 	{
 		int choice = 0;
 		
-		
-		System.out.printf("\nPlease Choose An Option: (zero(0) to quit)\n");
-		System.out.printf("   1. Start Time\n");
-		System.out.printf("   2. Stop Time\n");
-		System.out.printf("   3. Pause Time\n");
-		System.out.printf("   4. Reset Time\n");
-		System.out.printf("   5. Client Menu\n");
-		System.out.printf("   6. Project Menu\n");
-		System.out.printf("   7. Time Tracking\n");
-		System.out.printf("   8. Settings\n");
-		
-		choice = g_in.nextInt();
-		
-		while(choice != 0)
+		while(true)
 		{
+			System.out.printf("\nMAIN MENU\n");
+			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
+			System.out.printf("   1. Start Time\n");
+			System.out.printf("   2. Stop Time\n");
+			System.out.printf("   3. Pause Time\n");
+			System.out.printf("   4. Reset Time\n");
+			System.out.printf("   5. Client Menu\n");
+			System.out.printf("   6. Project Menu\n");
+			System.out.printf("   7. Time Tracking\n");
+			System.out.printf("   8. Settings\n");
+			
+			choice = g_in.nextInt();
+			
 			switch(choice)
 			{
+				case 0:
+					System.out.printf("\nGoodbye!\n");
+					System.exit(0);
+				
 				case 1:
 					System.out.printf("Not Functional Yet\n");
 					break;
@@ -66,22 +70,11 @@ public class MyTimeConsoleUI
 				case 8:
 					settingsMenu();
 					break;
+				default:
+					System.out.printf("\nInvalid choice please enter a new option.\n");
+					break;
 			}
-			
-			System.out.printf("\nPlease Choose An Option: (zero(0) to quit)\n");
-			System.out.printf("   1. Start Time\n");
-			System.out.printf("   2. Stop Time\n");
-			System.out.printf("   3. Pause Time\n");
-			System.out.printf("   4. Reset Time\n");
-			System.out.printf("   5. Client Menu\n");
-			System.out.printf("   6. Project Menu\n");
-			System.out.printf("   7. Time Tracking\n");
-			System.out.printf("   8. Settings\n");
-			
-			choice = g_in.nextInt();
 		}
-		
-		System.out.printf("\nGoodbye!\n");
 	}
 	
 	public static void clientMenu()
@@ -90,43 +83,54 @@ public class MyTimeConsoleUI
 		String m_clientName;
 		String m_clientDescription;
 		
-		System.out.printf("\nPlease Choose An Option: (zero(0) to quit)\n");
-		System.out.printf("   1. Add Client\n");
-		System.out.printf("   2. Get Client Info\n");
-		System.out.printf("   3. Edit Client Info\n");
-		System.out.printf("   4. Display All Clients\n");
-		System.out.printf("   5. Back to Main Menu\n");
-		
-		m_clientMenuChoice = g_in.nextInt();
-		
-		while(m_clientMenuChoice != 0)
+		while(true)
 		{
+			System.out.printf("\nCLIENT MENU\n");
+			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
+			System.out.printf("   1. Add Client\n");
+			System.out.printf("   2. Get Client Info\n");
+			System.out.printf("   3. Edit Client Info\n");
+			System.out.printf("   4. Display All Clients\n");
+			System.out.printf("   5. Back to Main Menu\n");
+			
+			m_clientMenuChoice = g_in.nextInt();
+			
 			switch(m_clientMenuChoice)
 			{
+				case 0:
+					System.out.printf("\nGoodbye!\n");
+					System.exit(0);
+				
 				case 1: //creates a new client
 					System.out.printf("Please input Client Name.\n");
 					m_clientName = g_in.next();
+					
 					System.out.printf("Please input Client Description.\n");
 					m_clientDescription = g_in.next();
+					
 					try
 					{
 						g_uiManager.addClient(new Client( -1, m_clientName, m_clientDescription));
-					}
-					catch (MyTimeException e)
+					}catch (MyTimeException e)
 					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
 					assert(g_uiManager.getClientByName(m_clientName).getClientID() != -1);
 					break;
+					
 				case 2: //returns information on client name given by user.
 					System.out.printf("Please input which Client name you would like information for.\n");
 					m_clientName = g_in.next();
+					
 					System.out.printf("Info for %s", g_uiManager.getClientByName(m_clientName).toString());
 					break;
+					
 				case 3: //Takes client name and edits both name and description.
 					System.out.printf("Please input which Client name you would like to edit.\n");
 					m_clientName = g_in.next();
+					
 					//commented out to avoid error until exception is thrown by manager
 					/*try
 					{
@@ -144,37 +148,179 @@ public class MyTimeConsoleUI
 							break;
 						}
 					}*/
+					
 					System.out.printf("Please input new name for:", m_clientName);
 					String m_clientNameNew = g_in.next();
+					
 					g_uiManager.getClientByName(m_clientName).setClientName(m_clientNameNew);
-					System.out.printf("Please input new description for:", m_clientNameNew);
+					System.out.printf("Please input new description for:\n", m_clientNameNew);
 					m_clientDescription = g_in.next();
+					
 					g_uiManager.getClientByName(m_clientNameNew).setClientDescription(m_clientNameNew);
 					break;
+					
 				case 4:
 					g_clientList.clear();
 					g_uiManager.getClients(g_clientList);
+					
 					for(Client c : g_clientList)
 						System.out.printf("%s\n", c.toString());
 					break;
+					
 				case 5:
 					return;
+				default:
+					System.out.printf("\nInvalid choice please enter a new option.\n");
+					break;
 			}
-			
-			System.out.printf("\nPlease Choose An Option: (zero(0) to quit)\n");
-			System.out.printf("   1. Add Client\n");
-			System.out.printf("   2. Get Client Info\n");
-			System.out.printf("   3. Edit Client Info\n");
-			System.out.printf("   4. Display All Clients\n");
-			System.out.printf("   5. Back to Main Menu\n");
-			
-			m_clientMenuChoice = g_in.nextInt();
 		}
 	}
 	
 	
 	public static void projectMenu()
 	{
+		int m_projectMenuChoice = 0;
+		String m_clientName;
+		String m_projectName;
+		String m_projectDescription;
+		boolean m_projectStatus = true;
+		
+		while(true)
+		{
+			System.out.printf("\nPROJECT MENU\n");
+			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
+			System.out.printf("   1. Add Project\n");
+			System.out.printf("   2. Get Project Info\n");
+			System.out.printf("   3. Edit Project Info\n");
+			System.out.printf("   4. Display All Projects for Client\n");
+			System.out.printf("   5. Mark Project Done.\n");
+			System.out.printf("   6. Get All Active Projects\n");
+			System.out.printf("   7. Back to Main Menu\n");
+			
+			m_projectMenuChoice = g_in.nextInt();
+			
+			switch(m_projectMenuChoice)
+			{
+				case 0:
+					System.out.printf("\nGoodbye!\n");
+					System.exit(0);
+					
+				case 1:
+					System.out.printf("\nInput client name for Project you would like to add.\n");
+					m_clientName = g_in.next();
+					
+					g_uiManager.getClientByName(m_clientName);
+					
+					//getClientByName is not finished!
+					/*try
+					{
+						g_uiManager.getClientByName(m_clientName);
+					}catch(MyTimeException e)
+					{
+						System.out.printf("Customer does not exist please retype name and try again.\n");
+						m_clientName = g_in.next();
+						try
+						{
+							g_uiManager.getClientByName(m_clientName);
+						}catch(MyTimeException e)
+						{
+							System.out.printf("Invalid client name returning to Project Menu.\n");
+							break;
+						}
+					}*/
+					
+					System.out.printf("\nPlease input project name for %s: ", m_clientName);
+					m_projectName = g_in.next();
+					
+					System.out.printf("\nPlease input project description: ");
+					m_projectDescription = g_in.next();
+					
+					System.out.printf("\nIs this project hourly? (y or n)");
+					char m_in = g_in.next().charAt(0);
+					boolean m_input = true;
+					while(m_input)
+					{
+						switch(m_in)
+						{
+							case 'y':
+							case 'Y':
+								m_projectStatus = true;
+								m_input = false;
+								break;
+							
+							case 'n':
+							case 'N':
+								m_projectStatus = false;
+								m_input = false;
+								break;
+								
+							default:
+								System.out.printf("\nInvalid input\nIs this project hourly? (y or n)");
+								m_in = g_in.next().charAt(0);
+								break;
+								
+						}
+					}
+
+					//TODO: should be in try catch but addProject is not finished
+					try
+					{
+						g_uiManager.addProject(new Project(-1, m_projectName, m_projectDescription, 0, 
+												g_uiManager.getClientByName(m_clientName).getClientID(), m_projectStatus));
+					}
+					catch (MyTimeException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					break;
+					
+				case 2: 
+					System.out.printf("\nInput client name for Project you would like to add: ");
+					m_clientName = g_in.next();
+					
+					g_uiManager.getClientByName(m_clientName);
+					
+					//getClientByName is not finished!
+					/*try
+					{
+						g_uiManager.getClientByName(m_clientName);
+					}catch(MyTimeException e)
+					{
+						System.out.printf("Customer does not exist please retype name and try again.\n");
+						m_clientName = g_in.next();
+						try
+						{
+							g_uiManager.getClientByName(m_clientName);
+						}catch(MyTimeException e)
+						{
+							System.out.printf("Invalid client name returning to Project Menu.\n");
+							break;
+						}
+					}*/
+					
+					System.out.printf("\nPlease input project name for %s: ", m_clientName);
+					m_projectName = g_in.next();
+					
+					g_uiManager.getClientByName(m_clientName).getProjectList(g_projectList);
+					for(Project p : g_projectList)
+					{
+						if(p.getName().equals(m_projectName))
+						{
+							p.toString();
+							break;
+						}
+					}
+					
+					break;
+					
+				case 3: //edit project info
+					
+					break;
+			}
+		}
 		
 	}
 	
