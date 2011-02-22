@@ -27,8 +27,8 @@ public class DatabaseReporterTest extends TestCase {
 		String s = "";
 		try
 		{
-			s = dr.reportClient(); 
-			System.out.println(s);
+			s = dr.reportClient("testing.css", "smiley.jpg"); 
+			//System.out.println(s);
 			assertTrue(s.contains("html"));
 		}
 		catch(Exception e)
