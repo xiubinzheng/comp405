@@ -2,6 +2,7 @@ package exceptions;
 
 import java.lang.Exception;
 
+@SuppressWarnings("serial")
 public class MyTimeException extends Exception
 {
 	public MyTimeException(String what)
