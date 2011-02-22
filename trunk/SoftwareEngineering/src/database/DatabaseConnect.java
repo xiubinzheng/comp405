@@ -89,19 +89,6 @@ public class DatabaseConnect
         {
 			throw new MyTimeException("Update Error");
 		}
-        finally
-        {
-               if ( s != null)
-				try
-                {
-					s.close();
-				} 
-               	catch (SQLException e) 
-               	{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        }
 	}
 	
 	/**
