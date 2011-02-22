@@ -69,7 +69,7 @@ public class Manager
 						c.getClientDescription());
 				ResultSet rs = m_database.execute(String.format(m_selectClient_CMDFMT, m_clientTableName, "Client_Name", "'"+c.getClientName()+"'"));
 
-				if(!rs.next())
+				if(rs.next())
 					throw new MyTimeException("Client already exists!");
 
 				m_database.update(cmd);
