@@ -59,7 +59,7 @@ public class ManagerTest extends TestCase
 			//assert false;
 		}
 		Client test = null;// = new Client(3, "RYAN.", "BOSS.");
-		test = manager.getClientByID(53);
+		//test = manager.getClientByID(53);
 		System.out.print("DONE "+(test.getClientID()));
 		assert true;
 		//User tries to add a project
