@@ -19,6 +19,8 @@ import java.sql.*;
  */
 public class Manager 
 {
+	// TODO: Lots of hard-coded string here
+	// we need to move these to a property file...
 	private final static String m_clientTableName = "myTimeClients";
 	private final static String m_projectTableName = "myTimeProjects";
 	
@@ -29,18 +31,24 @@ public class Manager
 		"SELECT * FROM %s WHERE %s = %s";
 
 	private String m_databaseName = "myTimeDB.s3db";
-	Set<Project> m_projects;
-	DatabaseConnect m_database;
-	Set<Client> m_clients;
+	
+	private Set<Project> m_projects;
+	private DatabaseConnect m_database;
+	private Set<Client> m_clients;
 	
 	/**
 	 * This method creates a manager with default attributes.
 	 */
 	public Manager() throws MyTimeException
 	{
+		// TODO: these should be hash maps!!
 		m_clients = new HashSet<Client>();
 		m_projects = new HashSet<Project>();
+		
 		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
+		
+		// TODO: typically bad to write constructors that throw exceptions...
+		// perhaps we need an initialize method.l.
 		try 
 		{
 			m_database.open();
@@ -49,6 +57,9 @@ public class Manager
 		{
 			throw new MyTimeException("Failure to open database", e);
 		}
+		
+		// TODO:  we should read in all clients and projects when we 
+		// are intialized
 	} 
 	/**
 	 * adds Client to database
@@ -67,6 +78,7 @@ public class Manager
 						"null",
 						c.getClientName(),
 						c.getClientDescription());
+
 				ResultSet rs = m_database.execute(String.format(m_selectClient_CMDFMT, m_clientTableName, "Client_Name", "'"+c.getClientName()+"'"));
 
 				if(rs.next())
@@ -92,6 +104,7 @@ public class Manager
 				throw new MyTimeException("Add Client Error", e);
 			}
 		}
+		throw new MyTimeException("Client already exists: " + c.toString());
 	}
 	public void addProject(Project p)
 	{
