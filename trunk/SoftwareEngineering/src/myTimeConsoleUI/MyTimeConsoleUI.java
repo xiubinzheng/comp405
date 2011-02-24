@@ -143,11 +143,10 @@ public class MyTimeConsoleUI
 					
 					try
 					{
-						System.out.printf("\nInfo for %s\n", g_uiManager.getClientByName(m_clientName).toString());
+						System.out.printf("\nInfo for Client:%s\n", g_uiManager.getClientByName(m_clientName).toString());
 					}
 					catch (MyTimeException e)
 					{
-						System.out.printf("Client not in database.\n");
 						e.printStackTrace();
 					}
 					break;
@@ -291,7 +290,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
