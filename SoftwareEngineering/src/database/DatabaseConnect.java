@@ -22,12 +22,12 @@ public class DatabaseConnect
 	private String m_databaseName = "";
 	private static DatabaseConnect m_singleton;
 	private Connection m_dbConnection;
-	private boolean open;
+	private boolean m_open;
 	
 	private DatabaseConnect(String databaseName)
 	{
 		m_databaseName = databaseName;
-		open = false;
+		m_open = false;
 	}
 	/**
 	 * 
@@ -50,25 +50,29 @@ public class DatabaseConnect
 	 */
 	public void open() throws MyTimeException
 	{
-		//Connect
-		try
-		{
-			Class.forName("org.sqlite.JDBC");
-		}
-		catch (ClassNotFoundException e) 
-		{
-			throw new MyTimeException("Something Happened!");
-		}
-		try
-		{
-			m_dbConnection = DriverManager.getConnection("jdbc:sqlite:" + m_databaseName);
-			open = true;
-		}
-		catch (SQLException e)
-		{
-			throw new MyTimeException("Something not Happened!");
-		}
+		assert (!m_open);
 		
+		if (!m_open)
+		{
+			//Connect
+			try
+			{
+				Class.forName("org.sqlite.JDBC");
+			}
+			catch (ClassNotFoundException e) 
+			{
+				throw new MyTimeException("Drive failed to load: add sql-driver to build path!");
+			}
+			try
+			{
+				m_dbConnection = DriverManager.getConnection("jdbc:sqlite:" + m_databaseName);
+				m_open = true;
+			}
+			catch (SQLException e)
+			{
+				throw new MyTimeException("Database " + m_databaseName + " could not be found.");
+			}
+		}
 	}
 	
 	/**
@@ -82,12 +86,12 @@ public class DatabaseConnect
 		Statement s = null;
         try
         {
-               s = m_dbConnection.createStatement();
-               s.executeUpdate(cmd);
+        	s = m_dbConnection.createStatement();
+        	s.executeUpdate(cmd);
         } 
         catch (SQLException e) 
         {
-			throw new MyTimeException("Update Error");
+			throw new MyTimeException("Update Error: " + cmd, e);
 		}
 	}
 	
@@ -103,12 +107,13 @@ public class DatabaseConnect
          Statement s = null;
          try
          {
-                s = m_dbConnection.createStatement();
-                rs = s.executeQuery(cmd);
+        	 s = m_dbConnection.createStatement();
+        	 rs = s.executeQuery(cmd);
          }
          catch(SQLException e)
          {
-        	 throw new MyTimeException("This is bad", e);
+        	 throw new MyTimeException("Excecute failed: " + cmd, e);
+        	 
          }
          return rs;
 	}
@@ -122,14 +127,18 @@ public class DatabaseConnect
 	
 	public void close() throws MyTimeException 
 	{
-		try 
+		assert (m_open);
+		if (m_open)
 		{
-			m_dbConnection.close();
-			open = false;
-		} 
-		catch (SQLException e) 
-		{
-			throw new MyTimeException("It's A Microsoft Thing");
+			try 
+			{
+				m_dbConnection.close();
+				m_open = false;
+			} 
+			catch (SQLException e) 
+			{
+				throw new MyTimeException("DB Close failed", e);
+			}
 		}
 	}
 	/**
@@ -139,7 +148,7 @@ public class DatabaseConnect
 	
 	public boolean isOpen() 
 	{
-		return open;
+		return m_open;
 	}
 
 	/**
