@@ -30,7 +30,6 @@ public class MyTimeConsoleUI
 		}
 		catch (MyTimeException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -125,7 +124,6 @@ public class MyTimeConsoleUI
 						g_uiManager.addClient(new Client( -1, m_clientName, m_clientDescription));
 					}catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -135,7 +133,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e3)
 					{
-						// TODO Auto-generated catch block
 						e3.printStackTrace();
 					}
 					break;
@@ -146,13 +143,12 @@ public class MyTimeConsoleUI
 					
 					try
 					{
-						System.out.printf("Info for %s", g_uiManager.getClientByName(m_clientName).toString());
+						System.out.printf("\nInfo for %s\n", g_uiManager.getClientByName(m_clientName).toString());
 					}
-					catch (MyTimeException e2)
+					catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						System.out.printf("Client not in database.\n");
-						e2.printStackTrace();
+						e.printStackTrace();
 					}
 					break;
 					
@@ -179,7 +175,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e1)
 					{
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					System.out.printf("Please input new description for:\n", m_clientNameNew);
@@ -191,7 +186,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					break;
@@ -290,7 +284,6 @@ public class MyTimeConsoleUI
 						}
 					}
 
-					//TODO: should be in try catch but addProject is not finished
 					try
 					{
 						g_uiManager.addProject(new Project(-1, m_projectName, m_projectDescription, 0, 
@@ -328,7 +321,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -375,7 +367,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -410,7 +401,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -433,7 +423,6 @@ public class MyTimeConsoleUI
 					System.out.printf("\nInput client name for Project you would like info for: \n");
 					m_clientName = g_inString.next();
 					
-					//getClientByName is not finished!
 					try
 					{
 						g_uiManager.getClientByName(m_clientName);
@@ -453,7 +442,6 @@ public class MyTimeConsoleUI
 					}
 					catch (MyTimeException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
