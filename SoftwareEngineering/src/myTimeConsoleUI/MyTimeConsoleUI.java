@@ -13,7 +13,8 @@ import Controls.Manager;
 
 public class MyTimeConsoleUI
 {
-	static Scanner g_in = new Scanner(System.in);
+	static Scanner g_inString = new Scanner(System.in);
+	static Scanner g_inInt = new Scanner(System.in);
 	static Manager g_uiManager = null;
 	static ArrayList<Client> g_clientList = new ArrayList<Client>();
 	static ArrayList<Project> g_projectList = new ArrayList<Project>();
@@ -33,12 +34,11 @@ public class MyTimeConsoleUI
 			e.printStackTrace();
 		}
 		
-		int choice = 0;
+		int m_mainMenuChoice = 0;
+		
 		
 		while(true)
 		{
-			g_in.nextLine();
-			
 			System.out.printf("\nMAIN MENU\n");
 			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
 			System.out.printf("   1. Start Time\n");
@@ -50,10 +50,9 @@ public class MyTimeConsoleUI
 			System.out.printf("   7. Time Tracking\n");
 			System.out.printf("   8. Settings\n");
 			
-			choice = g_in.nextInt();
-			g_in.nextLine();
+			m_mainMenuChoice = g_inInt.nextInt();
 			
-			switch(choice)
+			switch(m_mainMenuChoice)
 			{
 				case 0:
 					System.out.printf("\nGoodbye!\n");
@@ -97,9 +96,7 @@ public class MyTimeConsoleUI
 		String m_clientDescription;
 		
 		while(true)
-		{
-			g_in.nextLine();
-			
+		{			
 			System.out.printf("\nCLIENT MENU\n");
 			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
 			System.out.printf("   1. Add Client\n");
@@ -107,10 +104,8 @@ public class MyTimeConsoleUI
 			System.out.printf("   3. Edit Client Info\n");
 			System.out.printf("   4. Display All Clients\n");
 			System.out.printf("   5. Back to Main Menu\n");
-			
-			String temp = g_in.nextLine();
-			System.out.printf("Your Choise: %s\n", temp);
-			m_clientMenuChoice = Integer.parseInt(temp);
+		
+			m_clientMenuChoice = g_inInt.nextInt();
 			
 			switch(m_clientMenuChoice)
 			{
@@ -120,10 +115,10 @@ public class MyTimeConsoleUI
 				
 				case 1: //creates a new client
 					System.out.printf("Please input Client Name.\n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					System.out.printf("Please input Client Description.\n");
-					m_clientDescription = g_in.next();
+					m_clientDescription = g_inString.next();
 					
 					try
 					{
@@ -147,7 +142,7 @@ public class MyTimeConsoleUI
 					
 				case 2: //returns information on client name given by user.
 					System.out.printf("Please input which Client name you would like information for.\n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					try
 					{
@@ -163,7 +158,7 @@ public class MyTimeConsoleUI
 					
 				case 3: //Takes client name and edits both name and description.
 					System.out.printf("Please input which Client name you would like to edit.\n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					try
 					{
@@ -176,7 +171,7 @@ public class MyTimeConsoleUI
 					}
 					
 					System.out.printf("Please input new name for:", m_clientName);
-					String m_clientNameNew = g_in.next();
+					String m_clientNameNew = g_inString.next();
 					
 					try
 					{
@@ -188,7 +183,7 @@ public class MyTimeConsoleUI
 						e1.printStackTrace();
 					}
 					System.out.printf("Please input new description for:\n", m_clientNameNew);
-					m_clientDescription = g_in.next();
+					m_clientDescription = g_inString.next();
 					
 					try
 					{
@@ -229,10 +224,7 @@ public class MyTimeConsoleUI
 		boolean m_found = false;
 		
 		while(true)
-		{
-			g_in.nextLine();
-			
-			
+		{	
 			System.out.printf("\nPROJECT MENU\n");
 			System.out.printf("Please Choose An Option: (zero(0) to quit)\n");
 			System.out.printf("   1. Add Project\n");
@@ -243,8 +235,7 @@ public class MyTimeConsoleUI
 			System.out.printf("   6. Get All Active Projects\n");
 			System.out.printf("   7. Back to Main Menu\n");
 			
-			m_projectMenuChoice = g_in.nextInt();
-			g_in.nextLine();
+			m_projectMenuChoice = g_inInt.nextInt();
 			
 			switch(m_projectMenuChoice)
 			{
@@ -254,7 +245,7 @@ public class MyTimeConsoleUI
 					
 				case 1:
 					System.out.printf("\nInput client name for Project you would like to add.\n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					try
 					{
@@ -267,13 +258,13 @@ public class MyTimeConsoleUI
 					}
 					
 					System.out.printf("\nPlease input project name for %s: \n", m_clientName);
-					m_projectName = g_in.next();
+					m_projectName = g_inString.next();
 					
 					System.out.printf("\nPlease input project description: \n");
-					m_projectDescription = g_in.next();
+					m_projectDescription = g_inString.next();
 					
 					System.out.printf("\nIs this project hourly? (y or n)\n");
-					char m_in = g_in.next().charAt(0);
+					char m_in = g_inString.next().charAt(0);
 					boolean m_input = true;
 					while(m_input)
 					{
@@ -293,7 +284,7 @@ public class MyTimeConsoleUI
 								
 							default:
 								System.out.printf("\nInvalid input\nIs this project hourly? (y or n)");
-								m_in = g_in.next().charAt(0);
+								m_in = g_inString.next().charAt(0);
 								break;
 								
 						}
@@ -316,7 +307,7 @@ public class MyTimeConsoleUI
 					
 				case 2: 
 					System.out.printf("\nInput client name for Project you would like info for: \n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					try
 					{
@@ -329,7 +320,7 @@ public class MyTimeConsoleUI
 					}
 					
 					System.out.printf("\nPlease input project name for %s: ", m_clientName);
-					m_projectName = g_in.next();
+					m_projectName = g_inString.next();
 					
 					try
 					{
@@ -363,7 +354,7 @@ public class MyTimeConsoleUI
 					
 				case 4:
 					System.out.printf("\nInput client name for Project you would like info for: \n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					try
 					{
@@ -376,7 +367,7 @@ public class MyTimeConsoleUI
 					}
 					
 					System.out.printf("\nPlease input project name for %s: \n", m_clientName);
-					m_projectName = g_in.next();
+					m_projectName = g_inString.next();
 					
 					try
 					{
@@ -398,7 +389,7 @@ public class MyTimeConsoleUI
 					
 				case 5:
 					System.out.printf("\nInput client name for Project you would like info for: \n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					try
 					{
@@ -411,7 +402,7 @@ public class MyTimeConsoleUI
 					}
 					
 					System.out.printf("\nPlease input project name for %s: ", m_clientName);
-					m_projectName = g_in.next();
+					m_projectName = g_inString.next();
 					
 					try
 					{
@@ -440,7 +431,7 @@ public class MyTimeConsoleUI
 					break;
 				case 6:
 					System.out.printf("\nInput client name for Project you would like info for: \n");
-					m_clientName = g_in.next();
+					m_clientName = g_inString.next();
 					
 					//getClientByName is not finished!
 					try
@@ -454,7 +445,7 @@ public class MyTimeConsoleUI
 					}
 					
 					System.out.printf("\nPlease input project name for %s: ", m_clientName);
-					m_projectName = g_in.next();
+					m_projectName = g_inString.next();
 					
 					try
 					{
