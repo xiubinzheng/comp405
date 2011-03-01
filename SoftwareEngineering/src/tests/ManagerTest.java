@@ -2,6 +2,7 @@ package tests;
 import client.Client;
 import project.Project;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import Controls.Manager;
 
@@ -11,7 +12,7 @@ import junit.framework.TestCase;
 
 public class ManagerTest extends TestCase 
 {
-	Manager manager;
+	Manager testManager;
 	ArrayList<Client> clients;
 	ArrayList<Project> projects;
 	
@@ -31,7 +32,7 @@ public class ManagerTest extends TestCase
 		projects.add(new Project(4, "MAGIC 8 BALL", "ASK AGAIN LATER", -1, 4, false));
 		
 		*/
-		manager = new Manager();
+		//manager = new Manager();
 	}
 
 	protected void tearDown() throws Exception 
@@ -41,12 +42,13 @@ public class ManagerTest extends TestCase
 
 	public void testMyCode() 
 	{
+		
+		
 		//create new manager test initialize 
 		//if DB doesn't have 4 entities in the table assert will throw the exception
-		
 		try
 		{
-			Manager testManager = new Manager();
+			testManager = new Manager();
 			testManager.initializeDB();
 		}
 		catch (MyTimeException e)
@@ -54,6 +56,27 @@ public class ManagerTest extends TestCase
 			e.printStackTrace();
 		}
 		
+		//test the manager to see if we can get the list of clients
+		clients = new ArrayList<Client>();
+		
+		testManager.getClients(clients);
+		assertTrue(clients.size() == 4);
+		
+		//test will see if addProjectsToClient will add a linked list of projects to a client 
+		
+		String clientName;
+		Project project = new Project();
+		//LinkedList<Project> returned_projectList = new LinkedList<Project>();
+		
+		//testManager.addProjectToClient(clientName, project);
+		
+		//testManager.getProjectFromClient(clientName, returned_projectList);
+		
+		//int i = 0;
+		//for(Project p : returned_projectList)
+		{
+		//	assertTrue(p == projectList.get(i++));
+		}
 		
 		//User tries to add a client
 		//String s1 = "-1"; //Would be System.in
