@@ -1,8 +1,8 @@
 package Controls;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.ResultSet;
 import exceptions.MyTimeException;
 
@@ -14,7 +14,6 @@ import database.DatabaseConnect;
  * 
  * This class connects to the database and returns a String filled with all sorts of useful
  * HTML information for all of your various reporting needs.
- *
  */
 
 public class DatabaseReporter 
@@ -135,11 +134,12 @@ public class DatabaseReporter
 		s += "<td class=\"Duration\">" + t_Dir + "</td>\n";
 		return s;
 	}
-	private String generateTimeTable(List<String> t_Start, List<String> t_End, List<String> t_Dir, String Date)
+	private String generateTimeTable(ArrayList<String> t_Start, ArrayList<String> t_End, ArrayList<String> t_Dur, String Date)
 	{
 		String s = "";
-		
-		outputTimeDate(Date,"" );
+		//Date d = Date.
+		//t_Start.get(0);
+		//outputTimeDate(Date,"" );
 		return s;
 	}
 }
