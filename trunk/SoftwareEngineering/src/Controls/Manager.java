@@ -85,7 +85,7 @@ public class Manager
 	}
 	/**
 	 * adds Client to database
-	 * @param Client
+	 * @param c
 	 * @throws MyTimeException
 	 */
 	public void addClient(Client c) throws MyTimeException
@@ -193,12 +193,14 @@ public class Manager
 	{
 		Client client = null;
 		//TODO: Fix this so it works with the new initializer 
-		/*for(Client c : m_clients)
+		Collection<Client> collection = m_clients.values();
+		
+		for(Client c : collection)
 			if(c.getClientName().equals(clientName))
 			{
 				client = c;
 				break;
-			}*/
+			}
 		if(client == null)
 		{
 			try
