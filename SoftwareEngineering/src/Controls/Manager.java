@@ -189,6 +189,7 @@ public class Manager
 	public Client getClientByName(String clientName) throws MyTimeException
 	{
 		Client client = null;
+		//TODO: Fix this so it works with the new initializer 
 		/*for(Client c : m_clients)
 			if(c.getClientName().equals(clientName))
 			{
@@ -231,6 +232,7 @@ public class Manager
 	
 	public void getProject(int id, Project project)
 	{
+		//TODO: Fix this so it works with the new initializer 
 		/*for(Project p : m_projects)
 			if(p.getID()==id)
 			{
@@ -249,6 +251,7 @@ public class Manager
 	public void getClients(ArrayList<Client> clientList)
 	{	
 		clientList = new ArrayList<Client>();
+		//TODO: Fix this so it works with the new initializer 
 		//for(Client c : m_clients)
 		//	clientList.add(c);
 	}
@@ -256,7 +259,7 @@ public class Manager
 	public void getProjects(int clientID, ArrayList<Project> projectList)
 	{
 		projectList = new ArrayList<Project>(); 
-		
+		//TODO: Fix this so it works with the new initializer 
 		//for(Project p : m_projects)
 		{
 		//	if(p.getClientID()==clientID)
