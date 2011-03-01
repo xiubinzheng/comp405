@@ -156,7 +156,7 @@ public class Project
 	/**
 	 * Used to manually delete a time from the interval list.* 
 	 * @throws MyTimeException
-	 * @param index
+	 * @param tInterval
 	 */
 	public void deleteTime(TimeInterval tInterval) throws MyTimeException
 	{
