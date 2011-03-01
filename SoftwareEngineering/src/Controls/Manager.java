@@ -32,35 +32,57 @@ public class Manager
 
 	private String m_databaseName = "myTimeDB.s3db";
 	
-	private Set<Project> m_projects;
+	private HashMap<Integer, Project> m_projects;
 	private DatabaseConnect m_database;
-	private Set<Client> m_clients;
+	private HashMap<Integer, Client> m_clients;
 	
 	/**
 	 * This method creates a manager with default attributes.
+	 * Manager needs to be initialized before use.
 	 */
-	public Manager() throws MyTimeException
+	public Manager()
 	{
-		// TODO: these should be hash maps!!
-		m_clients = new HashSet<Client>();
-		m_projects = new HashSet<Project>();
+		m_clients = new HashMap<Integer, Client>();
+		m_projects = new HashMap<Integer, Project>();
 		
-		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
+		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);		
+	} 
+	
+	public void initializeDB() throws MyTimeException
+	{
+		int clientID;
+		String clientName;
+		String clientDescription;
 		
-		// TODO: typically bad to write constructors that throw exceptions...
-		// perhaps we need an initialize method.l.
+		// TODO:  we should read in all clients and projects when we 
+		// are initialized
 		try 
 		{
 			m_database.open();
+			
+			ResultSet result = m_database.execute("SELECT * FROM "+ m_clientTableName);
+			while(result.next())
+			{
+				clientID = result.getInt("Client_ID");
+				clientName = result.getNString("Client_Name");
+				clientDescription = result.getNString("Client_Description");
+				
+				Client c = new Client(clientID, clientName, clientDescription);
+				m_clients.put(clientID, c);
+			}
+			//works so long as the test table has 4 values in it something something something
+			assert(m_clients.size() == 4);
+			
 		} 
 		catch (MyTimeException e)
 		{
 			throw new MyTimeException("Failure to open database", e);
 		}
-		
-		// TODO:  we should read in all clients and projects when we 
-		// are intialized
-	} 
+		catch (SQLException e)
+		{
+			throw new MyTimeException("Bad SQL Statement", e);
+		}
+	}
 	/**
 	 * adds Client to database
 	 * @param c
@@ -68,7 +90,7 @@ public class Manager
 	 */
 	public void addClient(Client c) throws MyTimeException
 	{
-		if(!m_clients.contains(c))
+		if(!m_clients.containsKey(c.getClientID()))
 		{
 			try
 			{
@@ -97,7 +119,7 @@ public class Manager
 				if(ID==-1)
 					throw new MyTimeException("Could not add client");
 				c.setClientID(ID);
-				m_clients.add(c);
+				m_clients.put(c.getClientID(), c);
 			}
 			catch(SQLException e)
 			{
@@ -108,7 +130,7 @@ public class Manager
 	}
 	public void addProject(Project p)
 	{
-		m_projects.add(p);
+		m_projects.put(p.getID(), p);
 	}
 	/**
 	 * Returns client from database by ID if it exists
@@ -119,13 +141,12 @@ public class Manager
 	public Client getClientByID(int id) throws MyTimeException
 	{
 		Client client = null;
-		for(Client c : m_clients)
-			if(c.getClientID()==id)
-			{
-				client = c;
-				break;
-			}
-		if(client == null)
+		
+		if(m_clients.containsKey(id))
+		{
+			return m_clients.get(id);
+		}
+		else
 		{
 			try
 			{
@@ -144,9 +165,10 @@ public class Manager
 					name = result.getString("Client_Name");
 					desc = result.getString("Client_Description");
 					client = new Client(ID, name, desc);
-					m_clients.add(client);
+					m_clients.put(client.getClientID(), client);
 				}
 			}
+			
 			catch(MyTimeException e)
 			{
 				throw new MyTimeException("Could not execute SQL command", e);
@@ -167,12 +189,12 @@ public class Manager
 	public Client getClientByName(String clientName) throws MyTimeException
 	{
 		Client client = null;
-		for(Client c : m_clients)
+		/*for(Client c : m_clients)
 			if(c.getClientName().equals(clientName))
 			{
 				client = c;
 				break;
-			}
+			}*/
 		if(client == null)
 		{
 			try
@@ -192,7 +214,7 @@ public class Manager
 					name = result.getString("Client_Name");
 					desc = result.getString("Client_Description");
 					client = new Client(ID, name, desc);
-					m_clients.add(client);
+					m_clients.put(client.getClientID(), client);
 				}
 			}
 			catch(MyTimeException e)
@@ -209,12 +231,12 @@ public class Manager
 	
 	public void getProject(int id, Project project)
 	{
-		for(Project p : m_projects)
+		/*for(Project p : m_projects)
 			if(p.getID()==id)
 			{
 				project = p;
 				break;
-			}
+			}*/
 	}
 	/*private final static String m_insertClient_CMDFMT = 
 		"INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
@@ -227,18 +249,18 @@ public class Manager
 	public void getClients(ArrayList<Client> clientList)
 	{	
 		clientList = new ArrayList<Client>();
-		for(Client c : m_clients)
-			clientList.add(c);
+		//for(Client c : m_clients)
+		//	clientList.add(c);
 	}
 	
 	public void getProjects(int clientID, ArrayList<Project> projectList)
 	{
 		projectList = new ArrayList<Project>(); 
 		
-		for(Project p : m_projects)
+		//for(Project p : m_projects)
 		{
-			if(p.getClientID()==clientID)
-				projectList.add(p);
+		//	if(p.getClientID()==clientID)
+		//		projectList.add(p);
 		}
 	}
 }
