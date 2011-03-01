@@ -56,9 +56,9 @@ public class ManagerTest extends TestCase
 		
 		
 		//User tries to add a client
-		String s1 = "-1"; //Would be System.in
-		String s2 = "FRED";
-		String s3 = "MANAGER";
+		//String s1 = "-1"; //Would be System.in
+		//String s2 = "FRED";
+		//String s3 = "MANAGER";
 		//Attempt to add a client
 		/*try
 		{
@@ -70,15 +70,14 @@ public class ManagerTest extends TestCase
 			e.printStackTrace();
 			//assert false;
 		}*/
-		Client test = null;// = new Client(3, "RYAN.", "BOSS.");
+		//Client test = null;// = new Client(3, "RYAN.", "BOSS.");
 		//test = manager.getClientByID(53);
-		try {
+		/*try {
 			test = manager.getClientByName("FRED");
 		} catch (MyTimeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(test.getClientName().equals("FRED"));
+		assertTrue(test.getClientName().equals("FRED"));*/
 		
 		//User tries to add a project
 		/*s1 = "0";

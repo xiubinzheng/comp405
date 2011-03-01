@@ -54,7 +54,7 @@ public class Manager
 		String clientName;
 		String clientDescription;
 		
-		// TODO:  we should read in all clients and projects when we 
+		// TODO:  we should read in all clients(now reads clients) and projects when we 
 		// are initialized
 		try 
 		{
@@ -64,8 +64,8 @@ public class Manager
 			while(result.next())
 			{
 				clientID = result.getInt("Client_ID");
-				clientName = result.getNString("Client_Name");
-				clientDescription = result.getNString("Client_Description");
+				clientName = result.getString("Client_Name");
+				clientDescription = result.getString("Client_Description");
 				
 				Client c = new Client(clientID, clientName, clientDescription);
 				m_clients.put(clientID, c);
@@ -85,7 +85,7 @@ public class Manager
 	}
 	/**
 	 * adds Client to database
-	 * @param c
+	 * @param Client
 	 * @throws MyTimeException
 	 */
 	public void addClient(Client c) throws MyTimeException
@@ -128,14 +128,16 @@ public class Manager
 		}
 		throw new MyTimeException("Client already exists: " + c.toString());
 	}
+	
 	public void addProject(Project p)
 	{
 		m_projects.put(p.getID(), p);
 	}
+	
 	/**
 	 * Returns client from database by ID if it exists
 	 * @param id
-	 * @return
+	 * @return Client
 	 * @throws MyTimeException
 	 */
 	public Client getClientByID(int id) throws MyTimeException
@@ -180,10 +182,11 @@ public class Manager
 		}
 		return client;
 	}
+	
 	/**
 	 * Returns client from database by Name if it exists
 	 * @param clientName
-	 * @return
+	 * @return Client
 	 * @throws MyTimeException
 	 */
 	public Client getClientByName(String clientName) throws MyTimeException
@@ -240,17 +243,21 @@ public class Manager
 				break;
 			}*/
 	}
+	
 	/*private final static String m_insertClient_CMDFMT = 
 		"INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
 	private final static String m_selectClient_CMDFMT =
 		"SELECT * FROM %s WHERE %s = %s";*/
+	
 	private String generateInsert(String table_names, String values)
 	{
 		return null;
 	}
+	
 	public void getClients(ArrayList<Client> clientList)
 	{	
 		clientList = new ArrayList<Client>();
+		clientList.addAll(m_clients.values());
 		//TODO: Fix this so it works with the new initializer 
 		//for(Client c : m_clients)
 		//	clientList.add(c);
