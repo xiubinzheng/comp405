@@ -24,14 +24,7 @@ public class MyTimeConsoleUI
 	 */
 	public static void main(String[] args)
 	{
-		try
-		{
-			g_uiManager = new Manager();
-		}
-		catch (MyTimeException e)
-		{
-			e.printStackTrace();
-		}
+		g_uiManager = new Manager();
 		
 		int m_mainMenuChoice = 0;
 		

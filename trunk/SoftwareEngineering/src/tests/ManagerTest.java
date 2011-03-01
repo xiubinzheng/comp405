@@ -41,6 +41,18 @@ public class ManagerTest extends TestCase
 
 	public void testMyCode() 
 	{
+		//create new manager test initialize 
+		//if DB doesn't have 4 entities in the table assert will throw the exception
+		
+		try
+		{
+			Manager testManager = new Manager();
+			testManager.initializeDB();
+		}
+		catch (MyTimeException e)
+		{
+			e.printStackTrace();
+		}
 		
 		
 		//User tries to add a client
@@ -126,5 +138,8 @@ public class ManagerTest extends TestCase
 		{
 			assertTrue(false);
 		}*/
+		
+		
+		
 	}
 }
