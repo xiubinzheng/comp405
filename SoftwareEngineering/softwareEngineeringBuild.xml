@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project SoftwareEngineering with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+
+	
+	<target name="create_run_jar">
+        <jar destfile="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405/runnable.jar">
+            <manifest>
+                <attribute name="Main-Class" value="myTimeConsoleUI.MyTimeConsoleUI"/>
+                <attribute name="Class-Path" value=". runnable_lib/junit.jar runnable_lib/sqlitejdbc-v056.jar runnable_lib/myTimeDB.s3db"/>
+            </manifest>
+            <fileset dir="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405/workspace/SoftwareEngineering/bin"/>
+        </jar>
+        <mkdir dir="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405/runnable_lib"/>
+        <copy file="C:/Program Files/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar" todir="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405/runnable_lib"/>
+        <copy file="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405/workspace/SoftwareEngineering/sqlitejdbc-v056.jar" todir="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405"/>
+        <copy file="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405/workspace/SoftwareEngineering/myTimeDB.s3db" todir="C:/Users/Stefi/Documents/Classes/Spring 11/COMP405"/>
+    </target>
+	
+	<!--<target name="jdoc">
+		<javadoc packagenames=".*"
+            sourcepath="."
+            destdir="."
+            classpath="${dir.src}"
+            author="true"
+            version="true"
+            use="true"
+            windowtitle="${app.name} API"
+            doctitle="&lt;h1&gt;${app.name}&lt;/h1&gt;"
+	</target>-->
+</project>
