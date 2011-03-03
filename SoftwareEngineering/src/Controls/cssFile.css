@@ -1,0 +1,19 @@
+table.report
+{
+	border-style: solid;
+}
+th.header
+{
+	text-align:left;
+	border: 1px solid black;
+}
+
+td.t_Date { background: #F0F0F0;}
+td.t_From { background: #FFFFFF;}
+td.t_To { background: #F0F0F0;}
+td.t_Duration { background: #FFFFFF;}
+
+td.t_Date2 { background: #E0E0E0;}
+td.t_From2 { background: #F0F0F0;}
+td.t_To2 { background: #E0E0E0;}
+td.t_Duration2 { background: #F0F0F0;}
