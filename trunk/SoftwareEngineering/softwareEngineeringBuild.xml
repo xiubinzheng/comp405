@@ -25,4 +25,37 @@
             classpath="./runnable_lib/junit.jar"
            />
 	</target>
+	<property name="checkout" location="./src" />
+		
+		<path id="svnant.class.path">
+			<pathelement location="./src/client/*" />
+			<pathelement location="./src/Controls/*" />
+			<pathelement location="./src/database/*" />
+			<pathelement location="./src/gui/*" />
+			<pathelement location="./src/exceptions/*" />
+			<pathelement location="./src/myTimeConsoleUI/*" />
+			<pathelement location="./src/tests/*" />
+			<pathelement location="./src/project/*" />
+			<pathelement location="./src/SQLTestData/*" />
+		</path>
+	
+	<target name="clean">
+			<delete dir="${checkout}" />
+		</target>
+	
+	<target name="makedir">
+			<mkdir dir="${checkout}" />
+		</target>
+
+	<target name="svn">
+			<svn username="" password="">
+				<checkout url="https://comp405.googlecode.com/svn/trunk/" revision="HEAD" destPath="${checkout}" />
+			</svn>
+		</target>
+	
+	<target name="Main" depends="clean, makedir, svn">
+		<description>Main target</description>
+	</target>
+
+
 </project>
