@@ -29,6 +29,10 @@ public class Manager
 		"INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
 	private final static String m_selectClient_CMDFMT =
 		"SELECT * FROM %s WHERE %s = %s";
+	private final static String m_insertProject_CMDFMT = 
+		"INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
+	private final static String m_selectProject_CMDFMT =
+		"SELECT * FROM %s WHERE %s = %s";
 
 	private String m_databaseName = "myTimeDB.s3db";
 	
@@ -192,7 +196,6 @@ public class Manager
 	public Client getClientByName(String clientName) throws MyTimeException
 	{
 		Client client = null;
-		//TODO: Fix this so it works with the new initializer 
 		Collection<Client> collection = m_clients.values();
 		
 		for(Client c : collection)
@@ -237,13 +240,13 @@ public class Manager
 	
 	public void getProject(int id, Project project)
 	{
-		//TODO: Fix this so it works with the new initializer 
-		/*for(Project p : m_projects)
+		Collection<Project> collection = m_projects.values(); 
+		for(Project p : collection)
 			if(p.getID()==id)
 			{
 				project = p;
 				break;
-			}*/
+			}
 	}
 	
 	/*private final static String m_insertClient_CMDFMT = 
@@ -258,21 +261,39 @@ public class Manager
 	
 	public void getClients(ArrayList<Client> clientList)
 	{	
-		clientList = new ArrayList<Client>();
-		clientList.addAll(m_clients.values());
-		//TODO: Fix this so it works with the new initializer 
-		//for(Client c : m_clients)
-		//	clientList.add(c);
+		Collection<Client> collection = m_clients.values();
+		
+		//Keeping this just in case the addAll doesn't work
+		for(Client c : collection)
+		{	
+			clientList.add(c);
+		}
 	}
 	
 	public void getProjects(int clientID, ArrayList<Project> projectList)
 	{
-		projectList = new ArrayList<Project>(); 
-		//TODO: Fix this so it works with the new initializer 
-		//for(Project p : m_projects)
+		Collection<Project> collection = m_projects.values();
+		
+		for(Project p : collection)
 		{
-		//	if(p.getClientID()==clientID)
-		//		projectList.add(p);
+			if(p.getClientID() == clientID)
+				projectList.add(p);
 		}
+	}
+
+	public void addProjectToClient(String clientName, Project project) throws MyTimeException
+	{
+
+		try
+		{
+			Client client = getClientByName(clientName);
+			
+			client.addProject(project);
+		}
+		catch (MyTimeException e)
+		{
+			throw new MyTimeException("Couldn't find client to add project", e);
+		}
+		
 	}
 }
