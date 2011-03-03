@@ -10,12 +10,14 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import javax.swing.JButton;
-import javax.swing.UIManager;
+import javax.swing.UIManager.*;
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -41,6 +43,13 @@ public class MainGUI
 				{
 					MainGUI window = new MainGUI();
 					window.frame.setVisible(true);
+
+					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				        if ("Nimbus".equals(info.getName())) {
+				            UIManager.setLookAndFeel(info.getClassName());
+				            break;
+				        }
+				    }
 				}
 				catch (Exception e)
 				{
@@ -77,21 +86,6 @@ public class MainGUI
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
-		
-		JMenu mnNew = new JMenu("New");
-		mnFile.add(mnNew);
-		
-		JMenuItem mntmClient = new JMenuItem("Client");
-		mnNew.add(mntmClient);
-		
-		JMenuItem mntmProject = new JMenuItem("Project");
-		mnNew.add(mntmProject);
-		
-		JMenuItem mntmNewClient = new JMenuItem("New Client");
-		mnFile.add(mntmNewClient);
-		
-		JMenuItem mntmNewProject = new JMenuItem("New Project");
-		mnFile.add(mntmNewProject);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
@@ -226,12 +220,6 @@ public class MainGUI
 		panel_1.add(panel_2, BorderLayout.SOUTH);
 		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JButton btnCommit = new JButton("Commit");
-		btnCommit.setFocusPainted(false);
-		btnCommit.setPreferredSize(new Dimension(67, 50));
-		btnCommit.setBorder(UIManager.getBorder("Button.border"));
-		panel_2.add(btnCommit);
-		
 		JPanel panel_3 = new JPanel();
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		panel_3.setLayout(new GridLayout(0, 2, 0, 0));
@@ -256,16 +244,16 @@ public class MainGUI
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_3.add(label_3);
 		
-		JButton btnStartstop = new JButton("Start/Pause");
+		JButton btnStartstop = new JButton("Start/Stop");
 		btnStartstop.setFocusPainted(false);
 		btnStartstop.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnStartstop.setForeground(new Color(255, 255, 255));
 		btnStartstop.setBackground(new Color(0, 153, 51));
 		panel_3.add(btnStartstop);
 		
-		JButton btnStop = new JButton("Stop");
+		JButton btnStop = new JButton("Commit");
 		btnStop.setFocusPainted(false);
-		btnStop.setBackground(new Color(204, 0, 0));
+		btnStop.setBackground(new Color(255, 204, 0));
 		btnStop.setForeground(new Color(255, 255, 255));
 		btnStop.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_3.add(btnStop);
