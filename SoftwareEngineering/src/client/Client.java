@@ -1,7 +1,7 @@
 package client;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import project.Project;
@@ -13,7 +13,8 @@ public class Client
 	private int		m_clientID			= 0;
 	private String	m_clientName		= "";
 	private String	m_clientDescription	= "";
-	private Set<Project> m_projects = new HashSet<Project>();
+	//TODO: change me to a hashmap
+	private HashMap<Integer, Project> m_projects = new HashMap<Integer, Project>();
 	
 	/**
 	 * Create a new Client with default attributes.
@@ -42,6 +43,7 @@ public class Client
 	 * @param name Name of the client.
 	 * @param description Description of the client.
 	 * @param projects Linked List of projects.
+	 * @param projects should already have an ID set
 	 */
 	public Client(int clientID, String name, String description, LinkedList<Project> projects)
 	{
@@ -49,16 +51,25 @@ public class Client
 		m_clientName = name;
 		m_clientDescription = description;
 		for(Project project : projects)
-			m_projects.add(project);
+			m_projects.put(project.getID(), project);
 	}
 	
 	/**
 	 * Add project. Duplicates are ignored.
 	 * @param project
 	 */
-	public void addProject(Project project)
+	public boolean addProject(Project project)
 	{
-		m_projects.add(project);
+		//TODO: make me return a bool for success
+		if(m_projects.containsKey(project.getID()))
+		{
+			m_projects.put(project.getClientID(), project);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -68,14 +79,12 @@ public class Client
 	 */
 	public boolean removeProject(int projID)
 	{
-		for(Project project : m_projects)
+		if(m_projects.containsKey(projID))
 		{
-			if(project.getID() == projID)
-			{
-				m_projects.remove(project);
-				return true;
-			}
+			m_projects.remove(projID);
+			return true;
 		}
+		else
 		return false;
 	}
 	
@@ -85,7 +94,8 @@ public class Client
 	 */
 	public void getProjectList(ArrayList<Project> projectList)
 	{
-		projectList.addAll(m_projects);
+		//TODO: make me change the hashmap to an array list then pass it
+		//projectList.addAll(m_projects);
 	}
 
 	public void setClientID(int clientID)
