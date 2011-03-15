@@ -70,6 +70,11 @@ public class Project
 		else
 			throw new MyTimeException("Description Too Long");
 	}
+	
+	public void getTimeIntervals(ArrayList<TimeInterval> in)
+	{
+		in = m_timeList;
+	}
 
 	public int getClientID()
 	{
