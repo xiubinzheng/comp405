@@ -3,6 +3,19 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
 
+	<!-- <target name="clean">
+				<delete dir="${checkout}" />
+			</target>
+		
+	<target name="makedir">
+				<mkdir dir="${checkout}" />
+			</target>
+
+	<target name="svn">
+				<svn username="" password="">
+					<checkout url="https://comp405.googlecode.com/svn/trunk/" revision="HEAD" destPath="${checkout}" />
+				</svn>
+			</target>
 	
 	<target name="create_run_jar">
         <jar destfile="./runnable.jar">
@@ -37,25 +50,72 @@
 			<pathelement location="./src/tests/*" />
 			<pathelement location="./src/project/*" />
 			<pathelement location="./src/SQLTestData/*" />
-		</path>
+		</path> -->
+	
+	
+	
+	
+	
+	<target name="MyTime" depends = "create_run_jar">
+		<description>Main target</description>
+	</target> 
+
+	<target name="create_run_jar" depends = "jdoc">
+	        <jar destfile="./runnable.jar">
+	            <manifest>
+	                <attribute name="Main-Class" value="myTimeConsoleUI.MyTimeConsoleUI"/>
+	                <attribute name="Class-Path" value=" ./sqlitejdbc-v056.jar "/>
+	            </manifest>
+	            <fileset dir="./bin"/>
+	        </jar>
+	        <mkdir dir="./runnable_lib"/>
+	        <copy file="C:/Users/Aakash/Documents/Desktop/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar" todir="./runnable_lib"/>
+	        <copy file="./sqlitejdbc-v056.jar" todir="."/>
+	        <copy file="./myTimeDB.s3db" todir="."/>
+	    </target>
+		
+	
+	<target name="jdoc" depends = "javac">
+			<javadoc 
+	            sourcepath="./src"
+	            destdir="C:/Users/Aakash/Documents/SeBuild/javadoc"
+	            classpath="./runnable_lib/junit.jar"
+			/>
+		</target>
+		
+	 
+	<target name="javac" depends="checkout"> 
+		<javac
+			srcdir="./src"
+	         destdir="C:\Users\Aakash\Documents\SeBuild\javadoc"
+	         classpath="./runnable_lib/junit.jar"
+	         
+	  />
+	</target>	
+
+	
+	<target name="checkout" depends="makedir" >
+			
+		<!--<svn username="aakashrc9@gmail.com" password="rK7Rn8UK5qZ7">
+							<checkout url="https://comp405.googlecode.com/svn/trunk/" revision="HEAD" destPath="${checkout}" />
+						</svn> -->
+		
+	</target>
+		<target name="makedir" depends = "clean">
+			<mkdir dir="checkout" />
+		</target> 
+	
+		<target name="jars">
+				<mkdir dir="jars" />
+			</target> 
+		
 	
 	<target name="clean">
-			<delete dir="${checkout}" />
-		</target>
+					<delete dir="C:/Users/Aakash/Documents/SeBuild/javadoc/*"/>
+					<delete dir="C:/Users/Aakash/Documents/SeBuild/bin/*"/>
+					<delete dir="C:/Users/Aakash/Documents/SeBuild/src/*"/>
+			
+				</target>
+			
 	
-	<target name="makedir">
-			<mkdir dir="${checkout}" />
-		</target>
-
-	<target name="svn">
-			<svn username="" password="">
-				<checkout url="https://comp405.googlecode.com/svn/trunk/" revision="HEAD" destPath="${checkout}" />
-			</svn>
-		</target>
-	
-	<target name="Main" depends="clean, makedir, svn">
-		<description>Main target</description>
-	</target>
-
-
 </project>
