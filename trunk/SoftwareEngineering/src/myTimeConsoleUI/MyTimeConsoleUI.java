@@ -286,7 +286,7 @@ public class MyTimeConsoleUI
 
 					try
 					{
-						g_uiManager.addProject(new Project(-1, m_projectName, m_projectDescription, 0, 
+						g_uiManager.addProject(new Project(-1, m_projectName, m_projectDescription, 
 												g_uiManager.getClientByName(m_clientName).getClientID(), m_projectStatus));
 					}
 					catch (MyTimeException e)

@@ -1,6 +1,7 @@
 package client;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -13,7 +14,6 @@ public class Client
 	private int		m_clientID			= 0;
 	private String	m_clientName		= "";
 	private String	m_clientDescription	= "";
-	//TODO: change me to a hashmap
 	private HashMap<Integer, Project> m_projects = new HashMap<Integer, Project>();
 	
 	/**
@@ -60,7 +60,6 @@ public class Client
 	 */
 	public boolean addProject(Project project)
 	{
-		//TODO: make me return a bool for success
 		if(m_projects.containsKey(project.getID()))
 		{
 			m_projects.put(project.getClientID(), project);
@@ -85,7 +84,9 @@ public class Client
 			return true;
 		}
 		else
-		return false;
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -94,8 +95,9 @@ public class Client
 	 */
 	public void getProjectList(ArrayList<Project> projectList)
 	{
-		//TODO: make me change the hashmap to an array list then pass it
-		//projectList.addAll(m_projects);
+		//I N C E P T I O N level 3 watch out for limbo!
+		Collection<Project> projects = m_projects.values();
+		projectList.addAll(projects);
 	}
 
 	public void setClientID(int clientID)
