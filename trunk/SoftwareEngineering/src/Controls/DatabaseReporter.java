@@ -54,17 +54,15 @@ public class DatabaseReporter
 	public String reportClient(String cssFile, String imageFile) throws MyTimeException
 	{
 		String s = "";
-		s += "<html>\n";
-		
-		s += "<head>\n";
+		s += "<html>";
+		s += "<head>";
 		s += "<link rel = \"stylesheet\" href = \"" + cssFile + "\" type = \"text/css\">\n";
-		s += "</head>\n";
-
-
+		s += "<title>Database Reporter</title>";
+		s += "</head>";
 		s += "<img class = \"logo\" src = \"" + imageFile + "\" alt = \"\"/>\n";
-		s += "<H2>Client Report</H2>";
-		
-		s += "<table class=\"report\">\n";
+		s += "<H2 class=\"r_Title\">Client Report</H2>";
+		s += "<table class=\"report\">";
+
 		ResultSet rs;
 		m_databaseConnection.open();
 		try 
@@ -72,19 +70,11 @@ public class DatabaseReporter
 			rs = m_databaseConnection.execute("SELECT * FROM myTimeClients");
 			//System.out.print(rs.getFetchSize()+ "\n");
 			
-			s += "<tr>\n";
-			s += "<th class=\"header\">ID</th>\n";
-			s += "<th class=\"header\">Name</th>\n";
-			s += "<th class=\"header\">Description</th>\n";
-			s += "</tr>\n";
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
 			while(rs.next())
 			{
-				s += "<tr>\n";
-				s += "<td class=\"ID\">" + rs.getString("Client_ID") + "</td>\n";
-				s += "<td class=\"name\">" + rs.getString("Client_Name") + "</td>\n";
-				s += "<td class=\"description\">" + rs.getString("Client_Description") + "</td>\n";
-				s += "</tr>\n";
+				//!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 		}
 		catch(Exception e)
@@ -97,57 +87,7 @@ public class DatabaseReporter
 		s += "</html>\n";
 		return s;
 	}
-	private String outputClient(String c_Name, String c_Desc)
-	{
-		String s = "";
-		s += "<td class=\"name\">" + c_Name + "</td>\n";
-		s += "<td class=\"description\">" + c_Desc + "</td>\n";
-		return s;
-	}
-	private String outputProject(String p_ID, String p_Type, String p_Desc, String p_Complete, double totalHours, String p_Start, String p_End)
-	{
-		String s = "";
-		s += "<td class=\"ID\">" + p_ID + "</td>\n";
-		s += "<td class=\"type\">" + p_Type + "</td>\n";
-		s += "<td class=\"description\">" + p_Desc + "</td>\n";
-		s += "<td class=\"complete\">" + p_Complete + "</td>\n";
-		s += "<td class=\"total hours\">" + totalHours + "</td>\n";
-		s += "<td class=\"start\">" + p_Start + "</td>\n";
-		s += "<td class=\"end\">" + p_End + "</td>\n";
-		return s;
-	}
-	private String outputTimeDate(String t_Date, String t_Total)
-	{
-		String s = "";
-		s += "<td class=\"Date\">" + t_Date+ "</td>\n";
-		s += "<td class=\"Total Hours\">" + t_Total + "</td>\n";
-		return s;
-	}
-	private String outputTimeHours(String t_Start, String t_End, String t_Dur)
-	{
-		String s = "";
-		s += "<td class=\"From\">" + t_Start + "</td>\n";
-		s += "<td class=\"To\">" + t_End + "</td>\n";
-		s += "<td class=\"Duration\">" + t_Dur + "</td>\n";
-		return s;
-	}
-	private String formatHoursAndMinutes(int hours, int minutes)
-	{
-		String t = "";
-		if (hours != 0)
-			if (hours == 1)
-				t += "1 hour "; 
-			else
-				t += hours + " hours ";
-		if (hours != 0 && minutes != 0)
-			t += "and ";
-		if (minutes != 0)
-			if ( minutes == 1)
-				t += "1 minute";
-			else
-				t += minutes + " minutes";
-		return t;
-	}
+
 	/*
 	 * This Method compares a start_time and end_time.
 	 * Generates the duration between time intervals along with total hours worked.
@@ -174,17 +114,104 @@ public class DatabaseReporter
 				totalTime += minutes;
 				int hours = minutes/60;
 				minutes %= 60;
-				s += outputTimeHours( 	t_Start.get(i),
+				
+				s += outputTimeHours( 	Date,
+										t_Start.get(i),
 										t_End.get(i), 
-										formatHoursAndMinutes(hours, minutes));
+										formatHoursAndMinutes(hours, minutes),
+										(i == 0));
 			}
 		} 
 		catch (ParseException e) 
 		{
 			throw new MyTimeException("Unable to read Start Times and End Times", e);
 		}
-		s = outputTimeDate(Date, formatHoursAndMinutes(totalTime/60, totalTime%60)) + s;
+		//Use for later implementing Time Hours row
+		//s = outputTimeDate(Date, formatHoursAndMinutes(totalTime/60, totalTime%60)) + s;
 		return s;
+	}
+
+	//the purpose of this comment is to waste precious time so i dont have to think about doing the above method any more than i have to currently, that is to say that i don't really want to start it with 5 minutes left in the class period.
+	private String outputLeftSpan(int span)
+	{
+		String s = "";
+		if(span > 0)
+			s += "<td colspan=\"" + span + "\"/>\n";
+		return s;
+	}
+	private String outputClientHeader(int rightSpan)
+	{
+		String s = "";
+		s += "<td class=\"header\" >ID</td>\n";
+		s += "<td class=\"header\">Name</td>\n";
+		s += "<td class=\"header\" colspan=\"2\">Description</td>\n";
+		return s;
+	}
+	private String outputClient(String c_ID, String c_Name, String c_Desc)
+	{
+		String s = "";
+		s += "<td class=\"c_ID\">" + c_Name + "</td>\n";
+		s += "<td class=\"c_Name\">" + c_Name + "</td>\n";
+		s += "<td class=\"c_Description\" colspan=\"2\">" + c_Desc + "</td>\n";
+		return s;
+	}
+	private String outputProjectHeader()
+	{
+		String s = "";
+		s+="<td class=\"header\">p_ID</td>\n";
+		s+="<td class=\"header\">p_Type</td>\n";
+		s+="<td class=\"header\" colspan=\"2\">p_Desc</td>\n";
+		s+="<td class=\"header\">totalHours</td>\n";
+		return s;
+	}
+	private String outputProject(String p_ID, String p_Type, String p_Desc, double totalHours)
+	{
+		String s = "";
+		//s+="<td colspan=\"1\"/>";
+		s+="<td class=\"p_ID\">" + p_ID + "</td>\n";
+		s+="<td class=\"p_Type\">"+p_Type+"</td>\n";
+		s+="<td class=\"p_Description\" colspan=\"2\">" + p_Desc + "</td>\n";
+		s+="<td class=\"p_TotalHours\">" + totalHours + "</td>\n";
+		return s;
+	}
+	private String outputTimeHoursHeader()
+	{
+		String s = "";
+		s+="<td class=\"header\">Date</td>\n";
+		s+="<td class=\"header\">From</td>\n";
+		s+="<td class=\"header\">To</td>\n";
+		s+="<td class=\"header\">Duration</td>\n";
+		return s;
+	}
+	private String outputTimeHours(String t_Date, String t_Start, String t_End, String t_Dur, boolean colorFlip)
+	{
+		int x = 0;
+		if(colorFlip)
+			x = 1;
+		
+		String s = "";
+		s += "<td class=\"t_Date"+x+"\">" + t_Date+ "</td>\n";
+		s += "<td class=\"t_From"+x+"\">" + t_Start + "</td>\n";
+		s += "<td class=\"t_To"+x+"\">" + t_End + "</td>\n";
+		s += "<td class=\"t_Duration"+x+"\">" + t_Dur + "</td>\n";
+		return s;
+	}
+	private String formatHoursAndMinutes(int hours, int minutes)
+	{
+		String t = "";
+		if (hours != 0)
+			if (hours == 1)
+				t += "1 hour "; 
+			else
+				t += hours + " hours ";
+		if (hours != 0 && minutes != 0)
+			t += "and ";
+		if (minutes != 0)
+			if ( minutes == 1)
+				t += "1 minute";
+			else
+				t += minutes + " minutes";
+		return t;
 	}
 }
 
