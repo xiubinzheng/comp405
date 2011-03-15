@@ -26,12 +26,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class MainGUI
 {
 
 	public JFrame	frame;
+	private final Action action = new SwingAction();
 
+	JButton m_btnCommit;
+	JButton m_btnStartStop;
+	
+	static final Color m_colorGreen = new Color(0, 153, 51);
+	static final Color m_colorRed = new Color(255, 0, 0);
+	static final Color m_colorWhite = new Color(255, 255, 255);
+	static final Color m_colorYellow = new Color(255, 204, 0);
+	static final Color m_colorGrey = new Color(128, 128, 128);
+	static final Color m_colorLightGrey = new Color(200, 200, 200);
 	/**
 	 * Launch the application.
 	 */
@@ -197,77 +214,149 @@ public class MainGUI
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel Project_panel = new JPanel();
-		Project_panel.setPreferredSize(new Dimension(100, 20));
+		Project_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		Project_panel.setAlignmentY(1.0f);
+		Project_panel.setPreferredSize(new Dimension(100, 100));
 		Project_panel.setMinimumSize(new Dimension(65, 15));
 		Project_panel.setBackground(SystemColor.inactiveCaptionBorder);
-		Project_panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 		Project_panel.setForeground(SystemColor.textHighlight);
-		frame.getContentPane().add(Project_panel, BorderLayout.WEST);
-		Project_panel.setLayout(new GridLayout(0, 1, 0, 0));
+		frame.getContentPane().add(Project_panel, BorderLayout.NORTH);
+		Project_panel.setPreferredSize(new Dimension(30,100));
+		GridBagConstraints gbc_lblProjectName_1_1 = new GridBagConstraints();
+		gbc_lblProjectName_1_1.fill = GridBagConstraints.BOTH;
+		gbc_lblProjectName_1_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblProjectName_1_1.gridx = 0;
+		gbc_lblProjectName_1_1.gridy = 2;
+		
+		JLabel lblProjectHoursDisplay = new JLabel("02:30:00");
+		GridBagConstraints gbc_lblProjectHours_1_1 = new GridBagConstraints();
+		gbc_lblProjectHours_1_1.fill = GridBagConstraints.BOTH;
+		gbc_lblProjectHours_1_1.gridx = 0;
+		gbc_lblProjectHours_1_1.gridy = 4;
+		Project_panel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel project1_panel = new JPanel();
-		Project_panel.add(project1_panel);
-		project1_panel.setLayout(new GridLayout(3, 2, 0, 0));
+		Project_panel.add(project1_panel, BorderLayout.WEST);
 		
-		JLabel lblClientName = new JLabel("New label");
+		JLabel lblClientName = new JLabel("Client Name: ");
+		project1_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		project1_panel.add(lblClientName);
 		
-		JLabel lblClientID = new JLabel("New label");
-		project1_panel.add(lblClientID);
-		
-		JLabel lblProjectName = new JLabel("New label");
+		JLabel lblProjectName = new JLabel("Project Name: ");
 		project1_panel.add(lblProjectName);
 		
-		JLabel lblProjectID = new JLabel("New label");
-		project1_panel.add(lblProjectID);
-		
-		JLabel lblProjectHours = new JLabel("New label");
+		JLabel lblProjectHours = new JLabel("Total Hours: ");
 		project1_panel.add(lblProjectHours);
+		
+		JLabel lblTotalHoursweek = new JLabel("Total Hours/Week:    ");
+		project1_panel.add(lblTotalHoursweek);
+		
+		JLabel lblTotalHoursday = new JLabel("Total Hours/Day: ");
+		project1_panel.add(lblTotalHoursday);
+		
+		
+		JPanel Action_panel = new JPanel();
+		Action_panel.setBorder(new EmptyBorder(0, 0, 0, 1));
+		Project_panel.add(Action_panel, BorderLayout.CENTER);
+		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JLabel label_1 = new JLabel("My Time");
+		Action_panel.add(label_1);
+		
+		JLabel label_4 = new JLabel("Test Project");
+		Action_panel.add(label_4);
+		
+		JLabel label_5 = new JLabel("02:30:00");
+		Action_panel.add(label_5);
+		
+		JLabel lblNewLabel = new JLabel("00:55:00");
+		Action_panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("00:15:00");
+		Action_panel.add(lblNewLabel_1);
 		
 		JPanel Main_panel = new JPanel();
 		frame.getContentPane().add(Main_panel, BorderLayout.CENTER);
 		Main_panel.setLayout(new BorderLayout(0, 0));
-		
-		JPanel Align_panel = new JPanel();
-		Main_panel.add(Align_panel, BorderLayout.SOUTH);
-		Align_panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel Display_panel = new JPanel();
 		Main_panel.add(Display_panel, BorderLayout.CENTER);
 		Display_panel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JLabel lblCurrentTime = new JLabel("Current Time");
-		lblCurrentTime.setFont(new Font("Arial Black", Font.PLAIN, 16));
+		lblCurrentTime.setFont(new Font("Dialog", Font.PLAIN, 20));
 		lblCurrentTime.setHorizontalAlignment(SwingConstants.CENTER);
 		Display_panel.add(lblCurrentTime);
 		
-		JLabel lblMarchst = new JLabel("March 1st, 2011 12:15:39 pm");
+		JLabel lblMarchst = new JLabel("December 1st, 2011 12:15:39 pm");
 		lblMarchst.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMarchst.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblMarchst.setFont(new Font("Dialog", Font.BOLD, 14));
 		Display_panel.add(lblMarchst);
 		
 		JLabel lblTimeElapsed = new JLabel("Elapsed Time");
-		lblTimeElapsed.setFont(new Font("Arial Black", Font.PLAIN, 16));
+		lblTimeElapsed.setFont(new Font("Dialog", Font.PLAIN, 20));
 		lblTimeElapsed.setHorizontalAlignment(SwingConstants.CENTER);
 		Display_panel.add(lblTimeElapsed);
 		
 		JLabel label_3 = new JLabel("00:20:00");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
-		label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_3.setFont(new Font("Dialog", Font.BOLD, 20));
 		Display_panel.add(label_3);
 		
-		JButton btnStartstop = new JButton("Start/Stop");
-		btnStartstop.setFocusPainted(false);
-		btnStartstop.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnStartstop.setForeground(new Color(255, 255, 255));
-		btnStartstop.setBackground(new Color(0, 153, 51));
-		Display_panel.add(btnStartstop);
+		m_btnStartStop = new JButton("Start/Stop");
+		m_btnStartStop.addActionListener(
+				new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						
+					}
+				});
+		m_btnStartStop.setAction(action);
+		m_btnStartStop.setFocusPainted(false);
+		m_btnStartStop.setFont(new Font("Tahoma", Font.BOLD, 20));
+		m_btnStartStop.setForeground(new Color(255, 255, 255));
+		m_btnStartStop.setBackground(m_colorGreen);
+		Display_panel.add(m_btnStartStop);
 		
-		JButton btnStop = new JButton("Commit");
-		btnStop.setFocusPainted(false);
-		btnStop.setBackground(new Color(255, 204, 0));
-		btnStop.setForeground(new Color(255, 255, 255));
-		btnStop.setFont(new Font("Tahoma", Font.BOLD, 20));
-		Display_panel.add(btnStop);
+		m_btnCommit = new JButton("Commit");
+		m_btnCommit.setFocusPainted(false);
+		m_btnCommit.setEnabled(false);
+		m_btnCommit.setBackground(m_colorYellow);
+		m_btnCommit.setForeground(new Color(255, 255, 255));
+		m_btnCommit.setFont(new Font("Tahoma", Font.BOLD, 20));
+		Display_panel.add(m_btnCommit);
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "START");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) 
+		{
+			JButton pressedButton = (JButton)e.getSource();
+			if (pressedButton == m_btnStartStop)
+			{
+				if (m_btnStartStop.getText().equals("START"))
+				{
+					m_btnStartStop.setBackground(m_colorRed);
+					m_btnStartStop.setText("STOP");
+					m_btnCommit.setEnabled(true);
+//					m_btnCommit.setBackground(m_colorYellow);
+				}
+				else
+				{
+					m_btnStartStop.setBackground(m_colorGreen);
+					m_btnStartStop.setText("START");
+					m_btnCommit.setEnabled(false);
+//					m_btnCommit.setForeground(m_colorLightGrey)
+//					m_btnCommit.setBackground(m_colorGrey);
+				}
+			}
+			else
+			{
+				
+			}
+		}
 	}
 }
