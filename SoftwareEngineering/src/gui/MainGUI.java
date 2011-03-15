@@ -24,11 +24,13 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
+import javax.swing.JTextField;
 
 public class MainGUI
 {
 
-	private JFrame	frame;
+	public JFrame	frame;
 
 	/**
 	 * Launch the application.
@@ -194,68 +196,78 @@ public class MainGUI
 		mnHelp.add(mntmAbout);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(100, 20));
-		panel.setMinimumSize(new Dimension(65, 15));
-		panel.setBackground(SystemColor.inactiveCaptionBorder);
-		panel.setAlignmentY(Component.CENTER_ALIGNMENT);
-		panel.setForeground(SystemColor.textHighlight);
-		frame.getContentPane().add(panel, BorderLayout.WEST);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel Project_panel = new JPanel();
+		Project_panel.setPreferredSize(new Dimension(100, 20));
+		Project_panel.setMinimumSize(new Dimension(65, 15));
+		Project_panel.setBackground(SystemColor.inactiveCaptionBorder);
+		Project_panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+		Project_panel.setForeground(SystemColor.textHighlight);
+		frame.getContentPane().add(Project_panel, BorderLayout.WEST);
+		Project_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel lblProjectInfo = new JLabel("Project Info");
-		lblProjectInfo.setMaximumSize(new Dimension(75, 20));
-		lblProjectInfo.setMinimumSize(new Dimension(65, 15));
-		lblProjectInfo.setBackground(SystemColor.controlLtHighlight);
-		lblProjectInfo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblProjectInfo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblProjectInfo.setPreferredSize(new Dimension(70, 15));
-		panel.add(lblProjectInfo);
+		JPanel project1_panel = new JPanel();
+		Project_panel.add(project1_panel);
+		project1_panel.setLayout(new GridLayout(3, 2, 0, 0));
 		
-		JPanel panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		JLabel lblClientName = new JLabel("New label");
+		project1_panel.add(lblClientName);
 		
-		JPanel panel_2 = new JPanel();
-		panel_1.add(panel_2, BorderLayout.SOUTH);
-		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
+		JLabel lblClientID = new JLabel("New label");
+		project1_panel.add(lblClientID);
 		
-		JPanel panel_3 = new JPanel();
-		panel_1.add(panel_3, BorderLayout.CENTER);
-		panel_3.setLayout(new GridLayout(0, 2, 0, 0));
+		JLabel lblProjectName = new JLabel("New label");
+		project1_panel.add(lblProjectName);
+		
+		JLabel lblProjectID = new JLabel("New label");
+		project1_panel.add(lblProjectID);
+		
+		JLabel lblProjectHours = new JLabel("New label");
+		project1_panel.add(lblProjectHours);
+		
+		JPanel Main_panel = new JPanel();
+		frame.getContentPane().add(Main_panel, BorderLayout.CENTER);
+		Main_panel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel Align_panel = new JPanel();
+		Main_panel.add(Align_panel, BorderLayout.SOUTH);
+		Align_panel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JPanel Display_panel = new JPanel();
+		Main_panel.add(Display_panel, BorderLayout.CENTER);
+		Display_panel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JLabel lblCurrentTime = new JLabel("Current Time");
 		lblCurrentTime.setFont(new Font("Arial Black", Font.PLAIN, 16));
 		lblCurrentTime.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_3.add(lblCurrentTime);
+		Display_panel.add(lblCurrentTime);
 		
 		JLabel lblMarchst = new JLabel("March 1st, 2011 12:15:39 pm");
 		lblMarchst.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMarchst.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel_3.add(lblMarchst);
+		Display_panel.add(lblMarchst);
 		
 		JLabel lblTimeElapsed = new JLabel("Elapsed Time");
 		lblTimeElapsed.setFont(new Font("Arial Black", Font.PLAIN, 16));
 		lblTimeElapsed.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_3.add(lblTimeElapsed);
+		Display_panel.add(lblTimeElapsed);
 		
 		JLabel label_3 = new JLabel("00:20:00");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel_3.add(label_3);
+		Display_panel.add(label_3);
 		
 		JButton btnStartstop = new JButton("Start/Stop");
 		btnStartstop.setFocusPainted(false);
 		btnStartstop.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnStartstop.setForeground(new Color(255, 255, 255));
 		btnStartstop.setBackground(new Color(0, 153, 51));
-		panel_3.add(btnStartstop);
+		Display_panel.add(btnStartstop);
 		
 		JButton btnStop = new JButton("Commit");
 		btnStop.setFocusPainted(false);
 		btnStop.setBackground(new Color(255, 204, 0));
 		btnStop.setForeground(new Color(255, 255, 255));
 		btnStop.setFont(new Font("Tahoma", Font.BOLD, 20));
-		panel_3.add(btnStop);
+		Display_panel.add(btnStop);
 	}
 }
