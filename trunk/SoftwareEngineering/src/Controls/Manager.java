@@ -77,6 +77,7 @@ public class Manager
 			
 			ResultSet result = m_database.execute(m_clientTableGen.select("*", null));
 					//"SELECT * FROM "+ m_clientTableName);
+			
 			while(result.next())
 			{
 				clientID = result.getInt("Client_ID");
@@ -86,9 +87,13 @@ public class Manager
 				Client c = new Client(clientID, clientName, clientDescription);
 				m_clients.put(clientID, c);
 			}
-			//works so long as the test table has 4 values in it something something something
-			assert(m_clients.size() == 4);
+			
+			//works so long as the test table has 4 values in it to test if working
+			//assert(m_clients.size() == 4);
+			
 			result = m_database.execute(m_projectTableGen.select("*", null));
+			
+			//TODO: finish getting the clients into their respective lists for each client
 			while(result.next())
 			{
 				projectID = result.getInt("Project_ID");
@@ -128,25 +133,37 @@ public class Manager
 						m_clientTableName,
 						"null",
 						c.getClientName(),
-						c.getClientDescription());
-
+						c.getClientDescription());		
+				
+				//no longer need to check the DB for an existing client because of the nature of the hash map
+				/*
 				ResultSet rs = m_database.execute(String.format(m_selectClient_CMDFMT, m_clientTableName, "Client_Name", "'"+c.getClientName()+"'"));
 
 				if(rs.next())
 					throw new MyTimeException("Client already exists!");
-
+				*/
+				
+				//insert new client into DB
 				m_database.update(cmd);
+				
+				//Query back for the ID assigned by the the DB for the new client
 				ResultSet result = m_database.execute(
-						String.format(
-								"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
-								"myTimeClients"));
+														String.format(
+														"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
+														"myTimeClients"));
+				
 				int ID = -1;
+				
 				if(result.next())
 				{
 					ID = result.getInt("seq");
 				}
 				if(ID==-1)
+				{
 					throw new MyTimeException("Could not add client");
+				}
+				
+				//set client ID to the new client class  and add it to the client hash map
 				c.setClientID(ID);
 				m_clients.put(c.getClientID(), c);
 			}
@@ -155,12 +172,15 @@ public class Manager
 				throw new MyTimeException("Add Client Error", e);
 			}
 		}
-		throw new MyTimeException("Client already exists: " + c.toString());
+		else
+		{
+			throw new MyTimeException("Client already exists: " + c.toString());
+		}
 	}
 	
 	public void addProject(Project p)
 	{
-		m_projects.put(p.getID(), p);
+		
 	}
 	
 	/**
