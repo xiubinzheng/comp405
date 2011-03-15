@@ -39,7 +39,6 @@ public class Manager
 	private SQLGenerator m_clientTableGen = new SQLGenerator(m_clientTableName);
 	private SQLGenerator m_projectTableGen = new SQLGenerator(m_projectTableName);
 	
-	private HashMap<Integer, Project> m_projects;
 	private DatabaseConnect m_database;
 	private HashMap<Integer, Client> m_clients;
 	
@@ -50,7 +49,6 @@ public class Manager
 	public Manager()
 	{
 		m_clients = new HashMap<Integer, Client>();
-		m_projects = new HashMap<Integer, Project>();
 		
 		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);		
 	} 
@@ -66,11 +64,9 @@ public class Manager
 		String projectDescription;
 		int projectHours;
 		//reuse clientID
-		String projectHourly;
+		boolean projectHourly;
 		boolean projectComplete;
 		
-		// TODO:  we should read in all clients(now reads clients) and projects when we 
-		// are initialized
 		try 
 		{
 			m_database.open();
@@ -93,19 +89,19 @@ public class Manager
 			
 			result = m_database.execute(m_projectTableGen.select("*", null));
 			
-			//TODO: finish getting the clients into their respective lists for each client
 			while(result.next())
 			{
 				projectID = result.getInt("Project_ID");
 				clientID = result.getInt("Client_ID");
 				projectName = result.getString("project_Name");
 				projectDescription = result.getString("project_Description");
-				projectHourly = result.getString("project_Pay_Type");
+				projectHourly = result.getBoolean("project_Pay_Type_Hourly");
 				projectComplete = result.getBoolean("project_Complete_Flag");
 				
+				//TODO: going to want to add time intervals to the project here at some point
 				
-				//Project p = new Project(projectID, projectName, projectDescription, projectHours, clientID, projectComplete);
-				//m_projects.put(projectID, p);
+				Project p = new Project(projectID, projectName, projectDescription, clientID, projectComplete);
+				m_clients.get(clientID).addProject(p);
 			}
 		} 
 		catch (MyTimeException e)
@@ -117,6 +113,13 @@ public class Manager
 			throw new MyTimeException("Bad SQL Statement", e);
 		}
 	}
+	
+	//should be the only public method for now maybe more later gonna need to change all this
+	public void updateClient(Client c) throws MyTimeException
+	{
+		addClient(c);
+	}
+	
 	/**
 	 * adds Client to database
 	 * @param c
@@ -184,55 +187,6 @@ public class Manager
 	}
 	
 	/**
-	 * Returns client from database by ID if it exists
-	 * @param id
-	 * @return Client
-	 * @throws MyTimeException
-	 */
-	public Client getClientByID(int id) throws MyTimeException
-	{
-		Client client = null;
-		
-		if(m_clients.containsKey(id))
-		{
-			return m_clients.get(id);
-		}
-		else
-		{
-			try
-			{
-				String cmd = String.format(
-						m_selectClient_CMDFMT,
-						m_clientTableName,
-						"Client_ID",
-						Integer.toString(id));
-				ResultSet result = m_database.execute(cmd);
-				int ID;
-				String name;
-				String desc;
-				if(result.next())
-				{
-					ID = result.getInt("Client_ID");
-					name = result.getString("Client_Name");
-					desc = result.getString("Client_Description");
-					client = new Client(ID, name, desc);
-					m_clients.put(client.getClientID(), client);
-				}
-			}
-			
-			catch(MyTimeException e)
-			{
-				throw new MyTimeException("Could not execute SQL command", e);
-			}
-			catch(SQLException e)
-			{
-				throw new MyTimeException("Could not get result set",e);
-			}
-		}
-		return client;
-	}
-	
-	/**
 	 * Returns client from database by Name if it exists
 	 * @param clientName
 	 * @return Client
@@ -241,58 +195,25 @@ public class Manager
 	public Client getClientByName(String clientName) throws MyTimeException
 	{
 		return findClient(clientName);
-/*		Client client = null;
-		Collection<Client> collection = m_clients.values();
+	}
+	
+	
+	public Project getProject(String clientName, String projectName) throws MyTimeException
+	{
+		ArrayList<Project> projectList = new ArrayList<Project>();
+		int clientID = getClientByName(clientName).getClientID();
 		
-		for(Client c : collection)
-			if(c.getClientName().equals(clientName))
-			{
-				client = c;
-				break;
-			}
-		if(client == null)
+		m_clients.get(clientID).getProjectList(projectList);
+		
+		for(Project p : projectList)
 		{
-			try
+			if(p.getName().equals(projectName))
 			{
-				String cmd = String.format(
-						m_selectClient_CMDFMT,
-						m_clientTableName,
-						"Client_Name",
-						"'"+clientName+"'");
-				ResultSet result = m_database.execute(cmd);
-				int ID;
-				String name;
-				String desc;
-				if(result.next())
-				{
-					ID = result.getInt("Client_ID");
-					name = result.getString("Client_Name");
-					desc = result.getString("Client_Description");
-					client = new Client(ID, name, desc);
-					m_clients.put(client.getClientID(), client);
-				}
-			}
-			catch(MyTimeException e)
-			{
-				throw new MyTimeException("Could not execute SQL command", e);
-			}
-			catch(SQLException e)
-			{
-				throw new MyTimeException("Could not get result set",e);
+				return p;
 			}
 		}
-		return client;
-*/
-	}
-	public void getProject(int id, Project project)
-	{
-		Collection<Project> collection = m_projects.values(); 
-		for(Project p : collection)
-			if(p.getID()==id)
-			{
-				project = p;
-				break;
-			}
+
+		return null;
 	}
 	
 	/*private final static String m_insertClient_CMDFMT = 
@@ -318,13 +239,9 @@ public class Manager
 	
 	public void getProjects(int clientID, ArrayList<Project> projectList)
 	{
-		Collection<Project> collection = m_projects.values();
-		
-		for(Project p : collection)
-		{
-			if(p.getClientID() == clientID)
-				projectList.add(p);
-		}
+		//I N C E P T I O N level 2 we need to go deeper!
+		//passes back the project list held by the client class
+		m_clients.get(clientID).getProjectList(projectList);
 	}
 
 	public void addProjectToClient(String clientName, Project project) throws MyTimeException
@@ -341,48 +258,7 @@ public class Manager
 		}
 */		
 	}
-	private Client findClient( int id )// throws MyTimeException
-	{
-		Client client = null;
-		if(m_clients.containsKey(id))
-		{
-			return m_clients.get(id);
-		}
-/*		else
-		{
-			try
-			{
-				String cmd = String.format(
-						m_selectClient_CMDFMT,
-						m_clientTableName,
-						"Client_ID",
-						Integer.toString(id));
-				ResultSet result = m_database.execute(cmd);
-				int ID;
-				String name;
-				String desc;
-				if(result.next())
-				{
-					ID = result.getInt("Client_ID");
-					name = result.getString("Client_Name");
-					desc = result.getString("Client_Description");
-					client = new Client(ID, name, desc);
-					m_clients.put(client.getClientID(), client);
-				}
-			}
-			catch(MyTimeException e)
-			{
-				throw new MyTimeException("findClient(int):Could not execute SQL command", e);
-			}
-			catch(SQLException e)
-			{
-				throw new MyTimeException("findClient(int):Could not get result set",e);
-			}
-		}
-*/
-		return client;
-	}
-
+	
 	private Client findClient(String clientName)// throws MyTimeException
 	{
 		Client client = null;
@@ -474,13 +350,16 @@ public class Manager
 					"null",
 					project.getName(),
 					project.getDescription());
-
+			
+			//don't need right now delete later when we are sure we don't need it
+			/*
 			ResultSet rs = m_database.execute(m_projectTableGen.select("*", null));
 			//		String.format(m_selectClient_CMDFMT, m_clientTableName, "Client_Name", "'"+client.getClientName()+"'"));
 
 			if(rs.next())
 				throw new MyTimeException("Client already exists!");
-
+			*/
+			
 			m_database.update(cmd);
 			ResultSet result = m_database.execute(
 					String.format(

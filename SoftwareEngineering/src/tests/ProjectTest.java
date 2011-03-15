@@ -62,7 +62,7 @@ public class ProjectTest extends TestCase
 		boolean caughtException = false;
 		try
 		{
-			proj = new Project(0, name, desc, 877618735, 98734989, true);
+			proj = new Project(0, name, desc, 98734989, true);
 			proj.toString();
 		}
 		catch (MyTimeException mte)
