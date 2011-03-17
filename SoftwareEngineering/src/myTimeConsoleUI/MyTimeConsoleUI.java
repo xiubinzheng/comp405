@@ -122,14 +122,6 @@ public class MyTimeConsoleUI
 					
 					try
 					{
-						g_uiManager.addClient(new Client( -1, m_clientName, m_clientDescription));
-					}catch (MyTimeException e)
-					{
-						e.printStackTrace();
-					}
-					
-					try
-					{
 						assert(g_uiManager.getClientByName(m_clientName).getClientID() != -1);
 					}
 					catch (MyTimeException e3)
@@ -284,17 +276,6 @@ public class MyTimeConsoleUI
 						}
 					}
 
-					try
-					{
-						g_uiManager.addProject(new Project(-1, m_projectName, m_projectDescription, 
-												g_uiManager.getClientByName(m_clientName).getClientID(), m_projectStatus));
-					}
-					catch (MyTimeException e)
-					{
-						e.printStackTrace();
-					}
-					
-					
 					break;
 					
 				case 2: 
