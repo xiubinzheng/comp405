@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 public class PanelProjectInfo extends JPanel
 {
+	//TODO fill this Panel with jLabels for necessary fields
 	/**
 	 * 
 	 */
