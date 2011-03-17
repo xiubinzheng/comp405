@@ -40,8 +40,8 @@ public class MainGUI
 	public JFrame	frame;
 	private final Action action = new SwingAction();
 
-	JButton m_btnCommit;
-	JButton m_btnStartStop;
+	private JButton m_btnCommit;
+	private JButton m_btnStartStop;
 	
 	static final Color m_colorGreen = new Color(0, 153, 51);
 	static final Color m_colorRed = new Color(255, 0, 0);
@@ -255,7 +255,8 @@ public class MainGUI
 		project1_panel.add(lblTotalHoursday);
 		
 		
-		JPanel Action_panel = new JPanel();
+		PanelProjectInfo Action_panel = new PanelProjectInfo(this);
+		//TODO put all adds() to the PanelProjectInfo Class constructor
 		Action_panel.setBorder(new EmptyBorder(0, 0, 0, 1));
 		Project_panel.add(Action_panel, BorderLayout.CENTER);
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
@@ -279,7 +280,7 @@ public class MainGUI
 		frame.getContentPane().add(Main_panel, BorderLayout.CENTER);
 		Main_panel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel Display_panel = new JPanel();
+		PanelDisplay Display_panel = new PanelDisplay(this);
 		Main_panel.add(Display_panel, BorderLayout.CENTER);
 		Display_panel.setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -305,6 +306,7 @@ public class MainGUI
 		
 		m_btnStartStop = new JButton("Start/Stop");
 		m_btnStartStop.addActionListener(
+				
 				new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent e) 
@@ -322,7 +324,7 @@ public class MainGUI
 		m_btnCommit = new JButton("Commit");
 		m_btnCommit.setFocusPainted(false);
 		m_btnCommit.setEnabled(false);
-		m_btnCommit.setBackground(m_colorYellow);
+		m_btnCommit.setBackground(m_colorGrey);
 		m_btnCommit.setForeground(new Color(255, 255, 255));
 		m_btnCommit.setFont(new Font("Tahoma", Font.BOLD, 20));
 		Display_panel.add(m_btnCommit);
@@ -334,29 +336,28 @@ public class MainGUI
 		}
 		public void actionPerformed(ActionEvent e) 
 		{
-			JButton pressedButton = (JButton)e.getSource();
-			if (pressedButton == m_btnStartStop)
-			{
-				if (m_btnStartStop.getText().equals("START"))
-				{
-					m_btnStartStop.setBackground(m_colorRed);
-					m_btnStartStop.setText("STOP");
-					m_btnCommit.setEnabled(true);
+//			JButton pressedButton = (JButton)e.getSource();
+//			if (pressedButton == m_btnStartStop)
+//			{
+//				if (m_btnStartStop.getText().equals("START"))
+//				{
+//					m_btnStartStop.setBackground(m_colorRed);
+//					m_btnStartStop.setText("STOP");
+//					m_btnCommit.setEnabled(true);
 //					m_btnCommit.setBackground(m_colorYellow);
-				}
-				else
-				{
-					m_btnStartStop.setBackground(m_colorGreen);
-					m_btnStartStop.setText("START");
-					m_btnCommit.setEnabled(false);
-//					m_btnCommit.setForeground(m_colorLightGrey)
+//				}
+//				else
+//				{
+//					m_btnStartStop.setBackground(m_colorGreen);
+//					m_btnStartStop.setText("START");
+//					m_btnCommit.setEnabled(false);
 //					m_btnCommit.setBackground(m_colorGrey);
-				}
-			}
-			else
-			{
-				
-			}
+//				}
+//			}
+//			else
+//			{
+//				
+//			}
 		}
 	}
 }
