@@ -13,7 +13,7 @@ public class ButtonStartStop implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		// TODO Auto-generated method stub
+		// TODO implement code for when the start/stop button is pressed
 		
 	}
 	
