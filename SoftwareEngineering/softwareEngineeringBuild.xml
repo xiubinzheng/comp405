@@ -61,17 +61,16 @@
 	</target> 
 
 	<target name="create_run_jar" depends = "jdoc">
-	        <jar destfile="./runnable.jar">
+	        <jar destfile="C:/Users/Aakash/Documents/SeBuild/runnable.jar">
 	            <manifest>
 	                <attribute name="Main-Class" value="myTimeConsoleUI.MyTimeConsoleUI"/>
-	                <attribute name="Class-Path" value=" ./sqlitejdbc-v056.jar "/>
+	                <attribute name="Class-Path" value=" C:/Users/Aakash/Documents/SeBuild/lib/sqlitejdbc-v056.jar "/>
 	            </manifest>
 	            <fileset dir="./bin"/>
 	        </jar>
-	        <mkdir dir="./runnable_lib"/>
-	        <copy file="C:/Users/Aakash/Documents/Desktop/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar" todir="./runnable_lib"/>
-	        <copy file="./sqlitejdbc-v056.jar" todir="."/>
-	        <copy file="./myTimeDB.s3db" todir="."/>
+	        <mkdir dir="C:/Users/Aakash/Documents/SeBuild/lib"/>
+	        <copy file="./sqlitejdbc-v056.jar" todir="C:/Users/Aakash/Documents/SeBuild/lib/"/>
+	        <copy file="./myTimeDB.s3db" todir="C:/Users/Aakash/Documents/SeBuild/lib/"/>
 	    </target>
 		
 	
@@ -79,7 +78,7 @@
 			<javadoc 
 	            sourcepath="./src"
 	            destdir="C:/Users/Aakash/Documents/SeBuild/javadoc"
-	            classpath="./runnable_lib/junit.jar"
+	            classpath="./SeBuild/junit.jar"
 			/>
 		</target>
 		
@@ -87,8 +86,8 @@
 	<target name="javac" depends="checkout"> 
 		<javac
 			srcdir="./src"
-	         destdir="C:\Users\Aakash\Documents\SeBuild\javadoc"
-	         classpath="./runnable_lib/junit.jar"
+	         destdir="C:/Users/Aakash/Documents/SeBuild/bin"
+	         classpath="C:/Users/Aakash/Documents/SeBuild/junit.jar"
 	         
 	  />
 	</target>	
@@ -102,11 +101,11 @@
 		
 	</target>
 		<target name="makedir" depends = "clean">
-			<mkdir dir="checkout" />
+			<mkdir dir="C:/Users/Aakash/Documents/SeBuild/checkout" />
 		</target> 
 	
-		<target name="jars">
-				<mkdir dir="jars" />
+		<target name="lib">
+				<mkdir dir="C:/Users/Aakash/Documents/SeBuild/lib" />
 			</target> 
 		
 	
@@ -114,7 +113,7 @@
 					<delete dir="C:/Users/Aakash/Documents/SeBuild/javadoc/*"/>
 					<delete dir="C:/Users/Aakash/Documents/SeBuild/bin/*"/>
 					<delete dir="C:/Users/Aakash/Documents/SeBuild/src/*"/>
-			
+					<delete dir="C:/Users/Aakash/Documents/SeBuild/lib/*"/>
 				</target>
 			
 	
