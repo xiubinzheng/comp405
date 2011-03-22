@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JMenuBar;
@@ -11,7 +10,6 @@ import javax.swing.Box;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
@@ -45,11 +43,11 @@ public class MainGUI
 
 	public JFrame	frame;
 	private final Action action = new SwingAction();
-
+	private CBProject m_cbProject;
 	private JButton m_btnCommit;
 	private JButton m_btnStartStop;
 	private Manager m_dbManager;
-	
+
 	static final Color m_colorGreen = new Color(0, 153, 51);
 	static final Color m_colorRed = new Color(255, 0, 0);
 	static final Color m_colorWhite = new Color(255, 255, 255);
@@ -283,22 +281,11 @@ public class MainGUI
 		Project_panel.add(Action_panel, BorderLayout.CENTER);
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
+		m_cbProject = new CBProject(this);
+		Action_panel.add(m_cbProject);
 		
-		
-		
-		
-		
-		CBClient cbClient = new CBClient(this);
-		
-		
-		
+		CBClient cbClient = new CBClient(this);		
 		Action_panel.add(cbClient);
-		
-
-		
-		JComboBox cbProject = new JComboBox();
-		Action_panel.add(cbProject);
-		
 		JLabel label_4 = new JLabel("Test Project");
 		Action_panel.add(label_4);
 		
@@ -363,6 +350,11 @@ public class MainGUI
 		m_btnCommit.setForeground(new Color(255, 255, 255));
 		m_btnCommit.setFont(new Font("Tahoma", Font.BOLD, 20));
 		Display_panel.add(m_btnCommit);
+	}
+	
+	public CBProject getCBProject()
+	{
+		return  m_cbProject;
 	}
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
