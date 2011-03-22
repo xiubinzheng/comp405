@@ -71,6 +71,7 @@ public class DatabaseReporter
 		try 
 		{	
 			Manager m = new Manager();
+			m.initializeDB();
 			ArrayList<Client> clientList = new ArrayList<Client>();
 			m.getClients(clientList);
 			//-------------------------------------------------
