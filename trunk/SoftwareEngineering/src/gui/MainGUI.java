@@ -92,7 +92,12 @@ public class MainGUI
 	{
 		initialize();
 	}
-
+	
+	public Manager getManager()
+	{
+		return m_dbManager;
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -283,7 +288,7 @@ public class MainGUI
 		
 		
 		
-		JComboBox cbClient = new JComboBox();
+		CBClient cbClient = new CBClient(this);
 		
 		
 		
