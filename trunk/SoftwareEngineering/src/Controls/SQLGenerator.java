@@ -58,6 +58,28 @@ class SQLGenerator
 				cmd += " ( "+ columns +" ) ";
 			cmd += " VALUES ( " + values + " )";
 		}
+	return cmd;
+	}
+	
+	/**
+	 * Generate an update statement.
+	 * @param columns (Optional) "column1, column2, ..."
+	 * @param values "value1, value2, ..."
+	 * @return
+	 */
+	public String update( String columns,
+	                      String values )
+	{
+		
+		String cmd = null;
+		if 
+		( values != null )
+		{
+			cmd = "UPDATE" + m_tableName;
+			if ( columns != null )
+				cmd += " ( "+ columns +" ) ";
+			cmd += " VALUES ( " + values + " )";
+		}
 		return cmd;
 	}
 }

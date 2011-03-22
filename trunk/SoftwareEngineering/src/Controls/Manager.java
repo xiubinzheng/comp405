@@ -135,8 +135,61 @@ public class Manager
 		}
 		else
 		{
-			
+			//not done yet
 		}
+	}
+	
+	/**
+	 * Returns client from database by Name if it exists
+	 * 
+	 * @param clientName
+	 * @return Client
+	 * @throws MyTimeException
+	 */
+	public Client getClientByName(String clientName) throws MyTimeException
+	{
+		return findClient(clientName);
+	}
+	
+	/**
+	 * 
+	 * @param clientList
+	 */
+	public void getClients(ArrayList<Client> clientList)
+	{
+		Collection<Client> collection = m_clients.values();
+
+		// Keeping this just in case the addAll doesn't work
+		for (Client c : collection)
+		{
+			clientList.add(c);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param clientName
+	 * @param projectName
+	 * @return
+	 * @throws MyTimeException
+	 */
+	public Project getProject(String clientName , String projectName)
+			throws MyTimeException
+	{
+		ArrayList<Project> projectList = new ArrayList<Project>();
+		int clientID = getClientByName(clientName).getClientID();
+
+		m_clients.get(clientID).getProjectList(projectList);
+
+		for (Project p : projectList)
+		{
+			if (p.getName().equals(projectName))
+			{
+				return p;
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -182,76 +235,91 @@ public class Manager
 			throw new MyTimeException("Add Client Error", e);
 		}
 	}
-
-	/**
-	 * 
-	 * @param p
-	 */
-	private void addProject(Project p)
-	{
-		//TODO: 
-	}
 	
 	/**
 	 * 
 	 * @param c
 	 */
-	private void addProjects(Client c)
+	private void updateProjects(Client c)
 	{
-		//TODO:
-	}
-
-	/**
-	 * Returns client from database by Name if it exists
-	 * 
-	 * @param clientName
-	 * @return Client
-	 * @throws MyTimeException
-	 */
-	public Client getClientByName(String clientName) throws MyTimeException
-	{
-		return findClient(clientName);
-	}
-
-	/**
-	 * 
-	 * @param clientName
-	 * @param projectName
-	 * @return
-	 * @throws MyTimeException
-	 */
-	public Project getProject(String clientName , String projectName)
-			throws MyTimeException
-	{
-		ArrayList<Project> projectList = new ArrayList<Project>();
-		int clientID = getClientByName(clientName).getClientID();
-
-		m_clients.get(clientID).getProjectList(projectList);
-
-		for (Project p : projectList)
-		{
-			if (p.getName().equals(projectName))
+		//TODO: will run through projects for a client if they arn't in the DB runs an insert
+		//if the project is in the DB then it runs an update, we are doing this because it would be faster
+		//to update all the client's projects rather than search them for individual changes
+		
+		ArrayList<Project> projects = new ArrayList<Project>();
+		
+		c.getProjectList(projects);
+		
+		for(Project p : projects)
+			if(m_projects.containsKey(p.getID()))
 			{
-				return p;
+				try
+				{
+					updateProject(p);
+				}
+				catch (MyTimeException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-		}
-
-		return null;
+			else
+			{
+				try
+				{
+					addProject(p);
+				}
+				catch (MyTimeException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 	}
-
+	
 	/**
 	 * 
-	 * @param clientList
+	 * @param p
+	 * @throws MyTimeException 
 	 */
-	public void getClients(ArrayList<Client> clientList)
+	private void addProject(Project p) throws MyTimeException
 	{
-		Collection<Client> collection = m_clients.values();
-
-		// Keeping this just in case the addAll doesn't work
-		for (Client c : collection)
+		try
 		{
-			clientList.add(c);
+			String cmd = String.format(m_insertProject_CMDFMT,
+			m_projectTableName, p.getID(), p.getClientID(), p.getName()
+			, p.isComplete(), p.isHourly());
+
+			// insert new client into DB
+			m_database.update(cmd);
+
+			// Query back for the ID assigned by the the DB for the new client
+			ResultSet result = m_database.execute(String.format(
+					"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
+					"myTimeProjects"));
+
+			int ID = -1;
+
+			if (result.next())
+			{
+				ID = result.getInt("seq");
+			}
+			if (ID == -1)
+			{
+				throw new MyTimeException("Could not add project");
+			}
+			p.setID(ID);
+			m_projects.put(p.getID(), p);
 		}
+		catch(SQLException e)
+		{
+			throw new MyTimeException("Add Project Error", e);
+		}
+	}
+	
+	private void updateProject(Project p) throws MyTimeException
+	{
+		//updates the DB with a projects info
 	}
 
 	/**

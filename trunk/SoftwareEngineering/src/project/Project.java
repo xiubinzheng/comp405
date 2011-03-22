@@ -108,6 +108,14 @@ public class Project
 		else
 			throw new MyTimeException("Name Too Long");
 	}
+	
+	/*
+	 * Sets project ID should only be used by the manager.
+	 */
+	public void setID(int id)
+	{
+		m_ID = id;
+	}
 
 	public boolean isComplete()
 	{
