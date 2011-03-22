@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" basedir="." name="Create Runnable Jar for Project SoftwareEngineering with libraries in sub-folder">
+<project default="MyTime" basedir="." name="Create Runnable Jar for Project SoftwareEngineering with libraries in sub-folder">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
 
@@ -61,59 +61,56 @@
 	</target> 
 
 	<target name="create_run_jar" depends = "jdoc">
-	        <jar destfile="C:/Users/Aakash/Documents/SeBuild/runnable.jar">
+	        <jar destfile="./MyTime/dist/runnable.jar">
 	            <manifest>
 	                <attribute name="Main-Class" value="myTimeConsoleUI.MyTimeConsoleUI"/>
-	                <attribute name="Class-Path" value=" C:/Users/Aakash/Documents/SeBuild/lib/sqlitejdbc-v056.jar "/>
+	                <attribute name="Class-Path" value=" ./sqlitejdbc-v056.jar "/>
 	            </manifest>
-	            <fileset dir="./bin"/>
+	            <fileset dir="./MyTime/bin"/>
 	        </jar>
-	        <mkdir dir="C:/Users/Aakash/Documents/SeBuild/lib"/>
-	        <copy file="./sqlitejdbc-v056.jar" todir="C:/Users/Aakash/Documents/SeBuild/lib/"/>
-	        <copy file="./myTimeDB.s3db" todir="C:/Users/Aakash/Documents/SeBuild/lib/"/>
+	        <mkdir dir="./MyTime/dist"/>
+	        <copy file="./lib/sqlitejdbc-v056.jar" todir="./MyTime/dist/"/>
+	        <copy file="./lib/myTimeDB.s3db" todir="./MyTime/dist/"/>
+			<copy file="./lib/junit.jar" todir="./MyTime/dist/"/>
 	    </target>
 		
 	
 	<target name="jdoc" depends = "javac">
 			<javadoc 
-	            sourcepath="./src"
-	            destdir="C:/Users/Aakash/Documents/SeBuild/javadoc"
-	            classpath="./SeBuild/junit.jar"
+	            sourcepath="./MyTime/src"
+	            destdir="./MyTime/javadoc"
+	            classpath="./lib/junit.jar"
 			/>
 		</target>
 		
 	 
 	<target name="javac" depends="checkout"> 
 		<javac
-			srcdir="./src"
-	         destdir="C:/Users/Aakash/Documents/SeBuild/bin"
-	         classpath="C:/Users/Aakash/Documents/SeBuild/junit.jar"
+			srcdir="./MyTime/src"
+	         destdir="./MyTime/bin"
+	         classpath="./lib/junit.jar"
 	         
 	  />
 	</target>	
 
 	
-	<target name="checkout" depends="makedir" >
+	<target name="checkout" depends="makedirs" >
 			
 		<!--<svn username="aakashrc9@gmail.com" password="rK7Rn8UK5qZ7">
 							<checkout url="https://comp405.googlecode.com/svn/trunk/" revision="HEAD" destPath="${checkout}" />
 						</svn> -->
 		
 	</target>
-		<target name="makedir" depends = "clean">
-			<mkdir dir="C:/Users/Aakash/Documents/SeBuild/checkout" />
+		<target name="makedirs" depends = "clean">
+			<mkdir dir="./MyTime/src" />
+			<mkdir dir="./MyTime/bin" />
+			<mkdir dir="./MyTime/javadoc" />
 		</target> 
 	
-		<target name="lib">
-				<mkdir dir="C:/Users/Aakash/Documents/SeBuild/lib" />
-			</target> 
-		
-	
 	<target name="clean">
-					<delete dir="C:/Users/Aakash/Documents/SeBuild/javadoc/*"/>
-					<delete dir="C:/Users/Aakash/Documents/SeBuild/bin/*"/>
-					<delete dir="C:/Users/Aakash/Documents/SeBuild/src/*"/>
-					<delete dir="C:/Users/Aakash/Documents/SeBuild/lib/*"/>
+					<delete dir="./MyTime/javadoc/*"/>
+					<delete dir="./MyTime/bin/*"/>
+					<delete dir="./MyTime/dist/*"/>
 				</target>
 			
 	
