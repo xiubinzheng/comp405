@@ -205,7 +205,7 @@ public class DatabaseReporter
 		for(int x = 0; x < projectList.size(); x++)
 		{
 			s += outputLeftSpan(leftSpan);
-			s += outputProject(	"" + projectList.get(x).getID(), 
+			s += outputProject(	"" + projectList.get(x).getProjectID(), 
 								projectList.get(x).getName(), 
 								projectList.get(x).getDescription());
 			s += "%timetable%";
