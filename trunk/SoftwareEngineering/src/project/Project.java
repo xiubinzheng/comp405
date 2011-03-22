@@ -84,7 +84,7 @@ public class Project
 		return m_hourly;
 	}
 
-	public int getID()
+	public int getProjectID()
 	{
 		return m_ID;
 	}
