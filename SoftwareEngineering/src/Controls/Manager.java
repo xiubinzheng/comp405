@@ -53,6 +53,8 @@ public class Manager
 	}
 
 	/**
+	 * Manager initializer, pulls all data from the DB and loads them into memory so they
+	 * can be accessed
 	 * 
 	 * @throws MyTimeException
 	 */
@@ -127,11 +129,19 @@ public class Manager
 
 	// should be the only public method for now maybe more later gonna need to
 	// TODO: finish up all this
+	/**
+	 * updates any changes made to a client and their projects to the database
+	 * RUN ME OFTEN!
+	 * 
+	 * @param c
+	 * @throws MyTimeException
+	 */
 	public void updateClient(Client c) throws MyTimeException
 	{
 		if (!m_clients.containsKey(c.getClientID()))
 		{
 			addClient(c);
+			updateProjects(c);
 		}
 		else
 		{
@@ -152,6 +162,7 @@ public class Manager
 	}
 	
 	/**
+	 * Returns an array list of all clients
 	 * 
 	 * @param clientList
 	 */
@@ -167,6 +178,7 @@ public class Manager
 	}
 	
 	/**
+	 * Returns a project when given the client and project name.
 	 * 
 	 * @param clientName
 	 * @param projectName
@@ -193,7 +205,7 @@ public class Manager
 	}
 
 	/**
-	 * adds Client to database
+	 * adds a new Client to database
 	 * 
 	 * @param c
 	 * @throws MyTimeException
@@ -237,6 +249,9 @@ public class Manager
 	}
 	
 	/**
+	 *Runs through projects for a client if they arn't in the DB runs an insert
+	 *if the project is in the DB then it runs an update, we are doing this because it would be faster
+	 *to update all the client's projects rather than search them for individual changes
 	 * 
 	 * @param c
 	 */
@@ -278,6 +293,7 @@ public class Manager
 	}
 	
 	/**
+	 * Adds a new project to the DB then queries the DB for that projects permanent ID
 	 * 
 	 * @param p
 	 * @throws MyTimeException 
@@ -317,12 +333,19 @@ public class Manager
 		}
 	}
 	
+	/**
+	 * private class that updates a single project in the DB
+	 * 
+	 * @param p
+	 * @throws MyTimeException
+	 */
 	private void updateProject(Project p) throws MyTimeException
 	{
 		//updates the DB with a projects info
 	}
 
 	/**
+	 * private class to find the a client by name
 	 * 
 	 * @param clientName
 	 * @return
