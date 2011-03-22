@@ -53,7 +53,7 @@ public class Client
 		m_clientName = name;
 		m_clientDescription = description;
 		for(Project project : projects)
-			m_projects.put(project.getID(), project);
+			m_projects.put(project.getProjectID(), project);
 	}
 	
 	/**
@@ -62,16 +62,16 @@ public class Client
 	 */
 	public boolean addProject(Project project)
 	{
-		if(!m_projects.containsKey(project.getID()))
+		if(!m_projects.containsKey(project.getProjectID()))
 		{
-			if(project.getID() < 0)
+			if(project.getProjectID() < 0)
 			{
 				m_projects.put(m_tempProjectKey, project);
 				--m_tempProjectKey;
 			}
 			else
 			{
-				m_projects.put(project.getID(), project);
+				m_projects.put(project.getProjectID(), project);
 			}
 			return true;
 		}
