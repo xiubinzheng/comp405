@@ -28,6 +28,8 @@ public class Manager
 	private final static String			m_selectClient_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
 	private final static String			m_insertProject_CMDFMT	= "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
 	private final static String			m_selectProject_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
+	private final static String			m_updateClient_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\' WHERE \'%s\'=%d";
+	private final static String			m_updateProject_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
 
 	private String						m_databaseName			= "myTimeDB.s3db";
 
@@ -114,7 +116,7 @@ public class Manager
 					p.complete();
 				}
 				m_clients.get(clientID).addProject(p);
-				m_projects.put(p.getID(), p);
+				m_projects.put(p.getProjectID(), p);
 			}
 		}
 		catch (MyTimeException e)
@@ -140,12 +142,12 @@ public class Manager
 	{
 		if (!m_clients.containsKey(c.getClientID()))
 		{
-			addClient(c);
+			addClientToDB(c);
 			updateProjects(c);
 		}
 		else
 		{
-			//not done yet
+			updateClientToDB(c);
 		}
 	}
 	
@@ -210,7 +212,7 @@ public class Manager
 	 * @param c
 	 * @throws MyTimeException
 	 */
-	private void addClient(Client c) throws MyTimeException
+	private void addClientToDB(Client c) throws MyTimeException
 	{
 		try
 		{
@@ -249,6 +251,30 @@ public class Manager
 	}
 	
 	/**
+	 * Takes an existing client and updates all information to the Database
+	 * 
+	 * @param c
+	 */
+	private void updateClientToDB(Client c) throws MyTimeException
+	{
+		try
+		{
+			String cmd = String.format(m_updateClient_CMDFMT,
+					m_clientTableName, "Client_Name", c.getClientName(),
+					"Client_Description", c.getClientDescription(),
+					"Client_ID", c.getClientID());
+			
+			// insert new client into DB
+			m_database.update(cmd);
+			
+		}
+		catch (MyTimeException e)
+		{
+			throw new MyTimeException("Update Client Error", e);
+		}
+	}
+	
+	/**
 	 *Runs through projects for a client if they arn't in the DB runs an insert
 	 *if the project is in the DB then it runs an update, we are doing this because it would be faster
 	 *to update all the client's projects rather than search them for individual changes
@@ -266,11 +292,11 @@ public class Manager
 		c.getProjectList(projects);
 		
 		for(Project p : projects)
-			if(m_projects.containsKey(p.getID()))
+			if(m_projects.containsKey(p.getProjectID()))
 			{
 				try
 				{
-					updateProject(p);
+					updateProjectToDB(p);
 				}
 				catch (MyTimeException e)
 				{
@@ -282,7 +308,7 @@ public class Manager
 			{
 				try
 				{
-					addProject(p);
+					addProjectToDB(p);
 				}
 				catch (MyTimeException e)
 				{
@@ -298,12 +324,12 @@ public class Manager
 	 * @param p
 	 * @throws MyTimeException 
 	 */
-	private void addProject(Project p) throws MyTimeException
+	private void addProjectToDB(Project p) throws MyTimeException
 	{
 		try
 		{
 			String cmd = String.format(m_insertProject_CMDFMT,
-			m_projectTableName, p.getID(), p.getClientID(), p.getName()
+			m_projectTableName, p.getProjectID(), p.getClientID(), p.getName()
 			, p.isComplete(), p.isHourly());
 
 			// insert new client into DB
@@ -325,7 +351,7 @@ public class Manager
 				throw new MyTimeException("Could not add project");
 			}
 			p.setID(ID);
-			m_projects.put(p.getID(), p);
+			m_projects.put(p.getProjectID(), p);
 		}
 		catch(SQLException e)
 		{
@@ -339,9 +365,25 @@ public class Manager
 	 * @param p
 	 * @throws MyTimeException
 	 */
-	private void updateProject(Project p) throws MyTimeException
+	private void updateProjectToDB(Project p) throws MyTimeException
 	{
-		//updates the DB with a projects info
+		try
+		{
+			String cmd = String.format(m_updateClient_CMDFMT,
+					m_clientTableName, "project_Name", p.getName(),
+					"project_Description", p.getDescription(),
+					"project_complete_flag", p.isComplete(),
+					"project_Pay_Type_hourly", p.isHourly(),
+					"Project_ID", p.getProjectID());
+			
+			// insert new client into DB
+			m_database.update(cmd);
+			
+		}
+		catch (MyTimeException e)
+		{
+			throw new MyTimeException("Update Project Error", e);
+		}
 	}
 
 	/**
