@@ -16,6 +16,8 @@ public class Client
 	private String	m_clientDescription	= "";
 	private HashMap<Integer, Project> m_projects = new HashMap<Integer, Project>();
 	
+	int m_tempProjectKey = -1; //dec with each use
+	
 	/**
 	 * Create a new Client with default attributes.
 	 */
@@ -60,9 +62,17 @@ public class Client
 	 */
 	public boolean addProject(Project project)
 	{
-		if(m_projects.containsKey(project.getID()))
+		if(!m_projects.containsKey(project.getID()))
 		{
-			m_projects.put(project.getClientID(), project);
+			if(project.getID() < 0)
+			{
+				m_projects.put(m_tempProjectKey, project);
+				--m_tempProjectKey;
+			}
+			else
+			{
+				m_projects.put(project.getID(), project);
+			}
 			return true;
 		}
 		else
@@ -97,6 +107,7 @@ public class Client
 	{
 		//I N C E P T I O N level 3 watch out for limbo!
 		Collection<Project> projects = m_projects.values();
+		projectList.clear();
 		projectList.addAll(projects);
 	}
 
