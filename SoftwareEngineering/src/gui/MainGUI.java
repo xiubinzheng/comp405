@@ -33,6 +33,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JComboBox;
 
 public class MainGUI
 {
@@ -261,8 +262,12 @@ public class MainGUI
 		Project_panel.add(Action_panel, BorderLayout.CENTER);
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel label_1 = new JLabel("My Time");
-		Action_panel.add(label_1);
+		JComboBox cbClient = new JComboBox();
+		
+		Action_panel.add(cbClient);
+		
+		JComboBox cbProject = new JComboBox();
+		Action_panel.add(cbProject);
 		
 		JLabel label_4 = new JLabel("Test Project");
 		Action_panel.add(label_4);
