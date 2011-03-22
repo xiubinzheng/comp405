@@ -62,6 +62,26 @@ public class ManagerTest extends TestCase
 		testManager.getClients(clients);
 		assertTrue(clients.size() == 4);
 		
+		ArrayList<Project> projects = new ArrayList<Project>();
+		ArrayList<Project> projects2 = new ArrayList<Project>();
+
+		
+		try
+		{
+		Client c = testManager.getClientByName("Ron");
+		c.getProjectList(projects);
+		assertTrue(projects.size() == 2);
+		
+		
+		Client b = testManager.getClientByName("Cohen");
+		b.getProjectList(projects);
+		assertTrue(projects.size() == 4);
+		}
+		catch(MyTimeException e)
+		{
+			
+		}
+		
 		//test will see if addProjectsToClient will add a linked list of projects to a client 
 		
 		String clientName;
