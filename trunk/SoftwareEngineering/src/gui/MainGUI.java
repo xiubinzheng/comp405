@@ -35,6 +35,11 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComboBox;
 
+import exceptions.MyTimeException;
+
+import Controls.Manager;
+import javax.swing.JList;
+
 public class MainGUI
 {
 
@@ -43,6 +48,7 @@ public class MainGUI
 
 	private JButton m_btnCommit;
 	private JButton m_btnStartStop;
+	private Manager m_dbManager;
 	
 	static final Color m_colorGreen = new Color(0, 153, 51);
 	static final Color m_colorRed = new Color(255, 0, 0);
@@ -92,6 +98,16 @@ public class MainGUI
 	 */
 	private void initialize()
 	{
+		
+		m_dbManager = new Manager();
+		
+		try {
+			m_dbManager.initializeDB();
+		} catch (MyTimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(450, 300));
 		frame.setBounds(100, 100, 600, 400);
@@ -262,9 +278,18 @@ public class MainGUI
 		Project_panel.add(Action_panel, BorderLayout.CENTER);
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
+		
+		
+		
+		
+		
 		JComboBox cbClient = new JComboBox();
 		
+		
+		
 		Action_panel.add(cbClient);
+		
+
 		
 		JComboBox cbProject = new JComboBox();
 		Action_panel.add(cbProject);
