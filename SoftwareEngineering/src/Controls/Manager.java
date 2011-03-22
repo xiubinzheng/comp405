@@ -371,9 +371,9 @@ public class Manager
 		{
 			String cmd = String.format(m_updateClient_CMDFMT,
 					m_clientTableName, "project_Name", p.getName(),
-					"project_Description", p.getDescription(),
-					"project_complete_flag", p.isComplete(),
-					"project_Pay_Type_hourly", p.isHourly(),
+					"Project_Description", p.getDescription(),
+					"Project_complete_flag", p.isComplete(),
+					"Project_Pay_Type_hourly", p.isHourly(),
 					"Project_ID", p.getProjectID());
 			
 			// insert new client into DB
