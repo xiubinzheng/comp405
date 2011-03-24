@@ -282,10 +282,11 @@ public class MainGUI
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		m_cbProject = new CBProject(this);
-		Action_panel.add(m_cbProject);
+		CBClient cbClient = new CBClient(this);
 		
-		CBClient cbClient = new CBClient(this);		
 		Action_panel.add(cbClient);
+		Action_panel.add(m_cbProject);
+
 		JLabel label_4 = new JLabel("Test Project");
 		Action_panel.add(label_4);
 		
