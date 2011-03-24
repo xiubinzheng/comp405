@@ -16,5 +16,6 @@ public class ButtonCommit implements ActionListener
 	{
 		// TODO implement code to call a commit of a time interval
 		
+		
 	}
 }
