@@ -38,22 +38,24 @@ public class CBClient extends JComboBox
 			model.addElement(c);
 		}
 	}
-	public class CBClientListener implements ActionListener
+	private class CBClientListener implements ActionListener
 	{
 
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			// TODO Auto-generated method stub
 			CBClient cbClient = (CBClient) e.getSource();
 			Client client = (Client) cbClient.getSelectedItem();
+			System.out.println("DEBUG:"+client);
 			ArrayList<Project> projectList = new ArrayList<Project>();
 			client.getProjectList(projectList);
 			DefaultComboBoxModel projectModel = m_gui.getCBProject().getDefaultModel();
 			projectModel.removeAllElements();
-			for ( Project p : projectList)
+			System.out.println("DEBUG:"+projectList);
+			for (Project p : projectList)
 			{
 				projectModel.addElement(p);
+				System.out.println("DEBUG:"+p);
 			}
 		}
 		
