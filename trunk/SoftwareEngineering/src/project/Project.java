@@ -21,6 +21,8 @@ public class Project
 
 	private final int				m_nameLength	= 50;
 	private final int				m_descLength	= 255;
+	
+	private static int m_defaultID = -1;
 
 	public Project()
 	{
@@ -32,6 +34,23 @@ public class Project
 		m_hourly = false;
 	}
 
+	public Project(String name, String desc, int clientID,
+			boolean hourly) throws MyTimeException
+	{
+		m_ID = m_defaultID--;
+		if (name.length() <= m_nameLength)
+			m_name = name;
+		else
+			throw new MyTimeException("Name Too Long");
+		if (desc.length() <= m_descLength)
+			m_desc = desc;
+		else
+			throw new MyTimeException("Description Too Long");
+		m_clientID = clientID;
+		m_hourly = hourly;
+		m_complete = false;
+	}
+	
 	public Project(int id, String name, String desc, int clientID,
 			boolean hourly) throws MyTimeException
 	{
@@ -114,6 +133,7 @@ public class Project
 	 */
 	public void setID(int id)
 	{
+		assert(m_ID <= 0);	
 		m_ID = id;
 	}
 
