@@ -374,12 +374,12 @@ public class MainGUI
 		return m_btnCommit;
 	}
 	
-	public TotalHoursCluster getTotalHoursCluster()
+//	public TotalHoursCluster getTotalHoursCluster()
 	{
 		
 	}
 	
-	public CurrentHoursCluster getCurrentHoursCluster()
+//	public CurrentHoursCluster getCurrentHoursCluster()
 	{
 		
 	}
