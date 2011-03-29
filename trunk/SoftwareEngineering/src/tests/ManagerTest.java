@@ -2,6 +2,7 @@ package tests;
 
 import client.Client;
 import project.Project;
+import project.TimeInterval;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -16,25 +17,11 @@ public class ManagerTest extends TestCase
 	Manager				testManager;
 	ArrayList<Client>	clients;
 	ArrayList<Project>	projects;
+	Project				p;
 
 	protected void setUp() throws Exception
 	{
-		/*
-		 * clients = new ArrayList<Client>(); clients.add(new Client(0, "FRED.",
-		 * "MANAGER.")); clients.add(new Client(1, "YEORGE.", "BAWSS."));
-		 * clients.add(new Client(2, "JEFF.", "BOSS.")); clients.add(new
-		 * Client(3, "RYAN.", "BOSS.")); clients.add(new Client(4, "JON.",
-		 * "JANITOR."));
-		 * 
-		 * projects.add(new Project(0, "GENGIS KHAN", "ruled half the wurld",
-		 * 500000, 0, true)); projects.add(new Project(1, "DONKEY KONG",
-		 * "likes bananas", 2, 1, false)); projects.add(new Project(2, "T-REX",
-		 * "8 the world", 9001, 2, true)); projects.add(new Project(3,
-		 * "GEORGE W BUSH", "dick cheney", 999999999, 3, true));
-		 * projects.add(new Project(4, "MAGIC 8 BALL", "ASK AGAIN LATER", -1, 4,
-		 * false));
-		 */
-		// manager = new Manager();
+		testManager = new Manager();
 	}
 
 	protected void tearDown() throws Exception
@@ -50,7 +37,6 @@ public class ManagerTest extends TestCase
 		// exception
 		try
 		{
-			testManager = new Manager();
 			testManager.initializeDB();
 		}
 		catch (MyTimeException e)
@@ -65,7 +51,6 @@ public class ManagerTest extends TestCase
 		assertTrue(clients.size() == 4);
 
 		ArrayList<Project> projects = new ArrayList<Project>();
-		ArrayList<Project> projects2 = new ArrayList<Project>();
 
 		try
 		{
@@ -73,8 +58,6 @@ public class ManagerTest extends TestCase
 			c.getProjectList(projects);
 			assertTrue(projects.size() == 2);
 
-			Project dummyProject = new Project();
-			
 			Client b = testManager.getClientByName("Cohen");
 			b.getProjectList(projects);
 			assertTrue(projects.size() == 4);
@@ -149,5 +132,48 @@ public class ManagerTest extends TestCase
 		 * assertTrue(false); }
 		 */
 
+	}
+
+	public void testTimeInterval()
+	{
+		boolean caughtException = false;
+
+		try
+		{
+			testManager.initializeDB();
+		}
+		catch (MyTimeException e)
+		{
+			e.printStackTrace();
+			caughtException = true;
+		}
+		assertFalse(caughtException);
+
+		try
+		{
+			p = testManager.getProject("Ron", "Dell");
+		}
+
+		catch (MyTimeException e)
+		{
+			caughtException = true;
+			e.printStackTrace();
+			System.out.println("Cannot retrieve project.");
+		}
+		assertFalse(caughtException);
+
+		try
+		{
+			ArrayList<TimeInterval> T = testManager.getTimeIntervals(p);
+			//assertTrue(T.size()==4);
+		}
+		
+		catch (MyTimeException e)
+		{
+			caughtException = true;
+			e.printStackTrace();
+			System.out.println("Can't retrive time intervals.");
+		}
+		assertFalse(caughtException);
 	}
 }
