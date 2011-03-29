@@ -5,36 +5,39 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.Timer;
 
-public class ButtonStartStop extends JButton implements ActionListener, Runnable
+@SuppressWarnings("serial")
+public class ButtonStartStop extends JButton implements ActionListener
 {
 	private boolean start;
+	private Timer clock;
 	
 	public ButtonStartStop(MainGUI gui)
 	{
 		start = false;
 		gui.frame.add(this);
+		clock = new Timer(1000,this.actionListener);
 	}
 	public void actionPerformed(ActionEvent e) 
 	{
-		// TODO implement code for when the start/stop button is pressed
-		//when the button is pressed and it is labeled start, start the time interval
-		if (!start) 
+		if(e.getSource()==clock)
 		{
-			setText("STOP");
-			setForeground(Color.red);
+			//increment timer
 		}
-		//when the button is pressed and it is labeled stop, this will stop the time interval
-		else 
+		else //Button Pressed
 		{
-			setText("START");
-			setForeground(Color.green);
+			if (!start) 
+			{
+				setText("STOP");
+				setForeground(Color.red);
+			}
+			//when the button is pressed and it is labeled stop, this will stop the time interval
+			else 
+			{
+				setText("START");
+				setForeground(Color.green);
+			}
 		}
 	}
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
