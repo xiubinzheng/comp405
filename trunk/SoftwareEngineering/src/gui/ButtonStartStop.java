@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-public class ButtonStartStop implements ActionListener
+public class ButtonStartStop extends JButton implements ActionListener
 {
 	private MainGUI m_gui;
 	private boolean start;
@@ -16,10 +16,14 @@ public class ButtonStartStop implements ActionListener
 		m_gui = gui;
 		start = false;
 	}
-	@Override
+	public void doSomething()
+	{
+		
+	}
 	public void actionPerformed(ActionEvent e) 
 	{
-		JButton b = m_gui.getStartStopButton();
+		
+		JButton b = new JButton();
 		// TODO implement code for when the start/stop button is pressed
 		//when the button is pressed and it is labeled start, start the time interval
 		if (!start) 
