@@ -357,6 +357,10 @@ public class MainGUI
 	{
 		return  m_cbProject;
 	}
+	public JButton getButtonStartStop()
+	{
+		return m_btnStartStop;
+	}
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "START");
