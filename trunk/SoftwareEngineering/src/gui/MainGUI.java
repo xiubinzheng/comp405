@@ -34,6 +34,8 @@ import javax.swing.Action;
 import javax.swing.JComboBox;
 
 import exceptions.MyTimeException;
+import gui.displayPanel.CBClient;
+import gui.displayPanel.CBProject;
 
 import Controls.Manager;
 import javax.swing.JList;
@@ -282,8 +284,8 @@ public class MainGUI
 		Project_panel.add(Action_panel, BorderLayout.CENTER);
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		m_cbProject = new CBProject(this);
-		m_cbClient = new CBClient(this);
+//		m_cbProject = new CBProject(this);
+//		m_cbClient = new CBClient(this);
 		
 		Action_panel.add(m_cbClient);
 		Action_panel.add(m_cbProject);
