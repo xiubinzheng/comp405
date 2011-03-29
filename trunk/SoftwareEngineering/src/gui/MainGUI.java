@@ -41,12 +41,13 @@ import javax.swing.JList;
 public class MainGUI
 {
 
-	public JFrame	frame;
-	private final Action action = new SwingAction();
-	private CBProject m_cbProject;
-	private JButton m_btnCommit;
-	private JButton m_btnStartStop;
-	private Manager m_dbManager;
+	public        	JFrame    			frame;
+	private final 	Action    			action = new SwingAction();
+	private       	CBProject 			m_cbProject;
+	private			CBClient			m_cbClient;
+	private       	ButtonCommit   		m_btnCommit;
+	private       	ButtonStartStop   	m_btnStartStop;
+	private       	Manager   			m_dbManager;
 
 	static final Color m_colorGreen = new Color(0, 153, 51);
 	static final Color m_colorRed = new Color(255, 0, 0);
@@ -142,8 +143,8 @@ public class MainGUI
 		JMenu mnClient = new JMenu("Client");
 		menuBar.add(mnClient);
 		
-		JMenuItem mntmAddClient = new JMenuItem("Add Client");
-		mnClient.add(mntmAddClient);
+		//JMenuItem mntmAddClient = new JMenuItem("Add Client");
+		//mnClient.add(mntmAddClient);
 		
 		JMenuItem mntmEditClient = new JMenuItem("Edit Client");
 		mnClient.add(mntmEditClient);
@@ -282,13 +283,10 @@ public class MainGUI
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		m_cbProject = new CBProject(this);
-		CBClient cbClient = new CBClient(this);
+		m_cbClient = new CBClient(this);
 		
-		Action_panel.add(cbClient);
+		Action_panel.add(m_cbClient);
 		Action_panel.add(m_cbProject);
-
-		JLabel label_4 = new JLabel("Test Project");
-		Action_panel.add(label_4);
 		
 		JLabel label_5 = new JLabel("02:30:00");
 		Action_panel.add(label_5);
@@ -298,6 +296,9 @@ public class MainGUI
 		
 		JLabel lblNewLabel_1 = new JLabel("00:15:00");
 		Action_panel.add(lblNewLabel_1);
+		
+		JPanel totalHoursCluster = new JPanel();
+		Project_panel.add(totalHoursCluster, BorderLayout.NORTH);
 		
 		JPanel Main_panel = new JPanel();
 		frame.getContentPane().add(Main_panel, BorderLayout.CENTER);
@@ -327,7 +328,7 @@ public class MainGUI
 		label_3.setFont(new Font("Dialog", Font.BOLD, 20));
 		Display_panel.add(label_3);
 		
-		m_btnStartStop = new JButton("Start/Stop");
+		m_btnStartStop = new ButtonStartStop(this);
 		m_btnStartStop.addActionListener(
 				
 				new ActionListener() 
@@ -344,7 +345,7 @@ public class MainGUI
 		m_btnStartStop.setBackground(m_colorGreen);
 		Display_panel.add(m_btnStartStop);
 		
-		m_btnCommit = new JButton("Commit");
+		m_btnCommit = new ButtonCommit(this);
 		m_btnCommit.setFocusPainted(false);
 		m_btnCommit.setEnabled(false);
 		m_btnCommit.setBackground(m_colorGrey);
@@ -357,15 +358,38 @@ public class MainGUI
 	{
 		return  m_cbProject;
 	}
-	public JButton getButtonStartStop()
+	
+	public CBClient getClientComboBox()
+	{
+		return m_cbClient;
+	}
+	
+	public ButtonStartStop getButtonStartStop()
 	{
 		return m_btnStartStop;
+	}
+	
+	public ButtonCommit getCommitButton()
+	{
+		return m_btnCommit;
+	}
+	
+	public TotalHoursCluster getTotalHoursCluster()
+	{
+		
+	}
+	
+	public CurrentHoursCluster getCurrentHoursCluster()
+	{
+		
 	}
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "START");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
+
+		
 		public void actionPerformed(ActionEvent e) 
 		{
 //			JButton pressedButton = (JButton)e.getSource();
