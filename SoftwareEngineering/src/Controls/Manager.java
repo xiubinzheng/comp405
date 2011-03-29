@@ -8,6 +8,7 @@ package Controls;
 
 import client.Client;
 import project.Project;
+import project.TimeInterval;
 import exceptions.MyTimeException;
 import database.DatabaseConnect;
 import java.util.*;
@@ -46,7 +47,7 @@ public class Manager
 	private DatabaseConnect				m_database;
 	private HashMap<Integer, Client>	m_clients;
 	private HashMap<Integer, Project>   m_projects;
-
+	private HashMap<Integer, TimeInterval> m_timeIntervals;
 	/**
 	 * This method creates a manager with default attributes. Manager needs to
 	 * be initialized before use.
@@ -129,6 +130,7 @@ public class Manager
 			while (result.next())
 			{
 				//TODO: load time intervals from database
+				
 			}
 		}
 		catch (MyTimeException e)
@@ -416,6 +418,13 @@ public class Manager
 				break;
 			}
 		return client;
+	}
+
+	public ArrayList<TimeInterval> getTimeIntervals(Project p) throws MyTimeException
+	{
+		// TODO: finish method
+		ArrayList<TimeInterval> timeIntervals = new ArrayList<TimeInterval>();
+		return timeIntervals;
 	}
 
 }
