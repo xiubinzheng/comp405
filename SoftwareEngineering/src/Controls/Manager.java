@@ -12,6 +12,7 @@ import exceptions.MyTimeException;
 import database.DatabaseConnect;
 import java.util.*;
 import java.sql.*;
+import java.sql.Date;
 
 /**
  * This class manages clients and projects in memory.
@@ -22,6 +23,7 @@ public class Manager
 	// we need to move these to a property file...
 	private final static String			m_clientTableName		= "myTimeClients";
 	private final static String			m_projectTableName		= "myTimeProjects";
+	private final static String			m_timeTableName 		= "myTimeInterval";
 
 	// SQL Format for Inserts and Selects
 	private final static String			m_insertClient_CMDFMT	= "INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
@@ -37,7 +39,10 @@ public class Manager
 																		m_clientTableName);
 	private SQLGenerator				m_projectTableGen		= new SQLGenerator(
 																		m_projectTableName);
+	private SQLGenerator				m_timeTableGen		= new SQLGenerator(
+																		m_timeTableName);
 
+	
 	private DatabaseConnect				m_database;
 	private HashMap<Integer, Client>	m_clients;
 	private HashMap<Integer, Project>   m_projects;
@@ -72,6 +77,10 @@ public class Manager
 		// reuse clientID
 		boolean projectHourly;
 		boolean projectComplete;
+		
+		int timeIntervalID;
+		Date start;
+		Date stop;
 
 		try
 		{
@@ -106,9 +115,6 @@ public class Manager
 				projectHourly = result.getBoolean("project_Pay_Type_Hourly");
 				projectComplete = result.getBoolean("project_Complete_Flag");
 
-				// TODO: going to want to add time intervals to the project here
-				// at some point
-
 				Project p = new Project(projectID, projectName,
 						projectDescription, clientID, projectHourly);
 				if (projectComplete)
@@ -117,6 +123,12 @@ public class Manager
 				}
 				m_clients.get(clientID).addProject(p);
 				m_projects.put(p.getProjectID(), p);
+			}
+			
+			result = m_database.execute(m_timeTableGen.select("*", null));
+			while (result.next())
+			{
+				//TODO: load time intervals from database
 			}
 		}
 		catch (MyTimeException e)
