@@ -3,7 +3,9 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ButtonCommit implements ActionListener
+import javax.swing.JButton;
+
+public class ButtonCommit extends JButton implements ActionListener 
 {
 	MainGUI m_gui;
 	public ButtonCommit(MainGUI gui)
