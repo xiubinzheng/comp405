@@ -74,27 +74,23 @@ public class DatabaseReporter
 			m.initializeDB();
 			ArrayList<Client> clientList = new ArrayList<Client>();
 			m.getClients(clientList);
-			//-------------------------------------------------
-			//GAP IN LOGIC
-			//somewhere in here there's a bunch of lists split up and made orderly
-			//-------------------------------------------------
-			s += generateClientTable(clientList, 0 );
+			//s += generateClientTable(clientList, 0 );
 			
 			for (Client c : clientList)
 			{
 				ArrayList<Project> projectList = new ArrayList<Project>();
 				c.getProjectList(projectList);
-				String pString = generateProjectTable(projectList, 1); //to fix
+				//String pString = generateProjectTable(projectList, 1); //to fix
 				
 				for (Project p : projectList)
 				{
 					ArrayList<TimeInterval> intervalList = new ArrayList<TimeInterval>();
 					p.getTimeIntervals(intervalList);
-					String tString = generateTimeTable(intervalList, 2);
-					pString.replaceFirst("%timetable%", tString);
+					//String tString = generateTimeTable(intervalList, 2);
+					//pString.replaceFirst("%timetable%", tString);
 				}
 				
-				s.replaceFirst("%project%", pString);
+				//s.replaceFirst("%project%", pString);
 			}
 			
 		}
@@ -114,33 +110,50 @@ public class DatabaseReporter
 	 * Generates the duration between time intervals along with total hours worked.
 	 * Generates the proper time table format for the Database Report HTML file
 	 */
-	private String generateClientTable(ArrayList<String> c_ID, ArrayList<String> c_Name, ArrayList<String> c_Desc, int leftSpan)
+	
+	private void generateClientTable()
 	{
-		String s = "";
+		Manager m_manage = new Manager();
+		ArrayList<Client> m_client = new ArrayList<Client>();
 		
-		for(int x = 0; x < c_ID.size(); x++)
+		m_client.clear();
+		m_manage.getClients(m_client);
+		
+		for(Client c : m_client)
 		{
-			s += outputLeftSpan(leftSpan);
-			s += outputProject(c_ID.get(x), c_Name.get(x), c_Desc.get(x));
-			s += "%project%";
+			outputClient(c);
+			generateProjectTable(c);
 		}
-		
-		return s;
 	}
-	private String generateProjectTable(ArrayList<String> p_ID, ArrayList<String> p_Type, ArrayList<String> p_Desc, int leftSpan)
+	
+	private void generateProjectTable(Client c)
 	{
-		String s = "";
+		ArrayList<Project> m_project = new ArrayList<Project>();
 		
-		for(int x = 0; x < p_ID.size(); x++)
+		m_project.clear();
+		c.getProjectList(m_project);
+		
+		for(Project p : m_project)
 		{
-			s += outputLeftSpan(leftSpan);
-			s += outputProject(p_ID.get(x), p_Type.get(x), p_Desc.get(x));
-			s += "%timetable%";
+			outputProject(p);
+			generateTimeTable(p);
 		}
-		
-		return s;
 	}
-	private String generateTimeTable(ArrayList<String> t_Start, ArrayList<String> t_End, String Date, int leftSpan) throws MyTimeException
+	
+	private void generateTimeTable(Project p)
+	{
+		ArrayList<TimeInterval> m_time = new ArrayList<TimeInterval>();
+		
+		m_time.clear();
+		p.getTimeIntervals(m_time);
+		
+		for(TimeInterval t : m_time)
+		{
+			//outputTimeInterval(t);
+		}	
+	}
+	
+	/*private String generateTimeTable(ArrayList<String> t_Start, ArrayList<String> t_End, String Date, int leftSpan) throws MyTimeException
 	{
 		String s = "";
 		DateFormat df = DateFormat.getDateInstance();
@@ -183,38 +196,9 @@ public class DatabaseReporter
 		//s = outputTimeDate(Date, formatHoursAndMinutes(totalTime/60, totalTime%60)) + s;
 		return s;
 	}
-
-	private String generateClientTable(ArrayList<Client> clientList, int leftSpan)
-	{
-		String s = "";
-		
-		for(int x = 0; x < clientList.size(); x++)
-		{
-			s += outputLeftSpan(leftSpan);
-			s += outputProject(	"" + clientList.get(x).getClientID(), 
-								clientList.get(x).getClientName(), 
-								clientList.get(x).getClientDescription());
-			s += "%project%";
-		}
-		
-		return s;
-	}
-	private String generateProjectTable(ArrayList<Project> projectList, int leftSpan)
-	{
-		String s = "";
-		
-		for(int x = 0; x < projectList.size(); x++)
-		{
-			s += outputLeftSpan(leftSpan);
-			s += outputProject(	"" + projectList.get(x).getProjectID(), 
-								projectList.get(x).getName(), 
-								projectList.get(x).getDescription());
-			s += "%timetable%";
-		}
-		
-		return s;
-	}
-	private String generateTimeTable(ArrayList<TimeInterval> intervalList, int leftSpan) throws MyTimeException
+	*/
+	
+	/*private String generateTimeTable(ArrayList<TimeInterval> intervalList, int leftSpan) throws MyTimeException
 	{
 		String s = "";
 		DateFormat df = DateFormat.getDateInstance();
@@ -257,7 +241,7 @@ public class DatabaseReporter
 		//s = outputTimeDate(Date, formatHoursAndMinutes(totalTime/60, totalTime%60)) + s;
 		return s;
 	}
-
+	*/
 	
 	//the purpose of this comment is to waste precious time so i dont have to think about doing the above method any more than i have to currently, that is to say that i don't really want to start it with 5 minutes left in the class period.
 	private String outputTotalHours(String time)
@@ -279,12 +263,12 @@ public class DatabaseReporter
 		s += "<td class=\"header\" colspan=\"2\">Description</td>\n";
 		return s;
 	}
-	private String outputClient(String c_ID, String c_Name, String c_Desc)
+	private String outputClient(Client c)
 	{
 		String s = "";
-		s += "<td class=\"c_ID\">" + c_Name + "</td>\n";
-		s += "<td class=\"c_Name\">" + c_Name + "</td>\n";
-		s += "<td class=\"c_Description\" colspan=\"2\">" + c_Desc + "</td>\n";
+		s += "<td class=\"c_ID\">" + c.getClientID() + "</td>\n";
+		s += "<td class=\"c_Name\">" + c.getClientName() + "</td>\n";
+		s += "<td class=\"c_Description\" colspan=\"2\">" + c.getClientDescription() + "</td>\n";
 		return s;
 	}
 	private String outputProjectHeader()
@@ -295,13 +279,13 @@ public class DatabaseReporter
 		s+="<td class=\"header\" colspan=\"2\">p_Desc</td>\n";
 		return s;
 	}
-	private String outputProject(String p_ID, String p_Type, String p_Desc)
+	private String outputProject(Project p)//TODO
 	{
 		String s = "";
 		//s+="<td colspan=\"1\"/>";
-		s+="<td class=\"p_ID\">" + p_ID + "</td>\n";
-		s+="<td class=\"p_Type\">"+p_Type+"</td>\n";
-		s+="<td class=\"p_Description\" colspan=\"2\">" + p_Desc + "</td>\n";
+		s+="<td class=\"p_ID\">" + p.getProjectID() + "</td>\n";
+		s+="<td class=\"p_Type\">"+ "Hourly or Salary" +"</td>\n";
+		s+="<td class=\"p_Description\" colspan=\"2\">" + p.getDescription() + "</td>\n";
 		return s;
 	}
 	private String outputTimeHoursHeader()
@@ -313,19 +297,17 @@ public class DatabaseReporter
 		s+="<td class=\"header\">Duration</td>\n";
 		return s;
 	}
-	private String outputTimeHours(String t_Date, String t_Start, String t_End, String t_Dur, boolean colorFlip)
+	/*private String outputTimeIntveral(TimeInterval t)
 	{
-		int x = 0;
-		if(colorFlip)
-			x = 1;
 		
 		String s = "";
-		s += "<td class=\"t_Date"+x+"\">" + t_Date+ "</td>\n";
-		s += "<td class=\"t_From"+x+"\">" + t_Start + "</td>\n";
-		s += "<td class=\"t_To"+x+"\">" + t_End + "</td>\n";
-		s += "<td class=\"t_Duration"+x+"\">" + t_Dur + "</td>\n";
+		s += "<td class=\"t_Date"+"\">" + t+ "</td>\n";
+		s += "<td class=\"t_From"+"\">" + t.getStart() + "</td>\n";
+		s += "<td class=\"t_To"+"\">" + t.getStop() + "</td>\n";
+		s += "<td class=\"t_Duration"+"\">" + (t.getStart() - t.getStop()) + "</td>\n";
 		return s;
 	}
+	*/
 	private String formatHoursAndMinutes(int hours, int minutes)
 	{
 		String t = "";
