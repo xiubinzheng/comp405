@@ -116,10 +116,10 @@ public class MainGUI
 		
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(450, 300));
-		frame.setBounds(100, 100, 600, 400);
+		frame.setBounds(100, 100, 640, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JMenuBar menuBar = new JMenuBar();
+		/*JMenuBar menuBar = new JMenuBar();
 		menuBar.setMinimumSize(new Dimension(300, 15));
 		frame.setJMenuBar(menuBar);
 		
@@ -235,7 +235,7 @@ public class MainGUI
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mnHelp.add(mntmAbout);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		
+		*/
 		JPanel Project_panel = new JPanel();
 		Project_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		Project_panel.setAlignmentY(1.0f);
@@ -284,11 +284,11 @@ public class MainGUI
 		Project_panel.add(Action_panel, BorderLayout.CENTER);
 		Action_panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-//		m_cbProject = new CBProject(this);
+//		m_cbProject = new CBProject();
 //		m_cbClient = new CBClient(this);
-		
-		Action_panel.add(m_cbClient);
-		Action_panel.add(m_cbProject);
+//		
+//		Action_panel.add(m_cbClient);
+//		Action_panel.add(m_cbProject);
 		
 		JLabel label_5 = new JLabel("02:30:00");
 		Action_panel.add(label_5);
@@ -330,7 +330,7 @@ public class MainGUI
 		label_3.setFont(new Font("Dialog", Font.BOLD, 20));
 		Display_panel.add(label_3);
 		
-		m_btnStartStop = new ButtonStartStop(this);
+//		m_btnStartStop = new ButtonStartStop(this);
 		m_btnStartStop.addActionListener(
 				
 				new ActionListener() 
