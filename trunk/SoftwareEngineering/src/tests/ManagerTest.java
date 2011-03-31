@@ -3,6 +3,8 @@ package tests;
 import client.Client;
 import project.Project;
 import project.TimeInterval;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
