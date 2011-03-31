@@ -47,6 +47,7 @@ public class DatabaseReporter
             
             g_dateSpanStop.getTime();
             
+            
         }
         
         private DatabaseReporter(Date start, Date stop)
@@ -61,11 +62,11 @@ public class DatabaseReporter
          *  Returns a singleton instance of the DatabaseReporter class.
          *  
          */
-        public static DatabaseReporter getReporterInstance()
+        public static DatabaseReporter getReporterInstance(Date start, Date stop)
         {
                 if(m_singleton == null)
                 {
-                        m_singleton = new DatabaseReporter();
+                        m_singleton = new DatabaseReporter(start, stop);
                 }
                 return m_singleton;
         }
@@ -92,6 +93,7 @@ public class DatabaseReporter
             g_htmlString += "</table>\n";
             g_htmlString += "</html>\n";
             
+            System.out.print(g_htmlString);
             return g_htmlString;
         }
         
@@ -102,6 +104,15 @@ public class DatabaseReporter
         private void generateClientTable()
         {
                 Manager m_manage = new Manager();
+                try
+				{
+					m_manage.initializeDB();
+				}
+				catch (MyTimeException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}//TODO Remove this is Temp.
                 ArrayList<Client> m_client = new ArrayList<Client>();
                 
                 m_client.clear();
@@ -128,9 +139,10 @@ public class DatabaseReporter
                 m_project.clear();
                 c.getProjectList(m_project);
                 
+                outputProjectHeader();
+                
                 for(Project p : m_project)
                 {
-                        outputProjectHeader();
                         outputProject(p);
                         m_totalProjectHours += generateTimeTable(p);
                 }
@@ -182,41 +194,42 @@ public class DatabaseReporter
         }
         private void outputClientHeader()//int rightSpan
         {
-            g_htmlString += "<td class=\"header\">Client ID</td>\n";
-            g_htmlString += "<td class=\"header\">Client Name</td>\n";
-            g_htmlString += "<td class=\"header\" colspan=\"2\">Client Description</td>\n";
+            g_htmlString += "<tr><td class=\"header\"><b>Client ID</b></td>";
+            g_htmlString += "<td class=\"header\"><b>Client Name</b></td>";
+            g_htmlString += "<td class=\"header\" colspan=\"5\"><b>Client Description</b></td></tr>";
         }
         private void outputClient(Client c)
         {
-            g_htmlString += "<td class=\"c_ID\">" + c.getClientID() + "</td>\n";
-            g_htmlString += "<td class=\"c_Name\">" + c.getClientName() + "</td>\n";
-            g_htmlString += "<td class=\"c_Description\" colspan=\"2\">" + c.getClientDescription() + "</td>\n";
+            g_htmlString += "<tr><td class=\"c_ID\">" + c.getClientID() + "</td>";
+            g_htmlString += "<td class=\"c_Name\">" + c.getClientName() + "</td>";
+            g_htmlString += "<td class=\"c_Description\" colspan=\"5\">" + c.getClientDescription() + "</td></tr>";
         }
         private void outputProjectHeader()
         {
-            g_htmlString+="<td class=\"header\">Project ID</td>\n";
-            g_htmlString+="<td class=\"header\">Project Name</td>\n";
-            g_htmlString+="<td class=\"header\" colspan=\"2\">Project Description</td>\n";
+        	g_htmlString+="<tr><td class=\"header\">  </td>";
+        	g_htmlString+="<td class=\"header\">Project ID</td>";
+            g_htmlString+="<td class=\"header\">Project Name</td>";
+            g_htmlString+="<td class=\"header\" colspan=\"5\">Project Description</td></tr>";
         }
         private void outputProject(Project p)//TODO
         {
-                //g_htmlString+="<td colspan=\"1\"/>";
+            g_htmlString+="<tr><td>  </td>";
             g_htmlString+="<td class=\"p_ID\">" + p.getProjectID() + "</td>\n";
             g_htmlString+="<td class=\"p_Name\">"+ p.getName() +"</td>\n";
-            g_htmlString+="<td class=\"p_Description\" colspan=\"2\">" + p.getDescription() + "</td>\n";
+            g_htmlString+="<td class=\"p_Description\" colspan=\"5\">" + p.getDescription() + "</td>\n</tr>";
         }
         private void outputTimeHeader()
         {
             //g_htmlString+="<td class=\"header\">Date</td>\n";
-            g_htmlString+="<td class=\"header\">Start</td>\n";
+            g_htmlString+="<tr><td class=\"header\">Start</td>\n";
             g_htmlString+="<td class=\"header\">Stop</td>\n";
-            g_htmlString+="<td class=\"header\">Duration</td>\n";
+            g_htmlString+="<td class=\"header\">Duration</td>\n</tr>";
         }
         private void outputTimeIntveral(TimeInterval t)
         {
-            g_htmlString += "<td class=\"t_From"+"\">" + t.getStart().toString() + "</td>\n";
+            g_htmlString += "<tr><td class=\"t_From"+"\">" + t.getStart().toString() + "</td>\n";
             g_htmlString += "<td class=\"t_To"+"\">" + t.getStop().toString()  + "</td>\n";
-            g_htmlString += "<td class=\"t_Duration"+"\">" + (t.getStop().getHours() - t.getStart().getHours()) + "</td>\n";
+            g_htmlString += "<td class=\"t_Duration"+"\">" + (t.getStop().getHours() - t.getStart().getHours()) + "</td>\n</tr>";
         }
         
         //DD/MM/YYYY HH:MM
@@ -224,7 +237,27 @@ public class DatabaseReporter
         {
             return d.getDay() + "/" + d.getMonth() + "/" + d.getYear() + " " + d.getHours() + ":" + d.getMinutes();
         }
+        
+        public void setStartDate(Date start)
+        {
+        	g_dateSpanStart = start;
+        }
 
+        public void setStopDate(Date stop)
+        {
+        	g_dateSpanStop = stop;
+        }
+        
+        public Date getStartDate()
+        {
+        	return g_dateSpanStart;
+        }
+        
+        public Date getStopDate()
+        {
+        	return g_dateSpanStop;
+        }
+        
         
         /*public String reportClient(String cssFile, String imageFile) throws MyTimeException
         {
