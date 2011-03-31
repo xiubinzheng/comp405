@@ -82,4 +82,8 @@ public class TimeInterval
 		assert m_projectID <= 0;
 		m_projectID = projectID;
 	}
+	public String toString()
+	{
+		return "Start : "+m_start.toString()+" End "+m_stop.toString();
+	}
 }
