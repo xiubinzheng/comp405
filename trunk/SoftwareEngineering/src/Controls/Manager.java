@@ -11,6 +11,9 @@ import project.Project;
 import project.TimeInterval;
 import exceptions.MyTimeException;
 import database.DatabaseConnect;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.sql.*;
 import java.sql.Date;
@@ -22,32 +25,32 @@ public class Manager
 {
 	// TODO: Lots of hard-coded string here
 	// we need to move these to a property file...
-	private final static String			m_clientTableName		= "myTimeClients";
-	private final static String			m_projectTableName		= "myTimeProjects";
-	private final static String			m_timeTableName 		= "myTimeInterval";
+	private final static String				m_clientTableName		= "myTimeClients";
+	private final static String				m_projectTableName		= "myTimeProjects";
+	private final static String				m_timeTableName			= "myTimeInterval";
 
 	// SQL Format for Inserts and Selects
-	private final static String			m_insertClient_CMDFMT	= "INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
-	private final static String			m_selectClient_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
-	private final static String			m_insertProject_CMDFMT	= "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
-	private final static String			m_selectProject_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
-	private final static String			m_updateClient_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\' WHERE \'%s\'=%d";
-	private final static String			m_updateProject_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
+	private final static String				m_insertClient_CMDFMT	= "INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
+	private final static String				m_selectClient_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
+	private final static String				m_insertProject_CMDFMT	= "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
+	private final static String				m_selectProject_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
+	private final static String				m_updateClient_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\' WHERE \'%s\'=%d";
+	private final static String				m_updateProject_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
 
-	private String						m_databaseName			= "myTimeDB.s3db";
+	private String							m_databaseName			= "myTimeDB.s3db";
 
-	private SQLGenerator				m_clientTableGen		= new SQLGenerator(
-																		m_clientTableName);
-	private SQLGenerator				m_projectTableGen		= new SQLGenerator(
-																		m_projectTableName);
-	private SQLGenerator				m_timeTableGen		= new SQLGenerator(
-																		m_timeTableName);
+	private SQLGenerator					m_clientTableGen		= new SQLGenerator(
+																			m_clientTableName);
+	private SQLGenerator					m_projectTableGen		= new SQLGenerator(
+																			m_projectTableName);
+	private SQLGenerator					m_timeTableGen			= new SQLGenerator(
+																			m_timeTableName);
 
-	
-	private DatabaseConnect				m_database;
-	private HashMap<Integer, Client>	m_clients;
-	private HashMap<Integer, Project>   m_projects;
-	private HashMap<Integer, TimeInterval> m_timeIntervals;
+	private DatabaseConnect					m_database;
+	private HashMap<Integer, Client>		m_clients;
+	private HashMap<Integer, Project>		m_projects;
+	private HashMap<Integer, TimeInterval>	m_timeIntervals;
+
 	/**
 	 * This method creates a manager with default attributes. Manager needs to
 	 * be initialized before use.
@@ -61,8 +64,8 @@ public class Manager
 	}
 
 	/**
-	 * Manager initializer, pulls all data from the DB and loads them into memory so they
-	 * can be accessed
+	 * Manager initializer, pulls all data from the DB and loads them into
+	 * memory so they can be accessed
 	 * 
 	 * @throws MyTimeException
 	 */
@@ -78,7 +81,7 @@ public class Manager
 		// reuse clientID
 		boolean projectHourly;
 		boolean projectComplete;
-		
+
 		int timeIntervalID;
 		Date start;
 		Date stop;
@@ -125,12 +128,25 @@ public class Manager
 				m_clients.get(clientID).addProject(p);
 				m_projects.put(p.getProjectID(), p);
 			}
-			
+
 			result = m_database.execute(m_timeTableGen.select("*", null));
 			while (result.next())
 			{
-				//TODO: load time intervals from database
-				
+				// TODO: time and date might break....
+				timeIntervalID = result.getInt("Time_ID");
+				projectID = result.getInt("Project_ID");
+				String startTime = result.getString("Project_Start_Time");
+				String endTime = result.getString("Project_End_Time");
+				start = result.getDate("Start_Date");
+				stop = result.getDate("End_Date");
+
+				//experimenting
+				//String DATE_FORMAT = ("YYYY-MM-DD");
+				//SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+
+				//System.out.println(start);
+				// TimeInterval tInterval = new TimeInterval();
+				// m_timeIntervals.put(timeIntervalID, );
 			}
 		}
 		catch (MyTimeException e)
@@ -164,7 +180,7 @@ public class Manager
 			updateClientToDB(c);
 		}
 	}
-	
+
 	/**
 	 * Returns client from database by Name if it exists
 	 * 
@@ -176,7 +192,7 @@ public class Manager
 	{
 		return findClient(clientName);
 	}
-	
+
 	/**
 	 * Returns an array list of all clients
 	 * 
@@ -192,7 +208,7 @@ public class Manager
 			clientList.add(c);
 		}
 	}
-	
+
 	/**
 	 * Returns a project when given the client and project name.
 	 * 
@@ -263,7 +279,7 @@ public class Manager
 			throw new MyTimeException("Add Client Error", e);
 		}
 	}
-	
+
 	/**
 	 * Takes an existing client and updates all information to the Database
 	 * 
@@ -277,36 +293,40 @@ public class Manager
 					m_clientTableName, "Client_Name", c.getClientName(),
 					"Client_Description", c.getClientDescription(),
 					"Client_ID", c.getClientID());
-			
+
 			// insert new client into DB
 			m_database.update(cmd);
-			
+
 		}
 		catch (MyTimeException e)
 		{
 			throw new MyTimeException("Update Client Error", e);
 		}
 	}
-	
+
 	/**
-	 *Runs through projects for a client if they arn't in the DB runs an insert
-	 *if the project is in the DB then it runs an update, we are doing this because it would be faster
-	 *to update all the client's projects rather than search them for individual changes
+	 * Runs through projects for a client if they arn't in the DB runs an insert
+	 * if the project is in the DB then it runs an update, we are doing this
+	 * because it would be faster to update all the client's projects rather
+	 * than search them for individual changes
 	 * 
 	 * @param c
 	 */
 	private void updateProjects(Client c)
 	{
-		//TODO: will run through projects for a client if they arn't in the DB runs an insert
-		//if the project is in the DB then it runs an update, we are doing this because it would be faster
-		//to update all the client's projects rather than search them for individual changes
-		
+		// TODO: will run through projects for a client if they arn't in the DB
+		// runs an insert
+		// if the project is in the DB then it runs an update, we are doing this
+		// because it would be faster
+		// to update all the client's projects rather than search them for
+		// individual changes
+
 		ArrayList<Project> projects = new ArrayList<Project>();
-		
+
 		c.getProjectList(projects);
-		
-		for(Project p : projects)
-			if(m_projects.containsKey(p.getProjectID()))
+
+		for (Project p : projects)
+			if (m_projects.containsKey(p.getProjectID()))
 			{
 				try
 				{
@@ -331,20 +351,21 @@ public class Manager
 				}
 			}
 	}
-	
+
 	/**
-	 * Adds a new project to the DB then queries the DB for that projects permanent ID
+	 * Adds a new project to the DB then queries the DB for that projects
+	 * permanent ID
 	 * 
 	 * @param p
-	 * @throws MyTimeException 
+	 * @throws MyTimeException
 	 */
 	private void addProjectToDB(Project p) throws MyTimeException
 	{
 		try
 		{
 			String cmd = String.format(m_insertProject_CMDFMT,
-			m_projectTableName, p.getProjectID(), p.getClientID(), p.getName()
-			, p.isComplete(), p.isHourly());
+					m_projectTableName, p.getProjectID(), p.getClientID(),
+					p.getName(), p.isComplete(), p.isHourly());
 
 			// insert new client into DB
 			m_database.update(cmd);
@@ -367,12 +388,12 @@ public class Manager
 			p.setID(ID);
 			m_projects.put(p.getProjectID(), p);
 		}
-		catch(SQLException e)
+		catch (SQLException e)
 		{
 			throw new MyTimeException("Add Project Error", e);
 		}
 	}
-	
+
 	/**
 	 * private class that updates a single project in the DB
 	 * 
@@ -387,12 +408,12 @@ public class Manager
 					m_clientTableName, "project_Name", p.getName(),
 					"Project_Description", p.getDescription(),
 					"Project_complete_flag", p.isComplete(),
-					"Project_Pay_Type_hourly", p.isHourly(),
-					"Project_ID", p.getProjectID());
-			
+					"Project_Pay_Type_hourly", p.isHourly(), "Project_ID",
+					p.getProjectID());
+
 			// insert new client into DB
 			m_database.update(cmd);
-			
+
 		}
 		catch (MyTimeException e)
 		{
@@ -420,10 +441,12 @@ public class Manager
 		return client;
 	}
 
-	public ArrayList<TimeInterval> getTimeIntervals(Project p) throws MyTimeException
+	public ArrayList<TimeInterval> getTimeIntervals(Project p)
+			throws MyTimeException
 	{
 		// TODO: finish method
 		ArrayList<TimeInterval> timeIntervals = new ArrayList<TimeInterval>();
+
 		return timeIntervals;
 	}
 
