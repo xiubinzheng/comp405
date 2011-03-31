@@ -1,14 +1,13 @@
 package gui.displayPanel;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import exceptions.MyTimeException;
+import gui.GuiUtilities;
 import gui.MainGUI;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class ClientProjectPanel extends JPanel
 {
@@ -21,13 +20,44 @@ public class ClientProjectPanel extends JPanel
 
 	public ClientProjectPanel(MainGUI gui)
 	{
+
 		m_cbProject = new CBProject();
 		m_cbClient = new CBClient(gui);
-		add(new JLabel("Client"));
-		add(m_cbClient);
-		add(new JLabel("Project"));
-		add(m_cbProject);
-//		add(new JComboBox());
-//		add(new JComboBox());
+		
+		JComponent[] left = {new JLabel("Client"), new JLabel("Project")};
+		JComponent[] right = {m_cbProject, m_cbClient};
+		try 
+		{		
+			GuiUtilities.createColumnLabelComponent(left, right);
+		}
+		catch (MyTimeException e)
+		{
+			//TODO: do something here
+		}
+			
+			/*
+		setLayout(new BorderLayout());
+		
+		
+		JPanel vBoxLeft = new JPanel();
+		JPanel vBoxRight = new JPanel();
+		
+		GridLayout layoutLeft = new GridLayout(2,1);
+		GridLayout layoutRight = new GridLayout(2,1);
+		
+		vBoxLeft.setLayout(layoutLeft);
+		vBoxRight.setLayout(layoutRight);
+		
+		m_cbProject = new CBProject();
+		m_cbClient = new CBClient(gui);
+		
+		vBoxLeft.add(new JLabel("Client"));
+		vBoxLeft.add(new JLabel("Project"));
+		vBoxRight.add(m_cbClient);
+		vBoxRight.add(m_cbProject);
+		
+		add(vBoxLeft, BorderLayout.WEST);
+		add(vBoxRight, BorderLayout.CENTER);
+		*/
 	}
 }
