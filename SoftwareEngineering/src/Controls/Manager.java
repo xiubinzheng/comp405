@@ -13,10 +13,11 @@ import exceptions.MyTimeException;
 import database.DatabaseConnect;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.sql.*;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * This class manages clients and projects in memory.
@@ -31,11 +32,14 @@ public class Manager
 
 	// SQL Format for Inserts and Selects
 	private final static String				m_insertClient_CMDFMT	= "INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
-	private final static String				m_selectClient_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
+	// private final static String m_selectClient_CMDFMT =
+	// "SELECT * FROM %s WHERE %s = %s";
 	private final static String				m_insertProject_CMDFMT	= "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
-	private final static String				m_selectProject_CMDFMT	= "SELECT * FROM %s WHERE %s = %s";
+	// private final static String m_selectProject_CMDFMT =
+	// "SELECT * FROM %s WHERE %s = %s";
 	private final static String				m_updateClient_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\' WHERE \'%s\'=%d";
-	private final static String				m_updateProject_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
+	// private final static String m_updateProject_CMDFMT =
+	// "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
 
 	private String							m_databaseName			= "myTimeDB.s3db";
 
@@ -51,6 +55,14 @@ public class Manager
 	private HashMap<Integer, Project>		m_projects;
 	private HashMap<Integer, TimeInterval>	m_timeIntervals;
 
+	// Formatters for the date and time
+	DateFormat								m_dateParser			= new SimpleDateFormat(
+																			"yyyy-MM-dd hh:mm:ss");
+	DateFormat								m_date					= new SimpleDateFormat(
+																			"yyyy-MM-dd");
+	DateFormat								m_time					= new SimpleDateFormat(
+																			"hh:mm:ss");
+
 	/**
 	 * This method creates a manager with default attributes. Manager needs to
 	 * be initialized before use.
@@ -59,6 +71,7 @@ public class Manager
 	{
 		m_clients = new HashMap<Integer, Client>();
 		m_projects = new HashMap<Integer, Project>();
+		m_timeIntervals = new HashMap<Integer, TimeInterval>();
 
 		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
 	}
@@ -68,6 +81,7 @@ public class Manager
 	 * memory so they can be accessed
 	 * 
 	 * @throws MyTimeException
+	 * @throws ParseException
 	 */
 	public void initializeDB() throws MyTimeException
 	{
@@ -104,12 +118,7 @@ public class Manager
 				m_clients.put(clientID, c);
 			}
 
-			// works so long as the test table has 4 values in it to test if
-			// working
-			// assert(m_clients.size() == 4);
-
 			result = m_database.execute(m_projectTableGen.select("*", null));
-
 			while (result.next())
 			{
 				projectID = result.getInt("Project_ID");
@@ -135,27 +144,32 @@ public class Manager
 				// TODO: time and date might break....
 				timeIntervalID = result.getInt("Time_ID");
 				projectID = result.getInt("Project_ID");
+
 				String startTime = result.getString("Project_Start_Time");
-				String endTime = result.getString("Project_End_Time");
-				start = result.getDate("Start_Date");
-				stop = result.getDate("End_Date");
+				String stopTime = result.getString("Project_End_Time");
+				String startDate = result.getString("Start_Date");
+				String stopDate = result.getString("End_Date");
+				start = m_dateParser.parse(startDate + " " + startTime);
+				stop = m_dateParser.parse(stopDate + " " + stopTime);
 
-				//experimenting
-				//String DATE_FORMAT = ("YYYY-MM-DD");
-				//SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-
-				//System.out.println(start);
-				// TimeInterval tInterval = new TimeInterval();
-				// m_timeIntervals.put(timeIntervalID, );
+				TimeInterval tInterval = new TimeInterval(timeIntervalID,
+						projectID, start, stop);
+				m_timeIntervals.put(timeIntervalID, tInterval);
+				m_projects.get(projectID).addTime(tInterval);
 			}
 		}
 		catch (MyTimeException e)
 		{
-			throw new MyTimeException("Failure to open database", e);
+			throw new MyTimeException("Failure to open database ", e);
 		}
 		catch (SQLException e)
 		{
-			throw new MyTimeException("Bad SQL Statement", e);
+			throw new MyTimeException("Bad SQL Statement ", e);
+		}
+		catch (ParseException e)
+		{
+			throw new MyTimeException(
+					"Failed to parse date and time fetched from database ", e);
 		}
 	}
 
@@ -234,6 +248,15 @@ public class Manager
 		}
 
 		return null;
+	}
+
+	public ArrayList<TimeInterval> getTimeIntervals(Project p)
+			throws MyTimeException
+	{
+		// TODO: finish method
+		ArrayList<TimeInterval> timeIntervals = new ArrayList<TimeInterval>();
+
+		return timeIntervals;
 	}
 
 	/**
@@ -440,14 +463,4 @@ public class Manager
 			}
 		return client;
 	}
-
-	public ArrayList<TimeInterval> getTimeIntervals(Project p)
-			throws MyTimeException
-	{
-		// TODO: finish method
-		ArrayList<TimeInterval> timeIntervals = new ArrayList<TimeInterval>();
-
-		return timeIntervals;
-	}
-
 }
