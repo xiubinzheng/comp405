@@ -4,10 +4,7 @@ import client.Client;
 import project.Project;
 import project.TimeInterval;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedList;
-
 import Controls.Manager;
 
 import exceptions.MyTimeException;
@@ -72,8 +69,8 @@ public class ManagerTest extends TestCase
 		// test will see if addProjectsToClient will add a linked list of
 		// projects to a client
 
-		String clientName;
-		Project project = new Project();
+		// String clientName;
+		// Project project = new Project();
 		// LinkedList<Project> returned_projectList = new LinkedList<Project>();
 
 		// testManager.addProjectToClient(clientName, project);
@@ -166,10 +163,12 @@ public class ManagerTest extends TestCase
 
 		try
 		{
-			ArrayList<TimeInterval> T = testManager.getTimeIntervals(p);
-			//assertTrue(T.size()==4);
+			ArrayList<TimeInterval> T = testManager.getTimeIntervals(p
+					.getName());
+			assertTrue(T.size() == 4);
+			System.out.println(T.size());
 		}
-		
+
 		catch (MyTimeException e)
 		{
 			caughtException = true;
