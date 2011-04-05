@@ -32,6 +32,14 @@ public class TimeInterval
 		m_timeID = m_defaultTimeID--;
 		m_projectID = projectID;
 	}
+	
+	public TimeInterval(int timeID, int projectID, Date start, Date stop)
+	{
+		m_timeID = timeID;
+		m_projectID = projectID;
+		m_start = start;
+		m_stop = stop;
+	}
 
 	public void start()
 	{
