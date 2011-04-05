@@ -1,18 +1,24 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
+import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.text.EditorKit;
 
-import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.*;
+
 
 public class HTMLViewer extends JDialog implements ActionListener
 {
@@ -39,18 +45,70 @@ public class HTMLViewer extends JDialog implements ActionListener
 	
    public HTMLViewer() throws IOException
    {
-	   
+	   Date d1 = new Date();
+	   Date d2 = new Date();
+	   promptForDate(d1, d2);
+	   //create();
    }
    
    public void promptForDate(Date d1, Date d2)
    {
-	   JPanel p = new JCalendar();
+	   
+	   setTitle("Date Range");
+	   setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+	    Container contentPane = getContentPane();
+	    contentPane.setLayout(new GridLayout(2, 2, 5, 5));
+
+	    // Create a border for all calendars
+
+	    Border etchedBorder = BorderFactory.createEtchedBorder();
+	    Border emptyBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	    Border compoundBorder = BorderFactory.createCompoundBorder(etchedBorder, emptyBorder);
+
+	    // Create a date listener to be used for all calendars
+
+	    //MyDateListener listener = new MyDateListener();
+
+	    // Display date and time using the default calendar and locale.
+	    // Display today's date at the bottom.
+
+	    JCalendar calendar1 = new JCalendar();
+	    //calendar1.addDateListener(listener);
+	    calendar1.setBorder(compoundBorder);
+	    
+	    JCalendar calendar2 = new JCalendar();
+	    //calendar2.addDateListener(listener);
+	    calendar2.setBorder(compoundBorder);
+
+	    JPanel panel1 = new JPanel(new FlowLayout());
+	    panel1.add(calendar1);
+	    contentPane.add(panel1);
+
+	    JPanel panel2 = new JPanel(new FlowLayout());
+	    panel2.add(calendar2);
+	    contentPane.add(panel2);
+	    
+	    pack();
+	    setVisible(true);
+   }
+   
+   public void getChangedDate()
+   {
+	   /*Calendar c = e.getSelectedDate();
+	    if (c != null) {
+		System.out.println(c.getTime());
+	    }
+	    else {
+		System.out.println("No time selected.");
+	    }*/
+
    }
    
    public void create() throws IOException
    {
 	 //TODO I Don't Know
-	   // super(Main.WIN, "Report Viewer");
+	   //super(Main.WIN, "Report Viewer");
 	   setModal(true);
 	   getRootPane().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 	   EditorKit kit = m_pane.getEditorKitForContentType("text/html");
@@ -74,9 +132,7 @@ public class HTMLViewer extends JDialog implements ActionListener
        URL helpURL;
 
 		helpURL = new URL(fullPath);
-		m_pane.setPage(helpURL);
-
-       
+		m_pane.setPage(helpURL);  
    }
 
     public void actionPerformed(ActionEvent arg0)
