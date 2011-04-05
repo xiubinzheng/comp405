@@ -90,7 +90,8 @@ public class Project
 
 	public void getTimeIntervals(ArrayList<TimeInterval> in)
 	{
-		in = m_timeList;
+		in.clear();
+		in.addAll(m_timeList);
 	}
 
 	public int getClientID()
@@ -149,6 +150,11 @@ public class Project
 	public void complete()
 	{
 		m_complete = true;
+	}
+	
+	public void addTimeWorkDamnYou(TimeInterval tInterval)
+	{
+		m_timeList.add(tInterval);
 	}
 
 	/**
