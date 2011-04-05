@@ -14,10 +14,14 @@ public class CBProject extends JComboBox
 		//m_gui = gui;
 		m_model = new DefaultComboBoxModel();
 		setModel(m_model);
-		
+		System.out.println("DEBUG:"+m_model);
 	}
 	public DefaultComboBoxModel getDefaultModel()
 	{
+		if(m_model == null)
+		{
+			System.out.println("DEBUG:"+"model is null!");
+		}
 		return m_model;
 	}
 }
