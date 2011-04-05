@@ -92,8 +92,8 @@ public class DatabaseReporter
             
             g_htmlString += "</table>\n";
             g_htmlString += "</html>\n";
-            
-            System.out.print(g_htmlString);
+            //prints the HTML for the Report to the console
+           // System.out.print(g_htmlString);
             return g_htmlString;
         }
         
@@ -196,13 +196,13 @@ public class DatabaseReporter
         {
             g_htmlString += "<tr><td class=\"header\"><b>Client ID</b></td>";
             g_htmlString += "<td class=\"header\"><b>Client Name</b></td>";
-            g_htmlString += "<td class=\"header\" colspan=\"5\"><b>Client Description</b></td></tr>";
+            g_htmlString += "<td class=\"header\" colspan=\"7\"><b>Client Description</b></td></tr>";
         }
         private void outputClient(Client c)
         {
             g_htmlString += "<tr><td class=\"c_ID\">" + c.getClientID() + "</td>";
             g_htmlString += "<td class=\"c_Name\">" + c.getClientName() + "</td>";
-            g_htmlString += "<td class=\"c_Description\" colspan=\"5\">" + c.getClientDescription() + "</td></tr>";
+            g_htmlString += "<td class=\"c_Description\" colspan=\"7\">" + c.getClientDescription() + "</td></tr>";
         }
         private void outputProjectHeader()
         {
