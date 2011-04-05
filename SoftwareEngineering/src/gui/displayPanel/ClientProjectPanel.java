@@ -11,6 +11,17 @@ import javax.swing.*;
 
 public class ClientProjectPanel extends JPanel
 {
+	public static void main(String[] args)
+	{
+		
+		ClientProjectPanel panel = new ClientProjectPanel(null);
+		JFrame frame = new JFrame();
+		frame.setBounds(0, 0, 640, 480);
+		panel.setVisible(true);
+		frame.add(panel);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 	/**
 	 * 
 	 */
@@ -24,9 +35,11 @@ public class ClientProjectPanel extends JPanel
 		m_cbProject = new CBProject();
 		m_cbClient = new CBClient(gui);
 		
-		JComponent[] left = {new JLabel("Client"), new JLabel("Project")};
-		JComponent[] right = {m_cbProject, m_cbClient};
-		JComponent[][] components = { left, right };
+		JComponent[][] components = 
+		{	
+			{new JLabel("Client"), m_cbClient},
+			{new JLabel("Project"), m_cbProject}
+		};
 		GuiUtilities.generateGridPanel(this, components, true, false);
 			
 			/*
