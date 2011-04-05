@@ -26,14 +26,8 @@ public class ClientProjectPanel extends JPanel
 		
 		JComponent[] left = {new JLabel("Client"), new JLabel("Project")};
 		JComponent[] right = {m_cbProject, m_cbClient};
-		try 
-		{		
-			GuiUtilities.createColumnLabelComponent(left, right);
-		}
-		catch (MyTimeException e)
-		{
-			//TODO: do something here
-		}
+		JComponent[][] components = { left, right };
+		GuiUtilities.generateGridPanel(this, components, true, false);
 			
 			/*
 		setLayout(new BorderLayout());
