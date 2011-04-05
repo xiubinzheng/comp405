@@ -156,6 +156,10 @@ public class Manager
 						projectID, start, stop);
 				m_timeIntervals.put(timeIntervalID, tInterval);
 				m_projects.get(projectID).addTime(tInterval);
+
+				// System.out.println(m_timeIntervals.get(timeIntervalID).getProjectID()
+				// + ", " + m_timeIntervals.get(timeIntervalID).getStart() +
+				// ", " + m_timeIntervals.get(timeIntervalID).getStop());
 			}
 		}
 		catch (MyTimeException e)
@@ -250,11 +254,20 @@ public class Manager
 		return null;
 	}
 
-	public ArrayList<TimeInterval> getTimeIntervals(Project p)
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 * @throws MyTimeException
+	 */
+	public ArrayList<TimeInterval> getTimeIntervals(String projectName)
 			throws MyTimeException
 	{
 		// TODO: finish method
 		ArrayList<TimeInterval> timeIntervals = new ArrayList<TimeInterval>();
+
+		Project project = findProject(projectName);
+		project.getTimeIntervals(timeIntervals);
 
 		return timeIntervals;
 	}
@@ -456,11 +469,34 @@ public class Manager
 		Collection<Client> collection = m_clients.values();
 
 		for (Client c : collection)
+		{
 			if (c.getClientName().equals(clientName))
 			{
 				client = c;
 				break;
 			}
+		}
 		return client;
+	}
+
+	/**
+	 * 
+	 * @param projectName
+	 * @return
+	 */
+	private Project findProject(String projectName)// throws MyTimeException
+	{
+		Project project = null;
+		Collection<Project> collection = m_projects.values();
+
+		for (Project p : collection)
+		{
+			if (p.getName().equals(projectName))
+			{
+				project = p;
+				break;
+			}
+		}
+		return project;
 	}
 }
