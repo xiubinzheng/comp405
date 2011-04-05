@@ -10,10 +10,30 @@ import javax.swing.JFrame;
 
 public class TestFrame
 {
-	private JButton b = new JButton();
-	BtnController btn = new BtnController(this);
+	private JButton b;
+	private TextField time;
+	BtnController btn;
+	
+	
+	
+	public TestFrame()
+	{
+	
+		b = new JButton("Test Button");
+		b.setBounds(100,100,100,20);
+		b.setVisible(true);
+		btn = new BtnController(this);
+		b.addActionListener(btn);
+		time = new TextField();
+		time.setBounds(100,200,400,20);
+		time.setVisible(true);
+		time.addActionListener(btn);
+		
+	}
+	
 	public static void main(String[] args)
 	{
+		TestFrame t = new TestFrame();
 		JFrame f = new JFrame();
 		f.setLayout(null);
 		/*ButtonStartStop b = new ButtonStartStop(f);
@@ -25,16 +45,21 @@ public class TestFrame
 		b.setVisible(true);
 		b.setOutput(t);*/
 		
-		JButton b = new JButton("Test Button");
-		b.setBounds(100,100,100,20);
-		b.setVisible(true);
-		f.add(b);
+		
+		f.add(t.getButton());
+		f.add(t.getTimer());
 		f.setBounds(100,100,500,500);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 	}
 	public JButton getButton()
 	{
 		return b;
+	}
+	
+	public TextField getTimer()
+	{
+		return time;
 	}
 }
