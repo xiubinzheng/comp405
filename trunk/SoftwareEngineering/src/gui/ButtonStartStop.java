@@ -31,24 +31,29 @@ public class ButtonStartStop extends JButton implements ActionListener
 		setBackground(Color.green);
 		clock = new Timer(1000, this);
 	}
+	
 	public int getTime()
 	{
 		return i;
 	}
+	
 	public void setOutput(TextField t)
 	{
 		m_outputField = t;
 	}
+	
 	public TextField getTextField()
 	{
 		return m_outputField;
 	}
+	
 	public TimeInterval getTimeInterval()
 	{
 		if(!start)
 			return time;
 		return null;
 	}
+	
 	public void actionPerformed(ActionEvent e) 
 	{
 		if(e.getSource()==clock)
