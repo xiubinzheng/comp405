@@ -15,7 +15,7 @@ import project.TimeInterval;
 public class StarStopController implements ActionListener
 {
 	private TestFrame myframe;
-	boolean start =false;
+	boolean start = false;
 	private TimeInterval time;
 	private ArrayList<TimeInterval> temp = new ArrayList<TimeInterval>();
 	
@@ -28,6 +28,7 @@ public class StarStopController implements ActionListener
 		myframe.getButton().setBackground(Color.green);
 		time = new TimeInterval();
 	}
+	
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource()==myframe.getButton())
