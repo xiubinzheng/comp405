@@ -36,6 +36,7 @@ import javax.swing.JComboBox;
 import exceptions.MyTimeException;
 import gui.displayPanel.CBClient;
 import gui.displayPanel.CBProject;
+import gui.displayPanel.ClientProjectPanel;
 
 import Controls.Manager;
 import javax.swing.JList;
@@ -107,10 +108,12 @@ public class MainGUI
 		
 		m_dbManager = new Manager();
 		
-		try {
+		try 
+		{
 			m_dbManager.initializeDB();
-		} catch (MyTimeException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (MyTimeException e) 
+		{
 			e.printStackTrace();
 		}
 		
@@ -118,6 +121,14 @@ public class MainGUI
 		frame.setMinimumSize(new Dimension(450, 300));
 		frame.setBounds(100, 100, 640, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		ClientProjectPanel clientProjectPanel = new ClientProjectPanel(this);
+		clientProjectPanel.setBounds(0, 0, 640, 100);
+		clientProjectPanel.setVisible(true);
+		
+		
+		
+		frame.add(clientProjectPanel);
 		
 		/*JMenuBar menuBar = new JMenuBar();
 		menuBar.setMinimumSize(new Dimension(300, 15));
@@ -236,6 +247,7 @@ public class MainGUI
 		mnHelp.add(mntmAbout);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		*/
+/*
 		JPanel Project_panel = new JPanel();
 		Project_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		Project_panel.setAlignmentY(1.0f);
@@ -354,6 +366,7 @@ public class MainGUI
 		m_btnCommit.setForeground(new Color(255, 255, 255));
 		m_btnCommit.setFont(new Font("Tahoma", Font.BOLD, 20));
 		Display_panel.add(m_btnCommit);
+	*/
 	}
 	
 	public CBProject getCBProject()
