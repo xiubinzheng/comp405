@@ -32,60 +32,56 @@ public class GuiUtilities {
 	{
 		JPanel gridPanel;
 		if (panel == null)
+		{
 			gridPanel = new JPanel();
+		}
 		else
+		{
 			gridPanel = panel;
+		}
 		
 		gridPanel.setLayout(new BorderLayout());
 		
+		int xOffset = 0;
+		int centerWidth = components[0].length;
+
 		if(leftmostToWest)
 		{
-			JPanel p1 = new JPanel();
-			p1.setLayout(new GridLayout(components[0].length,1));
-			
-			for ( int x = 0; x < components[0].length; x++)
+			JPanel westPanel = new JPanel();
+			westPanel.setLayout(new GridLayout(components.length,1));
+			for ( int x = 0; x < components.length; x++)
 			{
-				p1.add(components[x][0]);
+				westPanel.add(components[x][0]);
 			}			
-			
-			gridPanel.add(p1);
+			gridPanel.add(westPanel, BorderLayout.WEST);
+			xOffset++;
+			centerWidth--;
 		}
-		
-		JPanel p2 = new JPanel();
-
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.setRows(components.length);
-		gridLayout.setColumns(components[0].length);
-		p2.setLayout(gridLayout);
-		
-		int start = 0;
-		int end = components.length;
-		
-		if (leftmostToWest) start++;
-		if (rightmostToEast) end--;
-		
-		for( int y = start; y < end; y++ ) 
-		{
-			for ( int x = 0; x < components[0].length; x++)
-			{
-				p2.add(components[x][y]);
-			}
-		}
-		gridPanel.add(p2, BorderLayout.CENTER);
 		
 		if(rightmostToEast)
 		{
-			JPanel p3 = new JPanel();
-			p3.setLayout(new GridLayout(components[0].length,1));
-			
+			JPanel eastPanel = new JPanel();
+			eastPanel.setLayout(new GridLayout(components[0].length,1));
 			for ( int x = 0; x < components[0].length; x++)
 			{
-				p3.add(components[x][components[0].length - 1]);
+				eastPanel.add(components[x][components[0].length - 1]);
 			}			
-			
-			gridPanel.add(p3, BorderLayout.EAST);
+			gridPanel.add(eastPanel, BorderLayout.EAST);
+			centerWidth--;
 		}
-		
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.setRows(components.length);
+		gridLayout.setColumns(centerWidth);
+		JPanel centerPanel = new JPanel();		
+		centerPanel.setLayout(gridLayout);
+		for( int y = 0; y < components.length; y++ ) 
+		{
+			for( int x = 0; x < centerWidth; x++)
+			{
+				centerPanel.add(components[y][x + xOffset]);
+			}
+		}
+		gridPanel.add(centerPanel, BorderLayout.CENTER);
 		return gridPanel;
 	}
 }
