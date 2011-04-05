@@ -4,6 +4,8 @@ import client.Client;
 import database.DatabaseConnect;
 import junit.framework.TestCase;
 import java.io.*;
+import java.util.Date;
+
 
 import Controls.DatabaseReporter;
 public class DatabaseReporterTest extends TestCase {
@@ -12,9 +14,12 @@ public class DatabaseReporterTest extends TestCase {
 	
 	protected void setUp() throws Exception
 	{
+		Date d1 = new Date();
+		Date d2 = new Date();
+		
 		super.setUp();
 		//table populated
-		dr = DatabaseReporter.getReporterInstance("myTimeDB.s3db");
+		dr = DatabaseReporter.getReporterInstance(d1, d2);
 	}
 
 	protected void tearDown() throws Exception
@@ -30,7 +35,7 @@ public class DatabaseReporterTest extends TestCase {
 		{
 			Writer writer = null;
 			
-			s = dr.reportClient("cssFile.css", "smiley.jpg");
+			s = dr.generateReport("cssFile.css", "smiley.jpg");
 			
 			File f = new File("testReport.html");
 			writer = new BufferedWriter(new FileWriter(f));
