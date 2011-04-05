@@ -174,13 +174,11 @@ public class Project
 			throw new MyTimeException(
 					"TimeInterval does not contain an end time!");
 		}
-
 		else if (tInterval.getStart().compareTo(tInterval.getStop()) >= 0)
 		{
 			throw new MyTimeException(
 					"End time does not come after the Start time!");
 		}
-
 		else
 		{
 			m_timeList.add(tInterval);

@@ -8,27 +8,35 @@ import java.awt.TextField;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import project.Project;
+
+import client.Client;
+
 public class TestFrame
 {
 	private JButton b;
 	private TextField time;
-	BtnController btn;
+	StarStopController btn;
+	private Client testClient;
+	private Project testProject;
 	
 	
 	
 	public TestFrame()
 	{
-	
+		
 		b = new JButton("Test Button");
 		b.setBounds(100,100,100,20);
 		b.setVisible(true);
-		btn = new BtnController(this);
+		btn = new StarStopController(this);
 		b.addActionListener(btn);
 		time = new TextField();
 		time.setBounds(100,200,400,20);
 		time.setVisible(true);
 		time.addActionListener(btn);
-		
+		testClient = new Client();
+		testProject = new Project();
+		testClient.addProject(testProject);
 	}
 	
 	public static void main(String[] args)
@@ -57,9 +65,12 @@ public class TestFrame
 	{
 		return b;
 	}
-	
 	public TextField getTimer()
 	{
 		return time;
+	}
+	public Project getCurrentProject()
+	{
+		return testProject;
 	}
 }
