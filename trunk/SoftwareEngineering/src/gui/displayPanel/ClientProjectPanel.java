@@ -7,8 +7,13 @@ import javax.swing.*;
 
 import Controls.Manager;
 
+/**
+ * This class provides abstraction between two ComboBoxes contained within it.
+ *
+ */
 public class ClientProjectPanel extends JPanel
 {
+	// this can be removed
 	public static void main(String[] args)
 	{
 		ClientProjectPanel panel = new ClientProjectPanel(null);
@@ -19,14 +24,15 @@ public class ClientProjectPanel extends JPanel
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; // what does this do!?
 	private CBClient m_cbClient;
 	private CBProject m_cbProject;
 	private MainGUI m_mainGUIParent;
-	
+	/**
+	 * The MainGui parent of this class will provide methods for other classes to
+	 * communicate with it.
+	 * @param parent MainGUI object that will provide communication methods.
+	 */
 	public ClientProjectPanel(MainGUI parent)
 	{
 		m_mainGUIParent = parent;

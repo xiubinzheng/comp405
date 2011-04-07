@@ -8,19 +8,25 @@ import javax.swing.JComboBox;
 import project.Project;
 import client.Client;
 
+/**
+ * This is a ComboBox that holds a list of Clients.
+ *
+ */
 public class CBClient extends JComboBox 
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; // we have no clue what this is for
 	
 	ClientProjectPanel m_clientProjectPanelParent;
 	DefaultComboBoxModel m_model;
 	DefaultComboBoxModel m_projectModel;
 	CBClientListener listener;
 	
+	/**
+	 * A CBClient will communicate with a cbProject about what the
+	 * cbProject will contain, so initialize the CBProject first.
+	 * @param parent The parent ClientProjectPanel of this ComboBox.
+	 * @param cbProject The CBProject that this CBClient will communicate with.
+	 */
 	public CBClient(ClientProjectPanel parent, CBProject cbProject)
 	{
 		m_clientProjectPanelParent = parent;
