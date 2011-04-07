@@ -1,5 +1,8 @@
 package gui;
 
+import gui.controllers.StartStopController;
+import gui.controllers.TimerController;
+
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Frame;
@@ -7,6 +10,7 @@ import java.awt.TextField;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import project.Project;
 
@@ -16,9 +20,10 @@ public class TestFrame
 {
 	private JButton b;
 	private TextField time;
-	StarStopController btn;
+	private StartStopController btn;
 	private Client testClient;
 	private Project testProject;
+	private Timer clock;
 	
 	
 	
@@ -28,12 +33,14 @@ public class TestFrame
 		b = new JButton("Test Button");
 		b.setBounds(100,100,100,20);
 		b.setVisible(true);
-		btn = new StarStopController(this);
+		btn = new StartStopController(this);
 		b.addActionListener(btn);
+		
+		clock = new Timer(1000, btn);
 		time = new TextField();
-		time.setBounds(100,200,400,20);
+		time.setBounds(100,200,75,20);
 		time.setVisible(true);
-		time.addActionListener(btn);
+		
 		testClient = new Client();
 		testProject = new Project();
 		testClient.addProject(testProject);
@@ -43,19 +50,9 @@ public class TestFrame
 	{
 		TestFrame t = new TestFrame();
 		JFrame f = new JFrame();
-		f.setLayout(null);
-		/*ButtonStartStop b = new ButtonStartStop(f);
-		TextField t = new TextField();
-		t.setBounds(100,200,100,30);
-		t.setVisible(true);
-		f.add(t);
-		b.setBounds(100,100,100,50);
-		b.setVisible(true);
-		b.setOutput(t);*/
-		
-		
+		f.setLayout(null);		
 		f.add(t.getButton());
-		f.add(t.getTimer());
+		f.add(t.getTimerField());
 		f.setBounds(100,100,500,500);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,12 +62,16 @@ public class TestFrame
 	{
 		return b;
 	}
-	public TextField getTimer()
+	public TextField getTimerField()
 	{
 		return time;
 	}
 	public Project getCurrentProject()
 	{
 		return testProject;
+	}
+	public Timer getClock()
+	{
+		return clock;
 	}
 }
