@@ -41,6 +41,10 @@ import gui.displayPanel.ClientProjectPanel;
 import Controls.Manager;
 import javax.swing.JList;
 
+/**
+ * The MainGUI will provide methods of communication between its components.
+ *
+ */
 public class MainGUI
 {
 
@@ -62,7 +66,8 @@ public class MainGUI
 	 */
 	public static void main(String[] args)
 	{
-		EventQueue.invokeLater(new Runnable()
+		EventQueue.invokeLater(
+		new Runnable()
 		{
 			public void run()
 			{
@@ -91,6 +96,7 @@ public class MainGUI
 	 */
 	public MainGUI()
 	{
+		// ideally the contents of initialize() would be inside here instead, but oh well
 		initialize();
 	}
 	
