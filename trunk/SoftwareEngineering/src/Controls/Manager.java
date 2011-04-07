@@ -37,9 +37,9 @@ public class Manager
 	private final static String				m_insertProject_CMDFMT	= "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
 	// private final static String m_selectProject_CMDFMT =
 	// "SELECT * FROM %s WHERE %s = %s";
+	private final static String				m_insertTimeInterval_CMDFMT = "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
 	private final static String				m_updateClient_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\' WHERE \'%s\'=%d";
-	// private final static String m_updateProject_CMDFMT =
-	// "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
+	private final static String				m_updateProject_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
 
 	private String							m_databaseName			= "myTimeDB.s3db";
 
@@ -255,6 +255,7 @@ public class Manager
 	}
 
 	/**
+	 * returns array list of time intervals
 	 * 
 	 * @param p
 	 * @return
@@ -263,13 +264,21 @@ public class Manager
 	public ArrayList<TimeInterval> getTimeIntervals(String projectName)
 			throws MyTimeException
 	{
-		// TODO: finish method
 		ArrayList<TimeInterval> timeIntervals = new ArrayList<TimeInterval>();
 
 		Project project = findProject(projectName);
 		project.getTimeIntervals(timeIntervals);
 
 		return timeIntervals;
+	}
+	
+	/**
+	 * 
+	 * @param time
+	 */
+	private void addTimeIntervalToDB(TimeInterval time) throws MyTimeException
+	{
+		//add stuff
 	}
 
 	/**
@@ -399,6 +408,7 @@ public class Manager
 	{
 		try
 		{
+			//TODO: Need project description?
 			String cmd = String.format(m_insertProject_CMDFMT,
 					m_projectTableName, p.getProjectID(), p.getClientID(),
 					p.getName(), p.isComplete(), p.isHourly());
@@ -440,11 +450,11 @@ public class Manager
 	{
 		try
 		{
-			String cmd = String.format(m_updateClient_CMDFMT,
-					m_clientTableName, "project_Name", p.getName(),
+			String cmd = String.format(m_updateProject_CMDFMT,
+					m_projectTableName, "Project_Name", p.getName(),
 					"Project_Description", p.getDescription(),
-					"Project_complete_flag", p.isComplete(),
-					"Project_Pay_Type_hourly", p.isHourly(), "Project_ID",
+					"Project_Complete_Flag", p.isComplete(),
+					"Project_Pay_Type_Hourly", p.isHourly(), "Project_ID",
 					p.getProjectID());
 
 			// insert new client into DB
