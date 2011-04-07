@@ -43,22 +43,22 @@ public class HTMLViewer extends JDialog implements ActionListener
 		}
 	}
 	
-   public HTMLViewer() throws IOException
-   {
-	   Date d1 = new Date();
-	   Date d2 = new Date();
-	   promptForDate(d1, d2);
-	   //create();
-   }
+	public HTMLViewer() throws IOException
+	{
+		Date d1 = new Date();
+		Date d2 = new Date();
+		//promptForDate(d1, d2);
+		//create();
+	}
    
-   public void promptForDate(Date d1, Date d2)
-   {
+	/*public void promptForDate(Date d1, Date d2)
+	{
 	   
-	   setTitle("Date Range");
-	   setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setTitle("Date Range");
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-	    Container contentPane = getContentPane();
-	    contentPane.setLayout(new GridLayout(2, 2, 5, 5));
+	    Container contentPane = new Container();
+	    contentPane.setLayout(new GridLayout(10, 10, 10, 10));
 
 	    // Create a border for all calendars
 
@@ -91,7 +91,7 @@ public class HTMLViewer extends JDialog implements ActionListener
 	    
 	    pack();
 	    setVisible(true);
-   }
+   }*/
    
    public void getChangedDate()
    {
@@ -102,7 +102,6 @@ public class HTMLViewer extends JDialog implements ActionListener
 	    else {
 		System.out.println("No time selected.");
 	    }*/
-
    }
    
    public void create() throws IOException

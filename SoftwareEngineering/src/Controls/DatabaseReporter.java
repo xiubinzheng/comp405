@@ -164,17 +164,17 @@ public class DatabaseReporter
                 m_time.clear();
                 p.getTimeIntervals(m_time);
                 
+                outputTimeHeader();
+                
                 for(TimeInterval t : m_time)
                 {
                     if(t.getStart().compareTo(g_dateSpanStart) < 0 
                     		&& t.getStop().compareTo(g_dateSpanStop) < 0)
                     {
-                        outputTimeHeader();
-                        //outputTimeInterval(t);
+                    	outputTimeInterval(t);
                         i += t.getStop().getTime() - t.getStart().getTime();
                     }
                 }     
-                
                 return i/1000;//return the number of seconds
         }
         
@@ -208,34 +208,85 @@ public class DatabaseReporter
         {
         	g_htmlString+="<tr><td class=\"header\">  </td>";
         	g_htmlString+="<td class=\"header\">Project ID</td>";
-            g_htmlString+="<td class=\"header\">Project Name</td>";
+            g_htmlString+="<td class=\"header\" colspan=\"5\">Project Name</td>";
             g_htmlString+="<td class=\"header\" colspan=\"5\">Project Description</td></tr>";
         }
         private void outputProject(Project p)//TODO
         {
             g_htmlString+="<tr><td>  </td>";
             g_htmlString+="<td class=\"p_ID\">" + p.getProjectID() + "</td>\n";
-            g_htmlString+="<td class=\"p_Name\">"+ p.getName() +"</td>\n";
-            g_htmlString+="<td class=\"p_Description\" colspan=\"5\">" + p.getDescription() + "</td>\n</tr>";
+            g_htmlString+="<td class=\"p_Name\" colspan=\"5\">"+ p.getName() +"</td>\n";
+            g_htmlString+="<td class=\"p_Description\" colspan=\"5\">" + p.getDescription() + "</td></tr>";
         }
         private void outputTimeHeader()
         {
-            //g_htmlString+="<td class=\"header\">Date</td>\n";
-            g_htmlString+="<tr><td class=\"header\">Start</td>\n";
-            g_htmlString+="<td class=\"header\">Stop</td>\n";
-            g_htmlString+="<td class=\"header\">Duration</td>\n</tr>";
+        	g_htmlString+="<tr><td class=\"header\">  </td>";
+            g_htmlString+="<td class=\"header\">Date</td>\n";
+            g_htmlString+="<td class=\"header\" colspan=\"5\">Start</td>";
+            g_htmlString+="<td class=\"header\" colspan=\"5\">Stop</td>";
+            g_htmlString+="<td class=\"header\" colspan=\"5\">Duration</td>\n</tr>";
         }
-        private void outputTimeIntveral(TimeInterval t)
+        private void outputTimeInterval(TimeInterval t)
         {
-            g_htmlString += "<tr><td class=\"t_From"+"\">" + t.getStart().toString() + "</td>\n";
-            g_htmlString += "<td class=\"t_To"+"\">" + t.getStop().toString()  + "</td>\n";
-            g_htmlString += "<td class=\"t_Duration"+"\">" + (t.getStop().getHours() - t.getStart().getHours()) + "</td>\n</tr>";
+        	g_htmlString+="<tr><td>  </td>";
+        	g_htmlString+="<td>  </td>";
+        	g_htmlString += "<td class=\"t_From"+"\">" + formatTime(t.getStart()) + "</td>\n";
+            g_htmlString += "<td class=\"t_To"+"\">" + formatTime(t.getStop())  + "</td>\n";
+            g_htmlString += "<td class=\"t_Duration"+"\">" + getDuration(t.getStart(),t.getStop()) + "</td>\n</tr>";
         }
         
         //DD/MM/YYYY HH:MM
         private String formatTime(Date d)
         {
-            return d.getDay() + "/" + d.getMonth() + "/" + d.getYear() + " " + d.getHours() + ":" + d.getMinutes();
+        	String ret = "";
+        	ret += d.getDay() + "/" + d.getMonth() + "/";
+        	if(d.getYear() >= 100)
+        	{
+        		//TODO get the last two digits for the year
+        		//ret += "20" + 
+        	}
+        	else
+        	{
+        		//ret += "19" +
+        	}
+        	ret += " " + d.getHours() + ":" + d.getMinutes();
+            return ret;
+        }
+        
+        private String getDuration(Date d1, Date d2)
+        {
+        	String ret = "";
+        	int d2min, d1min, d2h, d1h;
+        	d2h = d2.getHours();
+        	d1h = d1.getHours();
+        	d2min = d2.getMinutes();
+        	d1min = d1.getMinutes();
+        	
+        	
+        	if(d2min == d1min) //only hours
+        	{
+        		ret += d2h-d1h;
+        		ret += " hours ";
+        	}
+        	else if(d2h == d1h) //only minutes
+        	{
+        		ret += (d1min==0||d2min==0) ? 60-Math.abs(d2min - d1min) : Math.abs(d2min - d1min);
+        		ret += " minutes";
+        	}
+        	else if(d2h-d1h == 1 && d2min != d1min)
+        	{
+        		ret += (d1min==0||d2min==0) ? 60-Math.abs(d2min - d1min) : Math.abs(d2min - d1min);
+            	ret += " minutes";
+        	}
+        	else
+        	{
+        		ret += d2h-d1h;
+        		ret += " hours ";
+        		ret += (d1min==0||d2min==0) ? 60-Math.abs(d2min - d1min) : Math.abs(d2min - d1min);
+            	ret += " minutes";
+        	}
+        	
+        	return ret;
         }
         
         public void setStartDate(Date start)
