@@ -46,8 +46,7 @@ public class MainGUI
 
 	public        	JFrame    			frame;
 	private final 	Action    			action = new SwingAction();
-	private       	CBProject 			m_cbProject;
-	private			CBClient			m_cbClient;
+	private			ClientProjectPanel	m_clientProjectPanel;
 	private       	ButtonCommit   		m_btnCommit;
 	private       	ButtonStartStop   	m_btnStartStop;
 	private       	Manager   			m_dbManager;
@@ -122,13 +121,13 @@ public class MainGUI
 		frame.setBounds(100, 100, 640, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		ClientProjectPanel clientProjectPanel = new ClientProjectPanel(this);
-		clientProjectPanel.setBounds(0, 0, 640, 100);
-		clientProjectPanel.setVisible(true);
+		m_clientProjectPanel = new ClientProjectPanel(this);
+		m_clientProjectPanel.setBounds(0, 0, 640, 100);
+		m_clientProjectPanel.setVisible(true);
 		
 		
 		
-		frame.add(clientProjectPanel);
+		frame.add(m_clientProjectPanel, BorderLayout.NORTH);
 		
 		/*JMenuBar menuBar = new JMenuBar();
 		menuBar.setMinimumSize(new Dimension(300, 15));
@@ -371,12 +370,12 @@ public class MainGUI
 	
 	public CBProject getCBProject()
 	{
-		return  m_cbProject;
+		return  m_clientProjectPanel.getCBProject();
 	}
 	
 	public CBClient getClientComboBox()
 	{
-		return m_cbClient;
+		return m_clientProjectPanel.getCBClient();
 	}
 	
 	public ButtonStartStop getButtonStartStop()
