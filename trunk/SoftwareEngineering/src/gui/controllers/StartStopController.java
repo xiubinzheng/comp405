@@ -42,7 +42,7 @@ public class StartStopController implements ActionListener
 	{
 		if(e.getSource()== m_clock)
 		{
-			//increment timer
+			//Increment seconds counter...
 			m_seconds++;
 			//Sends the new string value to the GUI TextField...
 			m_myGUI.getTimerField().setText(CounterUpper());
@@ -52,7 +52,7 @@ public class StartStopController implements ActionListener
 			
 			//this if else controls the start stop button turning it red 
 			//and changing the text when clicked.
-			if (!m_isStarted) 
+			if (!m_isStarted) //Start Button
 			{
 				//Mutates the button to Red and changes the text to stop...
 				m_myGUI.getStartStopBtn().setText("STOP");
@@ -65,7 +65,7 @@ public class StartStopController implements ActionListener
 			}
 			//when the button is pressed and it is labeled stop, 
 			//this will stop the time interval
-			else //stop button
+			else //Stop Button
 			{
 				m_myGUI.getStartStopBtn().setText("START");
 				m_myGUI.getStartStopBtn().setBackground(Color.green);
