@@ -75,7 +75,7 @@ class SQLGenerator
 		if 
 		( values != null )
 		{
-			cmd = "UPDATE" + m_tableName;
+			cmd = "UPDATE " + m_tableName;
 			if ( columns != null )
 				cmd += " ( "+ columns +" ) ";
 			cmd += " VALUES ( " + values + " )";
