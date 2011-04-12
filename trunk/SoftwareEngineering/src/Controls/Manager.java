@@ -142,10 +142,6 @@ public class Manager
 						projectID, start, stop);
 				m_timeIntervals.put(timeIntervalID, tInterval);
 				m_projects.get(projectID).addTime(tInterval);
-
-				// System.out.println(m_timeIntervals.get(timeIntervalID).getProjectID()
-				// + ", " + m_timeIntervals.get(timeIntervalID).getStart() +
-				// ", " + m_timeIntervals.get(timeIntervalID).getStop());
 			}
 		}
 		catch (MyTimeException e)
@@ -264,7 +260,40 @@ public class Manager
 	 */
 	private void addTimeIntervalToDB(TimeInterval time) throws MyTimeException
 	{
-		// add stuff
+		try
+		{
+			String cmd = m_timeTableGen
+					.insert(" Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
+							+time.getProjectID() + ", "
+									+ m_time.format(time.getStart()) + ", "
+									+ m_time.format(time.getStop()) + ", "
+									+ m_date.format(time.getStart()) + ","
+									+ m_date.format(time.getStop()));
+			m_database.update(cmd);
+
+			ResultSet result = m_database.execute(String.format(
+					"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
+					"myTimeInterval"));
+
+			int ID = -1;
+
+			if (result.next())
+			{
+				ID = result.getInt("seq");
+			}
+			if (ID == -1)
+			{
+				throw new MyTimeException("Could not add time interval");
+			}
+
+			time.setTimeID(ID);
+			m_timeIntervals.put(time.getTimeID(), time);
+		}
+		catch (SQLException e)
+		{
+			throw new MyTimeException("Add time interval error ", e);
+		}
+
 	}
 
 	/**
@@ -396,11 +425,10 @@ public class Manager
 		try
 		{
 			String cmd = m_projectTableGen
-					.insert("Project_ID, Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
-							p.getProjectID() + ", " + p.getClientID() + ", "
-									+ p.getName() + ", " + p.getDescription()
-									+ ", " + p.isComplete() + ", "
-									+ p.isHourly());
+					.insert(" Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
+							p.getClientID() + ", " + p.getName() + ", "
+									+ p.getDescription() + ", "
+									+ p.isComplete() + ", " + p.isHourly());
 
 			// insert new client into DB
 			m_database.update(cmd);
