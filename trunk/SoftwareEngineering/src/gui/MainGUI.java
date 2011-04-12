@@ -7,6 +7,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -20,6 +21,7 @@ import javax.swing.SwingConstants;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.TextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
@@ -34,12 +36,19 @@ import javax.swing.Action;
 import javax.swing.JComboBox;
 
 import exceptions.MyTimeException;
+import gui.controllers.StartStopController;
 import gui.displayPanel.CBClient;
 import gui.displayPanel.CBProject;
 import gui.displayPanel.ClientProjectPanel;
+import gui.displayPanel.ListenerCBClient;
+import gui.displayPanel.ListenerCBProject;
 
 import Controls.Manager;
 import javax.swing.JList;
+
+import project.Project;
+
+import client.Client;
 
 /**
  * The MainGUI will provide methods of communication between its components.
@@ -47,14 +56,27 @@ import javax.swing.JList;
  */
 public class MainGUI
 {
-
+	// components
 	public        	JFrame    			frame;
 	private final 	Action    			action = new SwingAction();
 	private			ClientProjectPanel	m_clientProjectPanel;
 	private       	ButtonCommit   		m_btnCommit;
-	private       	ButtonStartStop   	m_btnStartStop;
+	private       	JButton			   	m_btnStartStop;
 	private       	Manager   			m_dbManager;
 
+	// action listenters
+	ListenerCBClient cbClientListener;
+	ListenerCBProject cbProjectListener;
+	
+	// models
+	DefaultComboBoxModel cbClientModel;
+	DefaultComboBoxModel cbProjectModel;
+	
+	Client 			m_currentClient;
+	Project 		m_currentProject;
+	TextField 		m_timerField;
+	
+	// miscellaneous
 	static final Color m_colorGreen = new Color(0, 153, 51);
 	static final Color m_colorRed = new Color(255, 0, 0);
 	static final Color m_colorWhite = new Color(255, 255, 255);
@@ -122,6 +144,7 @@ public class MainGUI
 			e.printStackTrace();
 		}
 		
+		
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(450, 300));
 		frame.setBounds(100, 100, 640, 480);
@@ -131,9 +154,22 @@ public class MainGUI
 		m_clientProjectPanel.setBounds(0, 0, 640, 100);
 		m_clientProjectPanel.setVisible(true);
 		
+		cbClientListener = new ListenerCBClient();
+		cbProjectListener = new ListenerCBProject();
 		
+		m_clientProjectPanel.getCBClient().addActionListener(cbClientListener);
+		m_clientProjectPanel.getCBProject().addActionListener(cbProjectListener);
 		
 		frame.add(m_clientProjectPanel, BorderLayout.NORTH);
+		
+		m_btnStartStop = new JButton();
+		frame.add(m_btnStartStop, BorderLayout.SOUTH);
+		
+		m_timerField = new TextField();
+		frame.add(m_timerField, BorderLayout.CENTER);
+		
+		StartStopController startStopController = new StartStopController(this);
+		m_btnStartStop.addActionListener(startStopController);
 		
 		/*JMenuBar menuBar = new JMenuBar();
 		menuBar.setMinimumSize(new Dimension(300, 15));
@@ -374,6 +410,26 @@ public class MainGUI
 	*/
 	}
 	
+	public void setCurrentClient(Client client)
+	{
+		m_currentClient = client;
+	}
+	
+	public void setCurrentProject(Project project)
+	{
+		m_currentProject = project;
+	}
+	
+	public Client getCurrentClient()
+	{
+		return m_currentClient;
+	}
+	
+	public Project getCurrentProject()
+	{
+		return m_currentProject;
+	}
+	
 	public CBProject getCBProject()
 	{
 		return  m_clientProjectPanel.getCBProject();
@@ -384,9 +440,14 @@ public class MainGUI
 		return m_clientProjectPanel.getCBClient();
 	}
 	
-	public ButtonStartStop getButtonStartStop()
+	public JButton getStartStopBtn()
 	{
 		return m_btnStartStop;
+	}
+	
+	public TextField getTimerField()
+	{
+		return m_timerField;
 	}
 	
 	public ButtonCommit getCommitButton()
