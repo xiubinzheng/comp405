@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import exceptions.MyTimeException;
+import gui.MainGUI;
 import gui.TestFrame;
 
 import project.Project;
@@ -15,59 +17,60 @@ import project.TimeInterval;
 
 public class StartStopController implements ActionListener
 {
-	private TestFrame myFrame;
+	private MainGUI myGUI;
 	boolean start = false;
 	private TimeInterval time;
-	private ArrayList<TimeInterval> temp = new ArrayList<TimeInterval>();
 	private int i = 0;
+	private Timer clock;
 	
-	public StartStopController(TestFrame jf)
+	public StartStopController(MainGUI gui)
 	{
-		myFrame=jf;
+		myGUI=gui;
 		
 		//StartStop Button stuff
-		myFrame.getButton().setText("START");
-		myFrame.getButton().setBackground(Color.green);
+		myGUI.getStartStopBtn().setText("START");
+		myGUI.getStartStopBtn().setBackground(Color.green);
 		time = new TimeInterval();
+		clock = new Timer(1000, this);
 	}
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getSource()== myFrame.getClock())
+		if(e.getSource()== clock)
 		{
 			//increment timer
 			i++;
-			myFrame.getTimerField().setText(CounterUpper());
+			myGUI.getTimerField().setText(CounterUpper());
 		}
-		if(e.getSource()==myFrame.getButton())
+		if(e.getSource()==myGUI.getStartStopBtn())
 		{	
 			
 			//this if else controls the start stop button turning it red 
 			//and changing the text when clicked.
 			if (!start) 
 			{
-				myFrame.getButton().setText("STOP");
-				myFrame.getButton().setBackground(Color.red);
+				myGUI.getStartStopBtn().setText("STOP");
+				myGUI.getStartStopBtn().setBackground(Color.red);
 				//clock.start();
 				time.start();
-				myFrame.getTimerField().setText(CounterUpper());
+				myGUI.getTimerField().setText(CounterUpper());
 				start = true;
 				
-				myFrame.getClock().start();
+				clock.start();
 			}
 			//when the button is pressed and it is labeled stop, 
 			//this will stop the time interval
 			else //stop button
 			{
-				myFrame.getButton().setText("START");
-				myFrame.getButton().setBackground(Color.green);
+				myGUI.getStartStopBtn().setText("START");
+				myGUI.getStartStopBtn().setBackground(Color.green);
 				time.stop();
 				i = 0;
-				myFrame.getClock().stop();
+				clock.stop();
 				
 				try 
 				{
-					myFrame.getCurrentProject().addTime(time);
+					myGUI.getCurrentProject().addTime(time);
 				} 
 				catch (MyTimeException e1) 
 				{
