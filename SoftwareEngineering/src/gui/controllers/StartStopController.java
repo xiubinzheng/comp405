@@ -17,80 +17,86 @@ import project.TimeInterval;
 
 public class StartStopController implements ActionListener
 {
-	private MainGUI myGUI;
-	boolean start = false;
-	private TimeInterval time;
-	private int i = 0;
-	private Timer clock;
+	private MainGUI m_myGUI;
+	boolean m_isStarted = false;
+	private TimeInterval m_timeInt;
+	private int m_seconds = 0;
+	private Timer m_clock;
 	
 	public StartStopController(MainGUI gui)
 	{
-		myGUI=gui;
+		m_myGUI=gui;
 		
-		//StartStop Button stuff
-		myGUI.getStartStopBtn().setText("START");
-		myGUI.getStartStopBtn().setBackground(Color.green);
-		time = new TimeInterval();
-		clock = new Timer(1000, this);
+		//Mutates the Start Stop Button provided by the GUI...
+		m_myGUI.getStartStopBtn().setText("START");
+		m_myGUI.getStartStopBtn().setBackground(Color.green);
+		m_timeInt = new TimeInterval();
+		//Creates a new timer with a one second interval...
+		m_clock = new Timer(1000, this);
 	}
 	
+	/**
+	 * Controls all the actions for the GUI components
+	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getSource()== clock)
+		if(e.getSource()== m_clock)
 		{
 			//increment timer
-			i++;
-			myGUI.getTimerField().setText(CounterUpper());
+			m_seconds++;
+			//Sends the new string value to the GUI TextField...
+			m_myGUI.getTimerField().setText(CounterUpper());
 		}
-		if(e.getSource()==myGUI.getStartStopBtn())
+		if(e.getSource()==m_myGUI.getStartStopBtn())
 		{	
 			
 			//this if else controls the start stop button turning it red 
 			//and changing the text when clicked.
-			if (!start) 
+			if (!m_isStarted) 
 			{
-				myGUI.getStartStopBtn().setText("STOP");
-				myGUI.getStartStopBtn().setBackground(Color.red);
-				//clock.start();
-				time.start();
-				myGUI.getTimerField().setText(CounterUpper());
-				start = true;
+				//Mutates the button to Red and changes the text to stop...
+				m_myGUI.getStartStopBtn().setText("STOP");
+				m_myGUI.getStartStopBtn().setBackground(Color.red);
+				m_timeInt.start();
+				m_myGUI.getTimerField().setText(CounterUpper());
+				m_isStarted = true;
 				
-				clock.start();
+				m_clock.start();
 			}
 			//when the button is pressed and it is labeled stop, 
 			//this will stop the time interval
 			else //stop button
 			{
-				myGUI.getStartStopBtn().setText("START");
-				myGUI.getStartStopBtn().setBackground(Color.green);
-				time.stop();
-				i = 0;
-				clock.stop();
+				m_myGUI.getStartStopBtn().setText("START");
+				m_myGUI.getStartStopBtn().setBackground(Color.green);
+				m_timeInt.stop();
+				m_seconds = 0;
+				m_clock.stop();
 				
 				try 
 				{
-					myGUI.getCurrentProject().addTime(time);
+					m_myGUI.getCurrentProject().addTime(m_timeInt);
 				} 
 				catch (MyTimeException e1) 
 				{
 					e1.printStackTrace();
 				}
 
-				start = false;
+				m_isStarted = false;
 			}
 		}
 	}
 	
+	//Formats the current number of seconds(i) into a string of the format hh : mm : ss
 	private String CounterUpper()
 	{
 		String fCounter = "";
 		
 		int hours, minutes, seconds;
 		
-		hours = i / 360;
-		minutes = (i % 360) / 60;
-		seconds = (i % 360) % 60;
+		hours = m_seconds / 360;
+		minutes = (m_seconds % 360) / 60;
+		seconds = (m_seconds % 360) % 60;
 		
 		fCounter = String.format("%02d : %02d : %02d", hours, minutes, seconds);
 		
