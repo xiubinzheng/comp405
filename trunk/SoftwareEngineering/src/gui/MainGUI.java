@@ -122,42 +122,45 @@ public class MainGUI
 		{
 			e.printStackTrace();
 		}
-		
-		// Contstruct gui components
-		
-		// Set
+		// Main Frame initialization is here
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(450, 300));
 		frame.setBounds(100, 100, 640, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
 		
+		// Contstruct GUI components
 		m_timerField = new JTextField();
-		JPanel test = new JPanel();
-		
 		m_clientProjectPanel = new ClientProjectPanel(this);
+		m_btnStartStop = new JButton();
+		
+		// Set GUI component attributes
 		m_clientProjectPanel.setBounds(0, 0, 640, 100);
 		m_clientProjectPanel.setVisible(true);
 		
+		// Construct Listeners
 		cbClientListener = new ListenerCBClient();
 		cbProjectListener = new ListenerCBProject();
+		StartStopController startStopController = new StartStopController(this);
 		
+		// Add Managers to GUI components
+		
+		// Link ActionListeners to the GUI components
 		m_clientProjectPanel.getCBClient().addActionListener(cbClientListener);
 		m_clientProjectPanel.getCBProject().addActionListener(cbProjectListener);
+		m_btnStartStop.addActionListener(startStopController);
+						
+		// Add Components to the main Frame
+		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
+		frame.getContentPane().add(m_timerField, BorderLayout.CENTER);
+		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
 		
 		m_clientProjectPanel.getCBClient().setSelectedIndex(0);
 		
 		
-		m_btnStartStop = new JButton();
 		
-		StartStopController startStopController = new StartStopController(this);
 
-		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
-		frame.getContentPane().add(m_timerField, BorderLayout.CENTER);
-		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
 
-		m_btnStartStop.addActionListener(startStopController);
-		
 		/*JMenuBar menuBar = new JMenuBar();
 		menuBar.setMinimumSize(new Dimension(300, 15));
 		frame.setJMenuBar(menuBar);
