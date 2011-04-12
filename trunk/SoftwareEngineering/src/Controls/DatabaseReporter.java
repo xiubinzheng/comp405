@@ -2,6 +2,7 @@ package Controls;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +37,7 @@ public class DatabaseReporter
         
         private Date g_dateSpanStart;
         private Date g_dateSpanStop;
-        private int g_totalHours = 0;//measured in seconds
+        private int g_totalSeconds = 0;//measured in seconds
         
         
         private DatabaseReporter()
@@ -123,6 +124,7 @@ public class DatabaseReporter
                         outputClientHeader();
                         outputClient(c);
                         generateProjectTable(c);
+                        
                 }
         }
         
@@ -144,11 +146,14 @@ public class DatabaseReporter
                 for(Project p : m_project)
                 {
                         outputProject(p);
-                        m_totalProjectHours += generateTimeTable(p);
+                        g_totalSeconds += generateTimeTable(p);
+                        outputTotalTimeInterval();
+                        g_totalSeconds = 0;
                 }
                 
+                
                 //TODO output total hours
-                g_totalHours += m_totalProjectHours;
+                g_totalSeconds += m_totalProjectHours;
         }
         
         /**
@@ -196,7 +201,7 @@ public class DatabaseReporter
         {
             g_htmlString += "<tr><td class=\"header\"><b>Client ID</b></td>";
             g_htmlString += "<td class=\"header\"><b>Client Name</b></td>";
-            g_htmlString += "<td class=\"header\" colspan=\"7\"><b>Client Description</b></td></tr>";
+            g_htmlString += "<td class=\"header\" colspan=\"20\"><b>Client Description</b></td></tr>";
         }
         private void outputClient(Client c)
         {
@@ -209,7 +214,7 @@ public class DatabaseReporter
         	g_htmlString+="<tr><td class=\"header\">  </td>";
         	g_htmlString+="<td class=\"header\">Project ID</td>";
             g_htmlString+="<td class=\"header\" colspan=\"5\">Project Name</td>";
-            g_htmlString+="<td class=\"header\" colspan=\"5\">Project Description</td></tr>";
+            g_htmlString+="<td class=\"header\" colspan=\"10\">Project Description</td></tr>";
         }
         private void outputProject(Project p)//TODO
         {
@@ -221,35 +226,35 @@ public class DatabaseReporter
         private void outputTimeHeader()
         {
         	g_htmlString+="<tr><td class=\"header\">  </td>";
-            g_htmlString+="<td class=\"header\">Date</td>\n";
+        	g_htmlString+="<td>  </td>";
             g_htmlString+="<td class=\"header\" colspan=\"5\">Start</td>";
             g_htmlString+="<td class=\"header\" colspan=\"5\">Stop</td>";
             g_htmlString+="<td class=\"header\" colspan=\"5\">Duration</td>\n</tr>";
         }
         private void outputTimeInterval(TimeInterval t)
         {
-        	g_htmlString+="<tr><td>  </td>";
-        	g_htmlString+="<td>  </td>";
-        	g_htmlString += "<td class=\"t_From"+"\">" + formatTime(t.getStart()) + "</td>\n";
-            g_htmlString += "<td class=\"t_To"+"\">" + formatTime(t.getStop())  + "</td>\n";
-            g_htmlString += "<td class=\"t_Duration"+"\">" + getDuration(t.getStart(),t.getStop()) + "</td>\n</tr>";
+        	g_htmlString +="<tr><td>  </td>";
+        	g_htmlString +="<td>  </td>";
+        	g_htmlString += "<td class=\"t_From\" + colspan=\"5\"" + "\">" + formatTime(t.getStart()) + "</td>\n";
+            g_htmlString += "<td class=\"t_To\" + colspan=\"5\"" + "\">" + formatTime(t.getStop())  + "</td>\n";
+            g_htmlString += "<td class=\"t_Duration"+"\">" + getDuration(t.getStart(),t.getStop()) + ((t.getStop().getTime()-t.getStart().getTime())/1000)+ "</td>\n</tr>";
+        }
+        private void outputTotalTimeInterval()
+        {
+        	g_htmlString +="<tr><td>  </td>";
+        	g_htmlString +="<td>  </td>";
+        	g_htmlString +="<td>  </td>";
+        	g_htmlString +="<td>  </td>";
+        	g_htmlString += "<td class=\"t_Duration"+"\">" + (g_totalSeconds) + ":" + ((g_totalSeconds%3600)/60) + "</td>\n</tr>";
         }
         
         //DD/MM/YYYY HH:MM
         private String formatTime(Date d)
         {
         	String ret = "";
-        	ret += d.getDay() + "/" + d.getMonth() + "/";
-        	if(d.getYear() >= 100)
-        	{
-        		//TODO get the last two digits for the year
-        		//ret += "20" + 
-        	}
-        	else
-        	{
-        		//ret += "19" +
-        	}
-        	ret += " " + d.getHours() + ":" + d.getMinutes();
+        	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        	
+        	ret += sdf.format(d);
             return ret;
         }
         
@@ -266,28 +271,29 @@ public class DatabaseReporter
         	if(d2min == d1min) //only hours
         	{
         		ret += d2h-d1h;
-        		ret += " hours ";
+        		ret += " h ";
         	}
         	else if(d2h == d1h) //only minutes
         	{
         		ret += (d1min==0||d2min==0) ? 60-Math.abs(d2min - d1min) : Math.abs(d2min - d1min);
-        		ret += " minutes";
+        		ret += " mins";
         	}
         	else if(d2h-d1h == 1 && d2min != d1min)
         	{
         		ret += (d1min==0||d2min==0) ? 60-Math.abs(d2min - d1min) : Math.abs(d2min - d1min);
-            	ret += " minutes";
+            	ret += " mins";
         	}
         	else
         	{
         		ret += d2h-d1h;
-        		ret += " hours ";
+        		ret += " h ";
         		ret += (d1min==0||d2min==0) ? 60-Math.abs(d2min - d1min) : Math.abs(d2min - d1min);
-            	ret += " minutes";
+            	ret += " mins";
         	}
         	
         	return ret;
         }
+        
         
         public void setStartDate(Date start)
         {
