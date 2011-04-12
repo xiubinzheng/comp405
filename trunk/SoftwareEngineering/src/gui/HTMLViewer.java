@@ -48,7 +48,7 @@ public class HTMLViewer extends JDialog implements ActionListener
 		Date d1 = new Date();
 		Date d2 = new Date();
 		//promptForDate(d1, d2);
-		//create();
+		create();
 	}
    
 	/*public void promptForDate(Date d1, Date d2)
@@ -75,20 +75,29 @@ public class HTMLViewer extends JDialog implements ActionListener
 
 	    JCalendar calendar1 = new JCalendar();
 	    //calendar1.addDateListener(listener);
+	   
 	    calendar1.setBorder(compoundBorder);
-	    
+	  
 	    JCalendar calendar2 = new JCalendar();
 	    //calendar2.addDateListener(listener);
+	    JLabel cal1 = new JLabel("Date From: ");
+	    JLabel cal2 = new JLabel("Date To: ");
 	    calendar2.setBorder(compoundBorder);
 
 	    JPanel panel1 = new JPanel(new FlowLayout());
+	    panel1.add(cal1);
 	    panel1.add(calendar1);
 	    contentPane.add(panel1);
-
+	    
 	    JPanel panel2 = new JPanel(new FlowLayout());
+	    panel2.add(cal2);
 	    panel2.add(calendar2);
 	    contentPane.add(panel2);
-	    
+	    JButton cancel = new JButton("Cancel");
+	
+	    JButton okay = new JButton("Ok");
+	    contentPane.add(cancel);
+	    contentPane.add(okay);
 	    pack();
 	    setVisible(true);
    }*/
