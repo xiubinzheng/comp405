@@ -18,7 +18,7 @@ import project.TimeInterval;
 public class StartStopController implements ActionListener
 {
 	private MainGUI m_myGUI;
-	boolean m_isStarted = false;
+	private boolean m_isStarted = false;
 	private TimeInterval m_timeInt;
 	private int m_seconds = 0;
 	private Timer m_clock;
@@ -72,10 +72,12 @@ public class StartStopController implements ActionListener
 				m_timeInt.stop();
 				m_seconds = 0;
 				m_clock.stop();
+
 				
 				try 
 				{
 					m_myGUI.getCurrentProject().addTime(m_timeInt);
+					m_myGUI.getManager().updateClient(m_myGUI.getCurrentClient());
 				} 
 				catch (MyTimeException e1) 
 				{
