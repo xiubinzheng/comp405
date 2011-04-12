@@ -26,29 +26,17 @@ public class Manager
 {
 	// TODO: Lots of hard-coded string here
 	// we need to move these to a property file...
-	private final static String				m_clientTableName		= "myTimeClients";
-	private final static String				m_projectTableName		= "myTimeProjects";
-	private final static String				m_timeTableName			= "myTimeInterval";
+	private final static String				m_clientTableName	= "myTimeClients";
+	private final static String				m_projectTableName	= "myTimeProjects";
+	private final static String				m_timeTableName		= "myTimeInterval";
 
-	// SQL Format for Inserts and Selects
-	private final static String				m_insertClient_CMDFMT	= "INSERT INTO %s VALUES (%s, \'%s\', \'%s\')";
-	// private final static String m_selectClient_CMDFMT =
-	// "SELECT * FROM %s WHERE %s = %s";
-	private final static String				m_insertProject_CMDFMT	= "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
-	// private final static String m_selectProject_CMDFMT =
-	// "SELECT * FROM %s WHERE %s = %s";
-	private final static String				m_insertTimeInterval_CMDFMT = "INSERT INTO %s VALUES(%s, %s, \'%s\', \'%s\', %s, \'%s\')";
-	private final static String				m_updateClient_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\' WHERE \'%s\'=%d";
-	private final static String				m_updateProject_CMDFMT	= "UPDATE %s SET \'%s\'=\'%s\', \'%s\'=\'%s\', \'%s\'=%s, \'%s\'=%s WHERE \'%s\'=%d";
-
-	private String							m_databaseName			= "myTimeDB.s3db";
-
-	private SQLGenerator					m_clientTableGen		= new SQLGenerator(
-																			m_clientTableName);
-	private SQLGenerator					m_projectTableGen		= new SQLGenerator(
-																			m_projectTableName);
-	private SQLGenerator					m_timeTableGen			= new SQLGenerator(
-																			m_timeTableName);
+	private String							m_databaseName		= "myTimeDB.s3db";
+	private SQLGenerator					m_clientTableGen	= new SQLGenerator(
+																		m_clientTableName);
+	private SQLGenerator					m_projectTableGen	= new SQLGenerator(
+																		m_projectTableName);
+	private SQLGenerator					m_timeTableGen		= new SQLGenerator(
+																		m_timeTableName);
 
 	private DatabaseConnect					m_database;
 	private HashMap<Integer, Client>		m_clients;
@@ -56,12 +44,12 @@ public class Manager
 	private HashMap<Integer, TimeInterval>	m_timeIntervals;
 
 	// Formatters for the date and time
-	DateFormat								m_dateParser			= new SimpleDateFormat(
-																			"yyyy-MM-dd hh:mm:ss");
-	DateFormat								m_date					= new SimpleDateFormat(
-																			"yyyy-MM-dd");
-	DateFormat								m_time					= new SimpleDateFormat(
-																			"hh:mm:ss");
+	DateFormat								m_dateParser		= new SimpleDateFormat(
+																		"yyyy-MM-dd hh:mm:ss");
+	DateFormat								m_date				= new SimpleDateFormat(
+																		"yyyy-MM-dd");
+	DateFormat								m_time				= new SimpleDateFormat(
+																		"hh:mm:ss");
 
 	/**
 	 * This method creates a manager with default attributes. Manager needs to
@@ -106,8 +94,6 @@ public class Manager
 
 			ResultSet result = m_database.execute(m_clientTableGen.select("*",
 					null));
-			// "SELECT * FROM "+ m_clientTableName);
-
 			while (result.next())
 			{
 				clientID = result.getInt("Client_ID");
@@ -271,14 +257,14 @@ public class Manager
 
 		return timeIntervals;
 	}
-	
+
 	/**
 	 * 
 	 * @param time
 	 */
 	private void addTimeIntervalToDB(TimeInterval time) throws MyTimeException
 	{
-		//add stuff
+		// add stuff
 	}
 
 	/**
@@ -291,9 +277,10 @@ public class Manager
 	{
 		try
 		{
-			String cmd = String.format(m_insertClient_CMDFMT,
-					m_clientTableName, "null", c.getClientName(),
-					c.getClientDescription());
+
+			String cmd = m_clientTableGen.insert(
+					"Client_Name, Client_Description", c.getClientName() + ", "
+							+ c.getClientDescription());
 
 			// insert new client into DB
 			m_database.update(cmd);
@@ -334,10 +321,10 @@ public class Manager
 	{
 		try
 		{
-			String cmd = String.format(m_updateClient_CMDFMT,
-					m_clientTableName, "Client_Name", c.getClientName(),
-					"Client_Description", c.getClientDescription(),
-					"Client_ID", c.getClientID());
+			String cmd = m_clientTableGen.update(
+					"Client_ID, Client_Name, Client_Description",
+					c.getClientID() + ", " + c.getClientName() + ", "
+							+ c.getClientDescription());
 
 			// insert new client into DB
 			m_database.update(cmd);
@@ -408,10 +395,12 @@ public class Manager
 	{
 		try
 		{
-			//TODO: Need project description?
-			String cmd = String.format(m_insertProject_CMDFMT,
-					m_projectTableName, p.getProjectID(), p.getClientID(),
-					p.getName(), p.isComplete(), p.isHourly());
+			String cmd = m_projectTableGen
+					.insert("Project_ID, Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
+							p.getProjectID() + ", " + p.getClientID() + ", "
+									+ p.getName() + ", " + p.getDescription()
+									+ ", " + p.isComplete() + ", "
+									+ p.isHourly());
 
 			// insert new client into DB
 			m_database.update(cmd);
@@ -450,12 +439,12 @@ public class Manager
 	{
 		try
 		{
-			String cmd = String.format(m_updateProject_CMDFMT,
-					m_projectTableName, "Project_Name", p.getName(),
-					"Project_Description", p.getDescription(),
-					"Project_Complete_Flag", p.isComplete(),
-					"Project_Pay_Type_Hourly", p.isHourly(), "Project_ID",
-					p.getProjectID());
+			String cmd = m_projectTableGen
+					.update("Project_ID, Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
+							p.getProjectID() + ", " + p.getClientID() + ", "
+									+ p.getName() + ", " + p.getDescription()
+									+ ", " + p.isComplete() + ", "
+									+ p.isHourly());
 
 			// insert new client into DB
 			m_database.update(cmd);
