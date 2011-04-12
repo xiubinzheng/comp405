@@ -52,9 +52,8 @@ public class HTMLViewer extends JDialog implements ActionListener
 		
 		DatabaseReporter dbr = new DatabaseReporter();
 		dbr.generateReport("cssFile.css", "smiley.jpg");
-		
-		create();
 	}
+	
    
 	/*public void promptForDate(Date d1, Date d2)
 	{
