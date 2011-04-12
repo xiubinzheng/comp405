@@ -3,38 +3,17 @@ package gui;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import java.awt.SystemColor;
-import javax.swing.JLabel;
-import java.awt.GridLayout;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.UIManager.*;
-import javax.swing.SwingConstants;
-import java.awt.Cursor;
-import java.awt.Font;
 import java.awt.Color;
-import java.awt.TextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
 import javax.swing.JTextField;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JComboBox;
-
 import exceptions.MyTimeException;
 import gui.controllers.StartStopController;
 import gui.displayPanel.CBClient;
@@ -42,9 +21,7 @@ import gui.displayPanel.CBProject;
 import gui.displayPanel.ClientProjectPanel;
 import gui.displayPanel.ListenerCBClient;
 import gui.displayPanel.ListenerCBProject;
-
 import Controls.Manager;
-import javax.swing.JList;
 
 import project.Project;
 
@@ -74,7 +51,7 @@ public class MainGUI
 	
 	Client 			m_currentClient;
 	Project 		m_currentProject;
-	TextField 		m_timerField;
+	JTextField 		m_timerField;
 	
 	// miscellaneous
 	static final Color m_colorGreen = new Color(0, 153, 51);
@@ -149,6 +126,10 @@ public class MainGUI
 		frame.setMinimumSize(new Dimension(450, 300));
 		frame.setBounds(100, 100, 640, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout());
+		
+		m_timerField = new JTextField();
+		JPanel test = new JPanel();
 		
 		m_clientProjectPanel = new ClientProjectPanel(this);
 		m_clientProjectPanel.setBounds(0, 0, 640, 100);
@@ -160,15 +141,17 @@ public class MainGUI
 		m_clientProjectPanel.getCBClient().addActionListener(cbClientListener);
 		m_clientProjectPanel.getCBProject().addActionListener(cbProjectListener);
 		
-		frame.add(m_clientProjectPanel, BorderLayout.NORTH);
+		m_clientProjectPanel.getCBClient().setSelectedIndex(0);
+		
 		
 		m_btnStartStop = new JButton();
-		frame.add(m_btnStartStop, BorderLayout.SOUTH);
-		
-		m_timerField = new TextField();
-		frame.add(m_timerField, BorderLayout.CENTER);
 		
 		StartStopController startStopController = new StartStopController(this);
+
+		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
+		frame.getContentPane().add(m_timerField, BorderLayout.CENTER);
+		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
+
 		m_btnStartStop.addActionListener(startStopController);
 		
 		/*JMenuBar menuBar = new JMenuBar();
@@ -445,7 +428,7 @@ public class MainGUI
 		return m_btnStartStop;
 	}
 	
-	public TextField getTimerField()
+	public JTextField getTimerField()
 	{
 		return m_timerField;
 	}
