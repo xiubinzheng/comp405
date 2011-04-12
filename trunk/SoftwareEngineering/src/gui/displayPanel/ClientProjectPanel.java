@@ -36,7 +36,7 @@ public class ClientProjectPanel extends JPanel
 	public ClientProjectPanel(MainGUI parent)
 	{
 		m_mainGUIParent = parent;
-		m_cbProject = new CBProject();
+		m_cbProject = new CBProject(this);
 		m_cbClient = new CBClient(this, m_cbProject);
 		JComponent[][] components = 
 		{	
@@ -46,6 +46,12 @@ public class ClientProjectPanel extends JPanel
 		GuiUtilities.generateGridPanel(this, components, true, false);
 		m_cbClient.setSelectedIndex(0);
 	}
+	
+	public MainGUI getMainGui()
+	{
+		return m_mainGUIParent;
+	}
+	
 	public CBProject getCBProject()
 	{
 		return m_cbProject;
