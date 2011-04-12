@@ -18,7 +18,7 @@ import javax.swing.text.EditorKit;
 
 import Controls.DatabaseReporter;
 
-import com.toedter.calendar.*;
+//import com.toedter.calendar.*;
 
 
 public class HTMLViewer extends JDialog implements ActionListener
