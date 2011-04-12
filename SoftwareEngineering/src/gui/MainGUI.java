@@ -170,16 +170,6 @@ public class MainGUI
 		
 //		JButton htmlButton_test = new JButton();
 		
-		try 
-		{
-			m_htmlViewer.create();
-		} 
-		catch (IOException e) 
-		{
-			System.out.println("could not generate html viewer");
-			e.printStackTrace();
-			System.exit(-1);
-		}
 		
 		m_clientProjectPanel.getCBClient().setSelectedIndex(0);
 		
