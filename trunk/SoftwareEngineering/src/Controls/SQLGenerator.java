@@ -34,7 +34,7 @@ class SQLGenerator
 			if 
 			( whereClause != null  )
 			{
-				cmd += " WHERE " + whereClause;
+				cmd += " WHERE " + whereClause + ";";
 			}
 		}
 		return cmd;
@@ -49,36 +49,47 @@ class SQLGenerator
 	public String insert( String columns,
 	                      String values )
 	{
+		String[] insertColumns = columns.split(", ");
+		String[] insertValues = values.split(", ");
 		String cmd = null;
 		if 
 		( values != null )
 		{
 			cmd = "INSERT INTO " + m_tableName;
 			if ( columns != null )
-				cmd += " ( "+ columns +" ) ";
-			cmd += " VALUES ( " + values + " )";
+			{
+				cmd += " (" + columns + ") ";
+			}
+			cmd += " \nVALUES (" + "'" + insertValues[0] + "'";
+			for (int i=1; i<insertValues.length; i++)
+				cmd +=  ", '" + insertValues[i] + "'";
+			cmd += ")";
 		}
 	return cmd;
 	}
 	
 	/**
+	 * TODO: finish up and change
 	 * Generate an update statement.
-	 * @param columns (Optional) "column1, column2, ..."
+	 * @param columns "column1, column2, ..."
 	 * @param values "value1, value2, ..."
 	 * @return
 	 */
 	public String update( String columns,
 	                      String values )
 	{
-		
+		String[] updateColumns = columns.split(", ");
+		String[] updateValues = values.split(", ");
 		String cmd = null;
 		if 
 		( values != null )
 		{
-			cmd = "UPDATE " + m_tableName;
-			if ( columns != null )
-				cmd += " ( "+ columns +" ) ";
-			cmd += " VALUES ( " + values + " )";
+			cmd = "UPDATE " + m_tableName + " \nSET " + updateColumns[1] + "='" + updateValues[1] + "'";
+			for (int i=2; i<updateValues.length; i++)
+			{
+				cmd += ", " + updateColumns[i] + "='" + updateValues[i] + "'";
+			}
+			cmd += " \nWHERE " + updateColumns[0] + "=" + updateValues[0];
 		}
 		return cmd;
 	}
