@@ -178,6 +178,7 @@ public class Manager
 		else
 		{
 			updateClientToDB(c);
+			updateProjects(c);
 		}
 	}
 
@@ -252,48 +253,6 @@ public class Manager
 		project.getTimeIntervals(timeIntervals);
 
 		return timeIntervals;
-	}
-
-	/**
-	 * 
-	 * @param time
-	 */
-	private void addTimeIntervalToDB(TimeInterval time) throws MyTimeException
-	{
-		try
-		{
-			String cmd = m_timeTableGen
-					.insert(" Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
-							+time.getProjectID() + ", "
-									+ m_time.format(time.getStart()) + ", "
-									+ m_time.format(time.getStop()) + ", "
-									+ m_date.format(time.getStart()) + ","
-									+ m_date.format(time.getStop()));
-			m_database.update(cmd);
-
-			ResultSet result = m_database.execute(String.format(
-					"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
-					"myTimeInterval"));
-
-			int ID = -1;
-
-			if (result.next())
-			{
-				ID = result.getInt("seq");
-			}
-			if (ID == -1)
-			{
-				throw new MyTimeException("Could not add time interval");
-			}
-
-			time.setTimeID(ID);
-			m_timeIntervals.put(time.getTimeID(), time);
-		}
-		catch (SQLException e)
-		{
-			throw new MyTimeException("Add time interval error ", e);
-		}
-
 	}
 
 	/**
@@ -387,11 +346,13 @@ public class Manager
 		c.getProjectList(projects);
 
 		for (Project p : projects)
+		{
 			if (m_projects.containsKey(p.getProjectID()))
 			{
 				try
 				{
 					updateProjectToDB(p);
+					updateTimeIntervals(p);
 				}
 				catch (MyTimeException e)
 				{
@@ -404,6 +365,7 @@ public class Manager
 				try
 				{
 					addProjectToDB(p);
+					updateTimeIntervals(p);
 				}
 				catch (MyTimeException e)
 				{
@@ -411,6 +373,7 @@ public class Manager
 					e.printStackTrace();
 				}
 			}
+		}
 	}
 
 	/**
@@ -474,13 +437,119 @@ public class Manager
 									+ ", " + p.isComplete() + ", "
 									+ p.isHourly());
 
-			// insert new client into DB
+			// insert new project into DB
 			m_database.update(cmd);
 
 		}
 		catch (MyTimeException e)
 		{
 			throw new MyTimeException("Update Project Error", e);
+		}
+	}
+
+	/**
+	 * 
+	 * @param project
+	 * @throws MyTimeException
+	 */
+	private void updateTimeIntervals(Project project) throws MyTimeException
+	{
+		ArrayList<TimeInterval> times = new ArrayList<TimeInterval>();
+		project.getTimeIntervals(times);
+
+		for (TimeInterval t : times)
+		{
+			if (m_timeIntervals.containsKey(t.getTimeID()))
+			{
+				try
+				{
+					updateTimeIntervalToDB(t);
+				}
+				catch (MyTimeException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				try
+				{
+					addTimeIntervalToDB(t);
+				}
+				catch (MyTimeException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param time
+	 */
+	private void addTimeIntervalToDB(TimeInterval time) throws MyTimeException
+	{
+		try
+		{
+			String cmd = m_timeTableGen
+					.insert(" Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
+							+time.getProjectID() + ", "
+									+ m_time.format(time.getStart()) + ", "
+									+ m_time.format(time.getStop()) + ", "
+									+ m_date.format(time.getStart()) + ","
+									+ m_date.format(time.getStop()));
+			m_database.update(cmd);
+
+			ResultSet result = m_database.execute(String.format(
+					"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
+					"myTimeInterval"));
+
+			int ID = -1;
+
+			if (result.next())
+			{
+				ID = result.getInt("seq");
+			}
+			if (ID == -1)
+			{
+				throw new MyTimeException("Could not add time interval");
+			}
+
+			time.setTimeID(ID);
+			m_timeIntervals.put(time.getTimeID(), time);
+		}
+		catch (SQLException e)
+		{
+			throw new MyTimeException("Add time interval error ", e);
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param time
+	 * @throws MyTimeException
+	 */
+	private void updateTimeIntervalToDB(TimeInterval time)
+			throws MyTimeException
+	{
+		try
+		{
+			String cmd = m_timeTableGen
+					.update("Project_ID, Project_Start_Time, Project_End_Time, Start_Date, End_Date",
+							+time.getProjectID() + ", "
+									+ m_time.format(time.getStart()) + ", "
+									+ m_time.format(time.getStop()) + ", "
+									+ m_date.format(time.getStart()) + ","
+									+ m_date.format(time.getStop()));
+
+			// update time into DB
+			m_database.update(cmd);
+		}
+		catch (MyTimeException e)
+		{
+			throw new MyTimeException("Update Time Interval Error", e);
 		}
 	}
 
