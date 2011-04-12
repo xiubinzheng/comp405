@@ -136,24 +136,30 @@ public class DatabaseReporter
         private void generateProjectTable(Client c)
         {
                 ArrayList<Project> m_project = new ArrayList<Project>();
-                int m_totalProjectHours = 0;//measured in seconds
+                ArrayList<TimeInterval> t = new ArrayList<TimeInterval>();
+                int m_totalProjectSeconds = 0;//measured in seconds
                 
                 m_project.clear();
                 c.getProjectList(m_project);
                 
-                outputProjectHeader();
                 
                 for(Project p : m_project)
                 {
-                        outputProject(p);
-                        g_totalSeconds += generateTimeTable(p);
-                        outputTotalTimeInterval();
-                        g_totalSeconds = 0;
+                	outputProject(p);
+                	
+                	p.getTimeIntervals(t);
+                	if(!t.isEmpty())
+                	{
+                		outputProjectHeader();
+                		m_totalProjectSeconds = generateTimeTable(p);
+                        outputTotalTimeInterval(m_totalProjectSeconds);
+                        g_totalSeconds += m_totalProjectSeconds;
+                	}   
                 }
                 
                 
                 //TODO output total hours
-                g_totalSeconds += m_totalProjectHours;
+                g_totalSeconds += m_totalProjectSeconds;
         }
         
         /**
@@ -177,7 +183,7 @@ public class DatabaseReporter
                     		&& t.getStop().compareTo(g_dateSpanStop) < 0)
                     {
                     	outputTimeInterval(t);
-                        i += t.getStop().getTime() - t.getStart().getTime();
+                        i += (t.getStop().getTime() - t.getStart().getTime());
                     }
                 }     
                 return i/1000;//return the number of seconds
@@ -237,15 +243,15 @@ public class DatabaseReporter
         	g_htmlString +="<td>  </td>";
         	g_htmlString += "<td class=\"t_From\" + colspan=\"5\"" + "\">" + formatTime(t.getStart()) + "</td>\n";
             g_htmlString += "<td class=\"t_To\" + colspan=\"5\"" + "\">" + formatTime(t.getStop())  + "</td>\n";
-            g_htmlString += "<td class=\"t_Duration"+"\">" + getDuration(t.getStart(),t.getStop()) + ((t.getStop().getTime()-t.getStart().getTime())/1000)+ "</td>\n</tr>";
+            g_htmlString += "<td class=\"t_Duration"+"\">" + getDuration(t.getStart(),t.getStop())  /* + "::" + ((t.getStop().getTime()-t.getStart().getTime())/1000)*/+ "</td>\n</tr>";
         }
-        private void outputTotalTimeInterval()
+        private void outputTotalTimeInterval(int tmSeconds)
         {
         	g_htmlString +="<tr><td>  </td>";
         	g_htmlString +="<td>  </td>";
         	g_htmlString +="<td>  </td>";
         	g_htmlString +="<td>  </td>";
-        	g_htmlString += "<td class=\"t_Duration"+"\">" + (g_totalSeconds) + ":" + ((g_totalSeconds%3600)/60) + "</td>\n</tr>";
+        	g_htmlString += "<td class=\"t_totalTime"+"\">" + "Project Total Time: " + (tmSeconds/3600) + ":" + ((tmSeconds%3600)/60) + "</td>\n</tr>";
         }
         
         //DD/MM/YYYY HH:MM
