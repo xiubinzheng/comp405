@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.*;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,6 +15,8 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.EditorKit;
+
+import Controls.DatabaseReporter;
 
 import com.toedter.calendar.*;
 
@@ -48,6 +49,10 @@ public class HTMLViewer extends JDialog implements ActionListener
 		Date d1 = new Date();
 		Date d2 = new Date();
 		//promptForDate(d1, d2);
+		
+		DatabaseReporter dbr = new DatabaseReporter();
+		dbr.generateReport("cssFile.css", "smiley.jpg");
+		
 		create();
 	}
    
