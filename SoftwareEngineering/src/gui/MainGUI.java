@@ -167,7 +167,9 @@ public class MainGUI
 		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
 		frame.getContentPane().add(m_btnHTMLViewer, BorderLayout.CENTER);
 		
-//		JButton htmlButton_test = new JButton();
+		JButton htmlButton_test = new JButton();
+		htmlButton_test.addActionListener(m_htmlViewerListener);
+		frame.getContentPane().add(htmlButton_test);
 		
 		
 		m_clientProjectPanel.getCBClient().setSelectedIndex(0);
