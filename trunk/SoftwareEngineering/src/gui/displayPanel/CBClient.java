@@ -1,5 +1,7 @@
 package gui.displayPanel;
 
+import gui.MainGUI;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class CBClient extends JComboBox
 	ClientProjectPanel m_clientProjectPanelParent;
 	DefaultComboBoxModel m_model;
 	DefaultComboBoxModel m_projectModel;
-	CBClientListener listener;
+	//ListenerCBClient listener;
 	
 	/**
 	 * A CBClient will communicate with a cbProject about what the
@@ -48,25 +50,19 @@ public class CBClient extends JComboBox
 			System.out.println(c);
 			m_model.addElement(c);
 		}		
-		listener = new CBClientListener();
-		addActionListener(listener);
+		//listener = new ListenerCBClient();
+		//addActionListener(listener);
 	}
-	private class CBClientListener implements ActionListener
+	
+	//TODO: Future refactor: implement some kind of getParent thing here
+	
+	public MainGUI getMainGui() 
 	{
-		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
-			CBClient cbClient = (CBClient) e.getSource();
-			Client client = (Client) cbClient.getSelectedItem();
-			System.out.println("DEBUG:"+client);
-			ArrayList<Project> projectList = new ArrayList<Project>();
-			client.getProjectList(projectList);
-			m_projectModel.removeAllElements();
-			for (Project p : projectList)
-			{
-				m_projectModel.addElement(p);
-				System.out.println("DEBUG:"+p);
-			}
-		}
+		return m_clientProjectPanelParent.getMainGui();
+	}
+	
+	public DefaultComboBoxModel getProjectModel() 
+	{
+		return m_projectModel;
 	}
 }
