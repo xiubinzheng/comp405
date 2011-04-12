@@ -6,7 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
@@ -48,10 +52,17 @@ public class HTMLViewer extends JDialog implements ActionListener
 	{
 		Date d1 = new Date();
 		Date d2 = new Date();
+		Writer writer = null;
 		//promptForDate(d1, d2);
 		
 		DatabaseReporter dbr = new DatabaseReporter();
-		dbr.generateReport("cssFile.css", "smiley.jpg");
+		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
+		
+		File f = new File("testReport.html");
+		writer = new BufferedWriter(new FileWriter(f));
+		writer.write(s);
+		
+		writer.close();
 		
 		create();
 	}
