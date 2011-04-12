@@ -12,15 +12,17 @@ import javax.swing.UIManager.*;
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import exceptions.MyTimeException;
+import gui.controllers.ListenerCBClient;
+import gui.controllers.ListenerCBProject;
 import gui.controllers.StartStopController;
 import gui.displayPanel.CBClient;
 import gui.displayPanel.CBProject;
 import gui.displayPanel.ClientProjectPanel;
-import gui.displayPanel.ListenerCBClient;
-import gui.displayPanel.ListenerCBProject;
 import Controls.Manager;
 
 import project.Project;
@@ -40,6 +42,7 @@ public class MainGUI
 	private       	ButtonCommit   		m_btnCommit;
 	private       	JButton			   	m_btnStartStop;
 	private       	Manager   			m_dbManager;
+	private			HTMLViewer			m_htmlViewer;
 	
 	private JPanel startStopPanel;
 
@@ -129,11 +132,20 @@ public class MainGUI
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
 		
-		// Contstruct GUI components
+		// Construct GUI components
 		m_timerField = new JTextField();
 		m_clientProjectPanel = new ClientProjectPanel(this);
 		m_btnStartStop = new JButton();
-		
+		try
+		{
+			m_htmlViewer = new HTMLViewer();
+		}
+		catch(IOException e)
+		{
+			System.out.println("FFFFFFFFUUUUUUUUUUUUU");
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		// Set GUI component attributes
 		m_clientProjectPanel.setBounds(0, 0, 640, 100);
 		m_clientProjectPanel.setVisible(true);
@@ -142,6 +154,7 @@ public class MainGUI
 		cbClientListener = new ListenerCBClient();
 		cbProjectListener = new ListenerCBProject();
 		StartStopController startStopController = new StartStopController(this);
+		
 		
 		// Add Managers to GUI components
 		
@@ -154,6 +167,8 @@ public class MainGUI
 		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
 		frame.getContentPane().add(m_timerField, BorderLayout.CENTER);
 		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
+		
+		JButton htmlButton = new
 		
 		m_clientProjectPanel.getCBClient().setSelectedIndex(0);
 		
