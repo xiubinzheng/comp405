@@ -147,6 +147,7 @@ public class HTMLViewer extends JDialog implements ActionListener
 
 		helpURL = new URL(fullPath);
 		m_pane.setPage(helpURL);  
+		setVisible(true);
    }
 
     public void actionPerformed(ActionEvent arg0)
