@@ -34,12 +34,14 @@ import client.Client;
 public class MainGUI
 {
 	// components
-	public        	JFrame    			frame;
+	private        	JFrame    			frame;
 	private final 	Action    			action = new SwingAction();
 	private			ClientProjectPanel	m_clientProjectPanel;
 	private       	ButtonCommit   		m_btnCommit;
 	private       	JButton			   	m_btnStartStop;
 	private       	Manager   			m_dbManager;
+	
+	private JPanel startStopPanel;
 
 	// action listenters
 	ListenerCBClient cbClientListener;
@@ -121,7 +123,9 @@ public class MainGUI
 			e.printStackTrace();
 		}
 		
+		// Contstruct gui components
 		
+		// Set
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(450, 300));
 		frame.setBounds(100, 100, 640, 480);
