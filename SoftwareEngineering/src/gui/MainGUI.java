@@ -19,6 +19,7 @@ import javax.swing.Action;
 import exceptions.MyTimeException;
 import gui.controllers.ListenerCBClient;
 import gui.controllers.ListenerCBProject;
+import gui.controllers.ListenerHTMLViewer;
 import gui.controllers.StartStopController;
 import gui.displayPanel.CBClient;
 import gui.displayPanel.CBProject;
@@ -44,12 +45,13 @@ public class MainGUI
 	private       	Manager   			m_dbManager;
 	private			HTMLViewer			m_htmlViewer;
 	
-	private JPanel startStopPanel;
+	private JPanel m_startStopPanel;
+	private JButton m_btnHTMLViewer;
 
 	// action listenters
 	ListenerCBClient cbClientListener;
 	ListenerCBProject cbProjectListener;
-	
+	ListenerHTMLViewer m_htmlViewerListener;
 	// models
 	DefaultComboBoxModel cbClientModel;
 	DefaultComboBoxModel cbProjectModel;
@@ -136,16 +138,9 @@ public class MainGUI
 		m_timerField = new JTextField();
 		m_clientProjectPanel = new ClientProjectPanel(this);
 		m_btnStartStop = new JButton();
-		try
-		{
-			m_htmlViewer = new HTMLViewer();
-		}
-		catch(IOException e)
-		{
-			System.out.println("FFFFFFFFUUUUUUUUUUUUU");
-			e.printStackTrace();
-			System.exit(-1);
-		}
+		m_btnHTMLViewer = new JButton();
+		m_startStopPanel = new JPanel();
+
 		// Set GUI component attributes
 		m_clientProjectPanel.setBounds(0, 0, 640, 100);
 		m_clientProjectPanel.setVisible(true);
@@ -154,19 +149,23 @@ public class MainGUI
 		cbClientListener = new ListenerCBClient();
 		cbProjectListener = new ListenerCBProject();
 		StartStopController startStopController = new StartStopController(this);
-		
-		
+		m_htmlViewerListener = new ListenerHTMLViewer();
+				
 		// Add Managers to GUI components
 		
 		// Link ActionListeners to the GUI components
 		m_clientProjectPanel.getCBClient().addActionListener(cbClientListener);
 		m_clientProjectPanel.getCBProject().addActionListener(cbProjectListener);
 		m_btnStartStop.addActionListener(startStopController);
-						
+		m_btnHTMLViewer.addActionListener(m_htmlViewerListener);
+		
+		// Add Components to sub-components
+		
 		// Add Components to the main Frame
 		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
 		frame.getContentPane().add(m_timerField, BorderLayout.CENTER);
 		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
+		frame.getContentPane().add(m_btnHTMLViewer, BorderLayout.CENTER);
 		
 //		JButton htmlButton_test = new JButton();
 		
