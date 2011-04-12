@@ -35,14 +35,15 @@ public class DatabaseReporter
         
         private String g_htmlString = "";
         
-        private Date g_dateSpanStart;
-        private Date g_dateSpanStop;
+        private Date g_dateSpanStart = new Date();
+        private Date g_dateSpanStop = new Date();
         private int g_totalSeconds = 0;//measured in seconds
         
         
-        private DatabaseReporter()
+        public DatabaseReporter()
         {
             //construct
+        	
             g_dateSpanStart.getTime();
             g_dateSpanStart.setYear(1980); //set to a time before all other times
             
@@ -51,7 +52,7 @@ public class DatabaseReporter
             
         }
         
-        private DatabaseReporter(Date start, Date stop)
+        public DatabaseReporter(Date start, Date stop)
         {
             //construct
             g_dateSpanStart = start;
