@@ -96,9 +96,9 @@ public class StartStopController implements ActionListener
 		
 		int hours, minutes, seconds;
 		
-		hours = m_seconds / 360;
-		minutes = (m_seconds % 360) / 60;
-		seconds = (m_seconds % 360) % 60;
+		hours = m_seconds / 3600;
+		minutes = (m_seconds % 3600) / 60;
+		seconds = (m_seconds % 3600) % 60;
 		
 		fCounter = String.format("%02d : %02d : %02d", hours, minutes, seconds);
 		
