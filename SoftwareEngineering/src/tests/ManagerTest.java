@@ -14,8 +14,8 @@ import junit.framework.TestCase;
 public class ManagerTest extends TestCase
 {
 	Manager				testManager;
-	ArrayList<Client>	clients;
-	ArrayList<Project>	projects;
+	ArrayList<Client>	clients = new ArrayList<Client>();
+	ArrayList<Project>	projects = new ArrayList<Project>();
 	Client client = new Client();
 	Project project = new Project();
 
@@ -32,9 +32,7 @@ public class ManagerTest extends TestCase
 	public void testClient()
 	{
 		boolean caughtException = false;
-		// create new manager test initialize
-		// if DB doesn't have 4 entities in the table assert will throw the
-		// exception
+
 		try
 		{
 			testManager.initializeDB();
@@ -50,9 +48,7 @@ public class ManagerTest extends TestCase
 		clients = new ArrayList<Client>();
 
 		testManager.getClients(clients);
-		assertTrue(clients.size() == 4);
-
-		ArrayList<Project> projects = new ArrayList<Project>();
+		//assertTrue(clients.size() == 4);
 
 		try
 		{
@@ -68,7 +64,7 @@ public class ManagerTest extends TestCase
 			testManager.updateClient(c);
 			
 			b = testManager.getClientByName("Liane");
-			assertTrue(b.getClientDescription() == "Real Software Engineer - Unlike Ron");
+			assertTrue(b.getClientDescription().equals("Real Software Engineer - Unlike Ron"));
 		}
 		catch (MyTimeException e)
 		{
@@ -85,7 +81,8 @@ public class ManagerTest extends TestCase
 		try
 		{
 			testManager.initializeDB();
-			client.getProjectList(projects);
+			Client ron = testManager.getClientByName("Ron");
+			ron.getProjectList(projects);
 			assertTrue(projects.size() == 2);
 		}
 		catch (MyTimeException e)
@@ -95,7 +92,18 @@ public class ManagerTest extends TestCase
 		}
 		assertFalse(caughtException);
 		
-		
+		try
+		{
+			Client l = testManager.getClientByName("Liane");
+			Project p = new Project("DummyProject", "LianesDummyProject", l.getClientID(),
+					true);
+			l.addProject(p);
+			testManager.updateClient(l);
+		}
+		catch(MyTimeException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public void testTimeInterval()
