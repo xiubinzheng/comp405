@@ -109,10 +109,10 @@ public class Manager
 			{
 				projectID = result.getInt("Project_ID");
 				clientID = result.getInt("Client_ID");
-				projectName = result.getString("project_Name");
-				projectDescription = result.getString("project_Description");
-				projectHourly = result.getBoolean("project_Pay_Type_Hourly");
-				projectComplete = result.getBoolean("project_Complete_Flag");
+				projectName = result.getString("Project_Name");
+				projectDescription = result.getString("Project_Description");
+				projectHourly = result.getBoolean("Project_Pay_Type_Hourly");
+				projectComplete = result.getBoolean("Project_Complete_Flag");
 
 				Project p = new Project(projectID, projectName,
 						projectDescription, clientID, projectHourly);
@@ -120,6 +120,13 @@ public class Manager
 				{
 					p.complete();
 				}
+				
+				//debug
+				System.out.println(m_clients.size());
+				System.out.println(clientID);
+				System.out.println(p);
+				//debug
+				
 				m_clients.get(clientID).addProject(p);
 				m_projects.put(p.getProjectID(), p);
 			}
@@ -133,8 +140,8 @@ public class Manager
 
 				String startTime = result.getString("Project_Start_Time");
 				String stopTime = result.getString("Project_End_Time");
-				String startDate = result.getString("Start_Date");
-				String stopDate = result.getString("End_Date");
+				String startDate = result.getDate("Start_Date").toString();
+				String stopDate = result.getDate("End_Date").toString();
 				start = m_dateParser.parse(startDate + " " + startTime);
 				stop = m_dateParser.parse(stopDate + " " + stopTime);
 
@@ -160,7 +167,6 @@ public class Manager
 	}
 
 	// should be the only public method for now maybe more later gonna need to
-	// TODO: finish up all this
 	/**
 	 * updates any changes made to a client and their projects to the database
 	 * RUN ME OFTEN!
@@ -396,7 +402,7 @@ public class Manager
 			// insert new client into DB
 			m_database.update(cmd);
 
-			// Query back for the ID assigned by the the DB for the new client
+			// Query back for the ID assigned by the the DB for the new time interval
 			ResultSet result = m_database.execute(String.format(
 					"SELECT seq from SQLITE_SEQUENCE where name = '%s'",
 					"myTimeProjects"));
