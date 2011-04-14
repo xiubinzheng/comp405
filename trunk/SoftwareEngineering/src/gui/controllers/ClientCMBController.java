@@ -1,6 +1,6 @@
 package gui.controllers;
 
-import gui.displayPanel.CBClient;
+import gui.displayPanel.ClientCMB;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +16,7 @@ public class ClientCMBController implements ActionListener
 {
 	public void actionPerformed(ActionEvent e) 
 	{
-		CBClient cbClient = (CBClient) e.getSource();
+		ClientCMB cbClient = (ClientCMB) e.getSource();
 		Client client = (Client) cbClient.getSelectedItem();
 		cbClient.getMainGui().setCurrentClient(client);
 		System.out.println("DEBUG:"+client);
