@@ -17,12 +17,10 @@ import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import controllers.*;
+
 import models.*;
 import exceptions.MyTimeException;
-import gui.controllers.ClientCMBController;
-import gui.controllers.ProjectCMBController;
-import gui.controllers.ReportBTNController;
-import gui.controllers.StartStopBTNController;
 import gui.displayPanel.ClientCMB;
 import gui.displayPanel.ProjectCMB;
 import gui.displayPanel.ClientProjectPNL;
