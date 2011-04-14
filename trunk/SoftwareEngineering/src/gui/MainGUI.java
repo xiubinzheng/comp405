@@ -21,9 +21,9 @@ import gui.controllers.ClientCMBController;
 import gui.controllers.ProjectCMBController;
 import gui.controllers.ReportBTNController;
 import gui.controllers.StartStopBTNController;
-import gui.displayPanel.CBClient;
-import gui.displayPanel.CBProject;
-import gui.displayPanel.ClientProjectPanel;
+import gui.displayPanel.ClientCMB;
+import gui.displayPanel.ProjectCMB;
+import gui.displayPanel.ClientProjectPNL;
 import Controls.Manager;
 
 import project.Project;
@@ -39,11 +39,11 @@ public class MainGUI
 	// components
 	private        	JFrame    			frame;
 	private final 	Action    			action = new SwingAction();
-	private			ClientProjectPanel	m_clientProjectPanel;
-	private       	ButtonCommit   		m_btnCommit;
+	private			ClientProjectPNL	m_clientProjectPanel;
+	private       	CommitBTN   		m_btnCommit;
 	private       	JButton			   	m_btnStartStop;
 	private       	Manager   			m_dbManager;
-	private			HTMLViewer			m_htmlViewer;
+	private			ReportViewDLG			m_htmlViewer;
 	
 	private JPanel m_startStopPanel;
 	private JButton m_btnHTMLViewer;
@@ -136,7 +136,7 @@ public class MainGUI
 		
 		// Construct GUI components
 		m_timerField = new JTextField();
-		m_clientProjectPanel = new ClientProjectPanel(this);
+		m_clientProjectPanel = new ClientProjectPNL(this);
 		m_btnStartStop = new JButton();
 		m_btnHTMLViewer = new JButton();
 		m_startStopPanel = new JPanel();
@@ -437,12 +437,12 @@ public class MainGUI
 		return m_currentProject;
 	}
 	
-	public CBProject getCBProject()
+	public ProjectCMB getCBProject()
 	{
 		return  m_clientProjectPanel.getCBProject();
 	}
 	
-	public CBClient getClientComboBox()
+	public ClientCMB getClientComboBox()
 	{
 		return m_clientProjectPanel.getCBClient();
 	}
@@ -457,7 +457,7 @@ public class MainGUI
 		return m_timerField;
 	}
 	
-	public ButtonCommit getCommitButton()
+	public CommitBTN getCommitButton()
 	{
 		return m_btnCommit;
 	}
