@@ -1,10 +1,11 @@
 package tests;
 
-import client.Client;
 import database.DatabaseConnect;
 import junit.framework.TestCase;
 import java.io.*;
 import java.util.Date;
+
+import models.Client;
 
 
 import Controls.DatabaseReporter;

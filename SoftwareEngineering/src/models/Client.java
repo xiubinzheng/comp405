@@ -1,10 +1,10 @@
-package client;
+package models;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import project.Project;
+
 
 public class Client
 {

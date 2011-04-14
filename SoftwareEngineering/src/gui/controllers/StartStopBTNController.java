@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import models.*;
+
 import exceptions.MyTimeException;
 import gui.MainGUI;
 
-import project.Project;
-import project.TimeInterval;
 
 public class StartStopBTNController implements ActionListener
 {

@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import project.Project;
-import client.Client;
+
+import models.*;
 
 /**
  * This is a ComboBox that holds a list of Clients.

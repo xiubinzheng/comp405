@@ -5,7 +5,8 @@ import gui.displayPanel.ProjectCMB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import project.Project;
+import models.Project;
+
 
 public class ProjectCMBController implements ActionListener 
 {

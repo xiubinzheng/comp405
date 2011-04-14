@@ -2,7 +2,7 @@
  * TODO: Javadocs class description
  */
 
-package project;
+package models;
 
 import java.util.Date;
 

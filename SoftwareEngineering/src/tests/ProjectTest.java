@@ -1,8 +1,7 @@
 package tests;
 
+import models.*;
 import exceptions.MyTimeException;
-import project.Project;
-import project.TimeInterval;
 import junit.framework.TestCase;
 
 /**

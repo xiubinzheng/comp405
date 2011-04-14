@@ -16,6 +16,8 @@ import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+
+import models.*;
 import exceptions.MyTimeException;
 import gui.controllers.ClientCMBController;
 import gui.controllers.ProjectCMBController;
@@ -26,9 +28,7 @@ import gui.displayPanel.ProjectCMB;
 import gui.displayPanel.ClientProjectPNL;
 import Controls.Manager;
 
-import project.Project;
 
-import client.Client;
 
 /**
  * The MainGUI will provide methods of communication between its components.

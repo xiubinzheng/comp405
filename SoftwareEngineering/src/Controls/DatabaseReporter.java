@@ -9,10 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.sql.ResultSet;
 
-import project.Project;
-import project.TimeInterval;
+import models.*;
 
-import client.Client;
+
 import exceptions.MyTimeException;
 
 import database.DatabaseConnect;
