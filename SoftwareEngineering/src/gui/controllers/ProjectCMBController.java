@@ -1,6 +1,6 @@
 package gui.controllers;
 
-import gui.displayPanel.CBProject;
+import gui.displayPanel.ProjectCMB;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,7 @@ public class ProjectCMBController implements ActionListener
 {
 	public void actionPerformed(ActionEvent e) 
 	{
-		CBProject cbProject = (CBProject) e.getSource();
+		ProjectCMB cbProject = (ProjectCMB) e.getSource();
 		Project project = (Project) cbProject.getSelectedItem();
 		cbProject.getMainGui().setCurrentProject(project);
 	}
