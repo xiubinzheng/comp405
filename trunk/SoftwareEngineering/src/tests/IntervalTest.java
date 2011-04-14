@@ -1,7 +1,7 @@
 package tests;
 
+import models.TimeInterval;
 import junit.framework.TestCase;
-import project.TimeInterval;
 
 public class IntervalTest extends TestCase
 {

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 
-import project.Project;
+import models.*;
 
-import client.Client;
+
 
 public class ClientCMBController implements ActionListener
 {

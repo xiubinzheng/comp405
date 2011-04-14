@@ -3,9 +3,9 @@ package gui;
 import java.awt.Button;
 import java.awt.TextField;
 
-import client.Client;
+import models.*;
 
-import project.Project;
+
 
 public interface IMasterView 
 {

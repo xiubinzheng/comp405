@@ -1,10 +1,9 @@
 package tests;
 
-import client.Client;
-import project.Project;
-import project.TimeInterval;
 
 import java.util.ArrayList;
+
+import models.*;
 import Controls.Manager;
 
 import exceptions.MyTimeException;

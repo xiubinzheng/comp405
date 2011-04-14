@@ -2,9 +2,9 @@ package tests;
 
 import java.util.ArrayList;
 
-import project.Project;
+import models.*;
 
-import client.Client;
+
 
 import junit.framework.TestCase;
 

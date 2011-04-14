@@ -3,9 +3,9 @@ package myTimeConsoleUI;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import project.Project;
+import models.*;
 
-import client.Client;
+
 
 import exceptions.MyTimeException;
 

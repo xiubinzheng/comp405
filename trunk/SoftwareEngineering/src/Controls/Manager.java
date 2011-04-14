@@ -6,9 +6,6 @@
 
 package Controls;
 
-import client.Client;
-import project.Project;
-import project.TimeInterval;
 import exceptions.MyTimeException;
 import database.DatabaseConnect;
 
@@ -18,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.sql.*;
 import java.util.Date;
+
+import models.*;
 
 /**
  * This class manages clients and projects in memory.
