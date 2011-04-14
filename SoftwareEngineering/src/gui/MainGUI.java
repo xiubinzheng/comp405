@@ -17,10 +17,10 @@ import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import exceptions.MyTimeException;
-import gui.controllers.ListenerCBClient;
-import gui.controllers.ListenerCBProject;
-import gui.controllers.ListenerHTMLViewer;
-import gui.controllers.StartStopController;
+import gui.controllers.ClientCMBController;
+import gui.controllers.ProjectCMBController;
+import gui.controllers.ReportBTNController;
+import gui.controllers.StartStopBTNController;
 import gui.displayPanel.CBClient;
 import gui.displayPanel.CBProject;
 import gui.displayPanel.ClientProjectPanel;
@@ -49,9 +49,9 @@ public class MainGUI
 	private JButton m_btnHTMLViewer;
 
 	// action listenters
-	ListenerCBClient cbClientListener;
-	ListenerCBProject cbProjectListener;
-	ListenerHTMLViewer m_htmlViewerListener;
+	ClientCMBController cbClientListener;
+	ProjectCMBController cbProjectListener;
+	ReportBTNController m_htmlViewerListener;
 	// models
 	DefaultComboBoxModel cbClientModel;
 	DefaultComboBoxModel cbProjectModel;
@@ -146,10 +146,10 @@ public class MainGUI
 		m_clientProjectPanel.setVisible(true);
 		
 		// Construct Listeners
-		cbClientListener = new ListenerCBClient();
-		cbProjectListener = new ListenerCBProject();
-		StartStopController startStopController = new StartStopController(this);
-		m_htmlViewerListener = new ListenerHTMLViewer();
+		cbClientListener = new ClientCMBController();
+		cbProjectListener = new ProjectCMBController();
+		StartStopBTNController startStopController = new StartStopBTNController(this);
+		m_htmlViewerListener = new ReportBTNController();
 				
 		// Add Managers to GUI components
 		
