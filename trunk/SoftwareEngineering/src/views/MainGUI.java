@@ -21,7 +21,7 @@ import controllers.*;
 
 import models.*;
 import exceptions.MyTimeException;
-import Controls.Manager;
+import Controls.ClientDBManager;
 
 
 
@@ -37,7 +37,7 @@ public class MainGUI
 	private			ClientProjectPNL	m_clientProjectPanel;
 	private       	CommitBTN   		m_btnCommit;
 	private       	JButton			   	m_btnStartStop;
-	private       	Manager   			m_dbManager;
+	private       	ClientDBManager   			m_dbManager;
 	private			ReportViewDLG			m_htmlViewer;
 	
 	private JPanel m_startStopPanel;
@@ -101,7 +101,7 @@ public class MainGUI
 		initialize();
 	}
 	
-	public Manager getManager()
+	public ClientDBManager getManager()
 	{
 		return m_dbManager;
 	}
@@ -112,7 +112,7 @@ public class MainGUI
 	private void initialize()
 	{
 		
-		m_dbManager = new Manager();
+		m_dbManager = new ClientDBManager();
 		
 		try 
 		{

@@ -4,7 +4,7 @@ package tests;
 import java.util.ArrayList;
 
 import models.*;
-import Controls.Manager;
+import Controls.ClientDBManager;
 
 import exceptions.MyTimeException;
 
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 public class ManagerTest extends TestCase
 {
-	Manager				testManager;
+	ClientDBManager				testManager;
 	ArrayList<Client>	clients = new ArrayList<Client>();
 	ArrayList<Project>	projects = new ArrayList<Project>();
 	Client client = new Client();
@@ -20,7 +20,7 @@ public class ManagerTest extends TestCase
 
 	protected void setUp() throws Exception
 	{
-		testManager = new Manager();
+		testManager = new ClientDBManager();
 	}
 
 	protected void tearDown() throws Exception

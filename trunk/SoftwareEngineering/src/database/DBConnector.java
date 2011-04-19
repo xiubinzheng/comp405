@@ -17,14 +17,14 @@ import exceptions.MyTimeException;
  * instance handling.
  * 
  */
-public class DatabaseConnect
+public class DBConnector
 {
 	private String m_databaseName = "";
-	private static DatabaseConnect m_singleton;
+	private static DBConnector m_singleton;
 	private Connection m_dbConnection;
 	private boolean m_open;
 	
-	private DatabaseConnect(String databaseName)
+	private DBConnector(String databaseName)
 	{
 		m_databaseName = databaseName;
 		m_open = false;
@@ -35,11 +35,11 @@ public class DatabaseConnect
 	 * of the DatabaseConnect class by making it so that only one exists at one time.
 	 * 
 	 */
-	public static DatabaseConnect getDatabaseInstance(String databaseName)
+	public static DBConnector getDatabaseInstance(String databaseName)
 	{
 		if(m_singleton == null)
 		{
-			m_singleton = new DatabaseConnect(databaseName);
+			m_singleton = new DBConnector(databaseName);
 		}
 		return m_singleton;
 	}

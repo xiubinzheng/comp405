@@ -7,7 +7,7 @@
 package Controls;
 
 import exceptions.MyTimeException;
-import database.DatabaseConnect;
+import database.DBConnector;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,7 +21,7 @@ import models.*;
 /**
  * This class manages clients and projects in memory.
  */
-public class Manager
+public class ClientDBManager
 {
 	// TODO: Lots of hard-coded string here
 	// we need to move these to a property file...
@@ -37,7 +37,7 @@ public class Manager
 	private SQLGenerator					m_timeTableGen		= new SQLGenerator(
 																		m_timeTableName);
 
-	private DatabaseConnect					m_database;
+	private DBConnector					m_database;
 	private HashMap<Integer, Client>		m_clients;
 	private HashMap<Integer, Project>		m_projects;
 	private HashMap<Integer, TimeInterval>	m_timeIntervals;
@@ -54,13 +54,13 @@ public class Manager
 	 * This method creates a manager with default attributes. Manager needs to
 	 * be initialized before use.
 	 */
-	public Manager()
+	public ClientDBManager()
 	{
 		m_clients = new HashMap<Integer, Client>();
 		m_projects = new HashMap<Integer, Project>();
 		m_timeIntervals = new HashMap<Integer, TimeInterval>();
 
-		m_database = DatabaseConnect.getDatabaseInstance(m_databaseName);
+		m_database = DBConnector.getDatabaseInstance(m_databaseName);
 	}
 
 	/**

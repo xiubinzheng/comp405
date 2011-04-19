@@ -9,13 +9,13 @@ import models.*;
 
 import exceptions.MyTimeException;
 
-import Controls.Manager;
+import Controls.ClientDBManager;
 
 public class MyTimeConsoleUI
 {
 	static Scanner g_inString = new Scanner(System.in);
 	static Scanner g_inInt = new Scanner(System.in);
-	static Manager g_uiManager = null;
+	static ClientDBManager g_uiManager = null;
 	static ArrayList<Client> g_clientList = new ArrayList<Client>();
 	static ArrayList<Project> g_projectList = new ArrayList<Project>();
 	
@@ -24,7 +24,7 @@ public class MyTimeConsoleUI
 	 */
 	public static void main(String[] args)
 	{
-		g_uiManager = new Manager();
+		g_uiManager = new ClientDBManager();
 		try
 		{
 			g_uiManager.initializeDB();
