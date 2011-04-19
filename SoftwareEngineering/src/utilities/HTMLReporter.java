@@ -34,7 +34,7 @@ public class HTMLReporter
         
         private Date g_dateSpanStart = new Date();
         private Date g_dateSpanStop = new Date();
-        private int g_totalSeconds = 0;//measured in seconds
+        private long g_totalSeconds = 0;//measured in seconds
         
         
         public HTMLReporter()
@@ -42,7 +42,7 @@ public class HTMLReporter
             //construct
         	
             g_dateSpanStart.getTime();
-            g_dateSpanStart.setYear(1980); //set to a time before all other times
+            g_dateSpanStart.setYear(80); //set to a time before all other times
             
             g_dateSpanStop.getTime();
             
@@ -68,6 +68,12 @@ public class HTMLReporter
                         m_singleton = new HTMLReporter(start, stop);
                 }
                 return m_singleton;
+        }
+        
+        public void setTimes(Date start, Date stop)
+        {
+        	g_dateSpanStart = start;
+            g_dateSpanStop = stop;
         }
         
         /**  
@@ -102,16 +108,8 @@ public class HTMLReporter
          */
         private void generateClientTable()
         {
-                ClientDBManager m_manage = ClientDBManager.getInstance();
-                try
-				{
-					m_manage.initializeDB();
-				}
-				catch (MyTimeException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}//TODO Remove this is Temp.
+                ClientDBManager m_manage = ClientDBManager().getInstance();
+               
                 ArrayList<Client> m_client = new ArrayList<Client>();
                 
                 m_client.clear();
@@ -135,7 +133,7 @@ public class HTMLReporter
         {
                 ArrayList<Project> m_project = new ArrayList<Project>();
                 ArrayList<TimeInterval> t = new ArrayList<TimeInterval>();
-                int m_totalProjectSeconds = 0;//measured in seconds
+                long m_totalProjectSeconds = 0;//measured in seconds
                 
                 m_project.clear();
                 c.getProjectList(m_project);
@@ -165,10 +163,10 @@ public class HTMLReporter
          * 
          * @param p The project object
          */
-        private int generateTimeTable(Project p)
+        private long generateTimeTable(Project p)
         {
                 ArrayList<TimeInterval> m_time = new ArrayList<TimeInterval>();
-                int i = 0;
+                long i = 0;
                 
                 m_time.clear();
                 p.getTimeIntervals(m_time);
@@ -177,8 +175,10 @@ public class HTMLReporter
                 
                 for(TimeInterval t : m_time)
                 {
-                    if(t.getStart().compareTo(g_dateSpanStart) < 0 
-                    		&& t.getStop().compareTo(g_dateSpanStop) < 0)
+                	System.out.println("Range: " + g_dateSpanStart + " " + g_dateSpanStop);
+                	System.out.println(t.getStart() + " " + t.getStop());
+                    if(t.getStart().getTime() >= g_dateSpanStart.getTime() 
+                    		&& t.getStop().getTime() <= g_dateSpanStop.getTime())
                     {
                     	outputTimeInterval(t);
                         i += (t.getStop().getTime() - t.getStart().getTime());
@@ -241,9 +241,9 @@ public class HTMLReporter
         	g_htmlString +="<td>  </td>";
         	g_htmlString += "<td class=\"t_From\" + colspan=\"5\"" + "\">" + formatTime(t.getStart()) + "</td>\n";
             g_htmlString += "<td class=\"t_To\" + colspan=\"5\"" + "\">" + formatTime(t.getStop())  + "</td>\n";
-            g_htmlString += "<td class=\"t_Duration"+"\">" + getDuration(t.getStart(),t.getStop())  /* + "::" + ((t.getStop().getTime()-t.getStart().getTime())/1000)*/+ "</td>\n</tr>";
+            g_htmlString += "<td class=\"t_Duration"+"\">" + getDuration(t.getStart(),t.getStop())   + " :: " + ((t.getStop().getTime()-t.getStart().getTime())/1000)+ "</td>\n</tr>";
         }
-        private void outputTotalTimeInterval(int tmSeconds)
+        private void outputTotalTimeInterval(long tmSeconds)
         {
         	g_htmlString +="<tr><td>  </td>";
         	g_htmlString +="<td>  </td>";
@@ -271,7 +271,21 @@ public class HTMLReporter
         	d2min = d2.getMinutes();
         	d1min = d1.getMinutes();
         	
+        	long start = d1.getTime();
+        	long stop = d2.getTime();
         	
+        	long hours = (stop-start)/3600000;
+        	if (hours != 0)
+        	{
+        		ret += (hours + " h : ");
+        	}
+        	
+        	long minutes = (stop-start)/60000 - (hours*60);
+        	if(minutes != 0)
+        	{
+        		ret += (minutes + " min");
+        	}
+        	/*
         	if(d2min == d1min) //only hours
         	{
         		ret += d2h-d1h;
@@ -294,6 +308,7 @@ public class HTMLReporter
         		ret += (d1min==0||d2min==0) ? 60-Math.abs(d2min - d1min) : Math.abs(d2min - d1min);
             	ret += " mins";
         	}
+        	*/
         	
         	return ret;
         }
