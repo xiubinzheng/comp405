@@ -24,7 +24,7 @@ public class MyTimeConsoleUI
 	 */
 	public static void main(String[] args)
 	{
-		g_uiManager = new ClientDBManager();
+		g_uiManager = ClientDBManager.getInstance();
 		try
 		{
 			g_uiManager.initializeDB();

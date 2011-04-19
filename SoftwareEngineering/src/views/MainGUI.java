@@ -114,21 +114,13 @@ public class MainGUI
 	private void initialize()
 	{
 		
-		m_dbManager = new ClientDBManager();
+		m_dbManager = ClientDBManager.getInstance();
 		
-		try 
-		{
-			m_dbManager.initializeDB();
-		} 
-		catch (MyTimeException e) 
-		{
-			e.printStackTrace();
-		}
 		// Main Frame initialization is here
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(450, 300));
 		frame.setBounds(100, 100, 640, 480);
-		frame.setIconImage(new ImageIcon("hourglass.ico").getImage());
+		frame.setIconImage(new ImageIcon("Hourglass.png").getImage());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
 		
