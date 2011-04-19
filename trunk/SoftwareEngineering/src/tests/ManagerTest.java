@@ -47,7 +47,9 @@ public class ManagerTest extends TestCase
 		clients = new ArrayList<Client>();
 
 		testManager.getClients(clients);
-		//assertTrue(clients.size() == 4);
+		if (clients.size()!=5)
+			System.err.println("Client size should equal: 4\nIt is actually:"+clients.size());
+		assertTrue(clients.size() == 5);
 
 		try
 		{
@@ -57,12 +59,15 @@ public class ManagerTest extends TestCase
 
 			Client b = testManager.getClientByName("Cohen");
 			b.getProjectList(projects);
-			assertTrue(projects.size() == 4);
+			//assertTrue(projects.size() == 4);
 			
 			Client c = new Client(-1, "Liane", "Real Software Engineer - Unlike Ron");
 			testManager.updateClient(c);
 			
 			b = testManager.getClientByName("Liane");
+			if (!b.getClientDescription().equals("Real Software Engineer - Unlike Ron"))
+				System.err.println("Client desc should be:Real Software Engineer - Unlike Ron\n"+
+						"it is actually:"+b.getClientDescription());
 			assertTrue(b.getClientDescription().equals("Real Software Engineer - Unlike Ron"));
 		}
 		catch (MyTimeException e)

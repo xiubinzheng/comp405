@@ -152,8 +152,8 @@ public class ClientDBManager
 
 				String startTime = result.getString("Project_Start_Time");
 				String stopTime = result.getString("Project_End_Time");
-				String startDate = result.getDate("Start_Date").toString();
-				String stopDate = result.getDate("End_Date").toString();
+				String startDate = result.getString("Start_Date");
+				String stopDate = result.getString("End_Date");
 				start = m_dateParser.parse(startDate + " " + startTime);
 				stop = m_dateParser.parse(stopDate + " " + stopTime);
 
@@ -334,10 +334,11 @@ public class ClientDBManager
 		{
 			String cmd = m_clientTableGen.update(
 					"Client_Name, Client_Description",
-					c.getClientName() + ", "+ c.getClientDescription(),
+					"'"+c.getClientName() + "', '"+ c.getClientDescription()+"'",
 					"Client_ID = " + c.getClientID());
 
 			// insert new client into DB
+			System.out.println("DEBUG "+cmd);
 			m_database.update(cmd);
 
 		}
@@ -412,9 +413,9 @@ public class ClientDBManager
 		{
 			String cmd = m_projectTableGen
 					.insert("Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
-							p.getClientID() + ", " + p.getName() + ", "
-									+ p.getDescription() + ", "
-									+ p.isComplete() + ", " + p.isHourly());
+							p.getClientID() + ", '" + p.getName() + "', '"
+									+ p.getDescription() + "', "
+									+ "'" + p.isComplete() + "', '" + p.isHourly()+"'");
 
 			// insert new client into DB
 			m_database.update(cmd);
@@ -455,7 +456,7 @@ public class ClientDBManager
 		{
 			String cmd = m_projectTableGen
 					.update("Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
-							p.getClientID() + ","+ p.getName() + "," + p.getDescription() + "," + p.isComplete() + "," + p.isHourly(),
+							p.getClientID() + ",'"+ p.getName() + "','" + p.getDescription() + "','" + p.isComplete() + "','" + p.isHourly()+"'",
 							"Project_ID ="+ p.getProjectID());
 
 			// insert new project into DB
@@ -515,11 +516,11 @@ public class ClientDBManager
 		{
 			String cmd = m_timeTableGen
 					.insert(" Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
-							+time.getProjectID() + ", "
-									+ m_time.format(time.getStart()) + ", "
-									+ m_time.format(time.getStop()) + ", "
-									+ m_date.format(time.getStart()) + ","
-									+ m_date.format(time.getStop()));
+							+time.getProjectID() + ", '"
+									+ m_time.format(time.getStart()) + "', '"
+									+ m_time.format(time.getStop()) + "', '"
+									+ m_date.format(time.getStart()) + "','"
+									+ m_date.format(time.getStop())) + "'";
 			m_database.update(cmd);
 
 			ResultSet result = m_database.execute(String.format(
@@ -559,7 +560,7 @@ public class ClientDBManager
 		{
 			String cmd = m_timeTableGen
 					.update("Project_Start_Time, Project_End_Time, Start_Date, End_Date",
-							m_time.format(time.getStart()) + ", "
+							m_time.format(time.getStart()) + ", '"
 									+ m_time.format(time.getStop()) + ", "
 									+ m_date.format(time.getStart()) + ","
 									+ m_date.format(time.getStop()),
