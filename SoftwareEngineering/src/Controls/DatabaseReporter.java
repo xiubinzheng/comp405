@@ -14,7 +14,7 @@ import models.*;
 
 import exceptions.MyTimeException;
 
-import database.DatabaseConnect;
+import database.DBConnector;
 
 /**
  * 
@@ -104,7 +104,7 @@ public class DatabaseReporter
          */
         private void generateClientTable()
         {
-                Manager m_manage = new Manager();
+                ClientDBManager m_manage = new ClientDBManager();
                 try
 				{
 					m_manage.initializeDB();

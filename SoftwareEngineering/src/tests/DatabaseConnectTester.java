@@ -6,21 +6,21 @@ import java.sql.ResultSet;
 import models.Client;
 
 import junit.framework.TestCase;
-import database.DatabaseConnect;
+import database.DBConnector;
 import exceptions.MyTimeException;
 
 
 public class DatabaseConnectTester extends TestCase
 {
 	String m_database = "myTimeDB.s3db";
-	DatabaseConnect m_connect;
+	DBConnector m_connect;
 	
 	Client testClient;
 
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		m_connect = DatabaseConnect.getDatabaseInstance(m_database);
+		m_connect = DBConnector.getDatabaseInstance(m_database);
 		testClient = new Client(1001, "Cohen", "Proffesor");
 	}
 

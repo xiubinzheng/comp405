@@ -1,6 +1,6 @@
 package tests;
 
-import database.DatabaseConnect;
+import database.DBConnector;
 import junit.framework.TestCase;
 import java.io.*;
 import java.util.Date;

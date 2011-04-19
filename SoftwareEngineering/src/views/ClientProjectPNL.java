@@ -5,7 +5,7 @@ import gui.GuiUtilities;
 import javax.swing.*;
 
 
-import Controls.Manager;
+import Controls.ClientDBManager;
 
 /**
  * This class provides abstraction between two ComboBoxes contained within it.
@@ -60,7 +60,7 @@ public class ClientProjectPNL extends JPanel
 	{
 		return m_cbClient;
 	}
-	public Manager getManager()
+	public ClientDBManager getManager()
 	{
 		return m_mainGUIParent.getManager();
 	}
