@@ -4,10 +4,8 @@
  * the program.
  */
 
-package Controls;
+package utilities;
 
-import exceptions.MyTimeException;
-import database.DBConnector;
 
 import java.text.DateFormat;
 import java.text.ParseException;

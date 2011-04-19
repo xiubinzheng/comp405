@@ -1,4 +1,4 @@
-package Controls;
+package utilities;
 
 /**
  * This class provides a means to easily generate SQL statements.

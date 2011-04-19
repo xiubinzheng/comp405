@@ -20,7 +20,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.EditorKit;
 
-import Controls.DatabaseReporter;
+import utilities.HTMLReporter;
+
 
 //import com.toedter.calendar.*;
 
@@ -55,7 +56,7 @@ public class ReportViewDLG extends JDialog implements ActionListener
 		Writer writer = null;
 		//promptForDate(d1, d2);
 		
-		DatabaseReporter dbr = new DatabaseReporter();
+		HTMLReporter dbr = new HTMLReporter();
 		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
 		
 		File f = new File("testReport.html");
