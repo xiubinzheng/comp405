@@ -1,9 +1,9 @@
-package gui.displayPanel;
+package views;
 
-import gui.MainGUI;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+
 
 /**
  * This is a combobox that holds a list of Projects.

@@ -1,12 +1,12 @@
-package gui.displayPanel;
+package views;
 
-import gui.MainGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+
 
 import models.*;
 

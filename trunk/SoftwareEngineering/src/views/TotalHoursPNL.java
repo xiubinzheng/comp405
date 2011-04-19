@@ -1,4 +1,4 @@
-package gui.displayPanel;
+package views;
 
 import javax.swing.JPanel;
 

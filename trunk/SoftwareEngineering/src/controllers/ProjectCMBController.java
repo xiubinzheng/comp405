@@ -1,9 +1,10 @@
 package controllers;
 
-import gui.displayPanel.ProjectCMB;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import views.ProjectCMB;
 
 import models.Project;
 

@@ -1,12 +1,13 @@
 package controllers;
 
-import gui.displayPanel.ClientCMB;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
+
+import views.ClientCMB;
 
 import models.*;
 
