@@ -37,18 +37,23 @@ public class MainGUI
 	// components
 	private        	JFrame    			frame;
 	private final 	Action    			action = new SwingAction();
-	private			ClientProjectPNL	m_clientProjectPanel;
-	private       	JButton			   	m_btnStartStop;
+
 	private       	ClientDBManager   	m_dbManager;
-	private			ReportViewDLG		m_htmlViewer;
+	
+	//buttons
+	private       	JButton			   	m_btnStartStop;
+	
+	//panels
+	private			ReportViewPNL		m_htmlViewPanel;
+	private			ClientProjectPNL	m_clientProjectPanel;
 	
 	private JPanel m_startStopPanel;
-	private JButton m_btnHTMLViewer;
 
 	// action listenters
 	ClientCMBController cbClientListener;
 	ProjectCMBController cbProjectListener;
 	ReportBTNController m_htmlViewerListener;
+	
 	// models
 	DefaultComboBoxModel cbClientModel;
 	DefaultComboBoxModel cbProjectModel;
@@ -129,7 +134,6 @@ public class MainGUI
 		m_timerField = new JTextField();
 		m_clientProjectPanel = new ClientProjectPNL(this);
 		m_btnStartStop = new JButton();
-		m_btnHTMLViewer = new JButton();
 		m_startStopPanel = new JPanel();
 
 		// Set GUI component attributes
@@ -148,7 +152,7 @@ public class MainGUI
 		m_clientProjectPanel.getCBClient().addActionListener(cbClientListener);
 		m_clientProjectPanel.getCBProject().addActionListener(cbProjectListener);
 		m_btnStartStop.addActionListener(startStopController);
-		m_btnHTMLViewer.addActionListener(m_htmlViewerListener);
+		//m_htmlViewPanel.addActionListener(m_htmlViewerListener);
 		
 		// Add Components to sub-components
 		
@@ -156,7 +160,6 @@ public class MainGUI
 		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
 		frame.getContentPane().add(m_timerField, BorderLayout.CENTER);
 		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
-		frame.getContentPane().add(m_btnHTMLViewer, BorderLayout.CENTER);
 		
 		JButton htmlButton_test = new JButton();
 		htmlButton_test.addActionListener(m_htmlViewerListener);

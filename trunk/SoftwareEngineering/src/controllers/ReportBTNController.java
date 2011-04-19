@@ -9,13 +9,15 @@ import views.ReportViewDLG;
 
 public class ReportBTNController implements ActionListener
 {
-
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		try {
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		try 
+		{
 			ReportViewDLG htmlViewer = new ReportViewDLG();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 		

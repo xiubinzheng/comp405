@@ -102,7 +102,7 @@ public class HTMLReporter
          */
         private void generateClientTable()
         {
-                ClientDBManager m_manage = new ClientDBManager();
+                ClientDBManager m_manage = ClientDBManager.getInstance();
                 try
 				{
 					m_manage.initializeDB();
