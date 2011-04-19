@@ -20,7 +20,7 @@ public class ManagerTest extends TestCase
 
 	protected void setUp() throws Exception
 	{
-		testManager = new ClientDBManager();
+		testManager = ClientDBManager.getInstance();
 	}
 
 	protected void tearDown() throws Exception
