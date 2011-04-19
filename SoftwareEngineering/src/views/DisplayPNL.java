@@ -1,14 +1,14 @@
-package gui.displayPanel;
+package views;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
-import gui.MainGUI;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 public class DisplayPNL extends JPanel
 {

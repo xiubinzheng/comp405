@@ -1,10 +1,11 @@
 package controllers;
 
-import gui.ReportViewDLG;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import views.ReportViewDLG;
 
 public class ReportBTNController implements ActionListener
 {

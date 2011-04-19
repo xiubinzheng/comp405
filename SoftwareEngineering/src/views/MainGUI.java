@@ -1,4 +1,4 @@
-package gui;
+package views;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -21,9 +21,6 @@ import controllers.*;
 
 import models.*;
 import exceptions.MyTimeException;
-import gui.displayPanel.ClientCMB;
-import gui.displayPanel.ProjectCMB;
-import gui.displayPanel.ClientProjectPNL;
 import Controls.Manager;
 
 

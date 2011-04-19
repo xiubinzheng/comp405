@@ -1,9 +1,9 @@
-package gui.displayPanel;
+package views;
 
 import gui.GuiUtilities;
-import gui.MainGUI;
 
 import javax.swing.*;
+
 
 import Controls.Manager;
 
