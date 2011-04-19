@@ -3,6 +3,8 @@ package views;
 
 import javax.swing.*;
 
+import controllers.StartStopBTNController;
+
 import utilities.*;
 
 
@@ -13,21 +15,13 @@ import utilities.*;
  */
 public class ClientProjectPNL extends JPanel
 {
-	// this can be removed
-	public static void main(String[] args)
-	{
-		ClientProjectPNL panel = new ClientProjectPNL(null);
-		JFrame frame = new JFrame();
-		frame.setBounds(0, 0, 640, 480);
-		panel.setVisible(true);
-		frame.add(panel);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+
 	private static final long serialVersionUID = 1L; // what does this do!?
-	private ClientCMB m_cbClient;
-	private ProjectCMB m_cbProject;
-	private MainGUI m_mainGUIParent;
+	private ClientCMB 			m_cbClient;
+	private ProjectCMB 			m_cbProject;
+	private MainGUI 			m_mainGUIParent;
+	private JButton 			m_startStopButton;
+	private JPanel				m_cbProjectPanel;
 	/**
 	 * The MainGui parent of this class will provide methods for other classes to
 	 * communicate with it.
@@ -36,20 +30,30 @@ public class ClientProjectPNL extends JPanel
 	public ClientProjectPNL(MainGUI parent)
 	{
 		m_mainGUIParent = parent;
+		m_startStopButton = new JButton();
 		m_cbProject = new ProjectCMB(this);
 		m_cbClient = new ClientCMB(this, m_cbProject);
+		m_cbProjectPanel = new JPanel();
+		
 		JComponent[][] components = 
 		{	
 			{new JLabel("Client "), m_cbClient},
 			{new JLabel("Project "), m_cbProject}
 		};
-		GUIUtilities.generateGridPanel(this, components, true, false);
+		JComponent[] fullComponents = {m_startStopButton, m_cbProjectPanel };
+		GUIUtilities.generateGridPanel(m_cbProjectPanel, components, true, false);
+		GUIUtilities.generateGridPanel(this, fullComponents, true, false);
 		m_cbClient.setSelectedIndex(0);
 	}
 	
 	public MainGUI getMainGui()
 	{
 		return m_mainGUIParent;
+	}
+	
+	public JButton getStartStopButton()
+	{
+		return m_startStopButton;
 	}
 	
 	public ProjectCMB getCBProject()
