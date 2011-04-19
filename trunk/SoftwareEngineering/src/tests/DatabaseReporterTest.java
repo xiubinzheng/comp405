@@ -17,6 +17,9 @@ public class DatabaseReporterTest extends TestCase {
 	{
 		Date d1 = new Date();
 		Date d2 = new Date();
+		d1.setYear(60);
+		d2.setYear(120);
+		
 		
 		super.setUp();
 		//table populated
