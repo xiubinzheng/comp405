@@ -43,7 +43,7 @@ public class ClientProjectPNL extends JPanel
 			{new JLabel("Client "), m_cbClient},
 			{new JLabel("Project "), m_cbProject}
 		};
-		GuiUtilitiesX.generateGridPanel(this, components, true, false);
+		GUIUtilities.generateGridPanel(this, components, true, false);
 		m_cbClient.setSelectedIndex(0);
 	}
 	
