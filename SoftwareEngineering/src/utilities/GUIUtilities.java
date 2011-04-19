@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class GuiUtilitiesX {
+public class GUIUtilities {
 	
 	public static JPanel createColumnLabelComponent(JComponent[] left, JComponent[] right) throws MyTimeException
 	{
