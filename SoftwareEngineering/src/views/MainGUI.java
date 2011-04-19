@@ -35,7 +35,6 @@ public class MainGUI
 	private        	JFrame    			frame;
 	private final 	Action    			action = new SwingAction();
 	private			ClientProjectPNL	m_clientProjectPanel;
-	private       	CommitBTN   		m_btnCommit;
 	private       	JButton			   	m_btnStartStop;
 	private       	ClientDBManager   			m_dbManager;
 	private			ReportViewDLG			m_htmlViewer;
@@ -450,11 +449,6 @@ public class MainGUI
 	public JTextField getTimerField()
 	{
 		return m_timerField;
-	}
-	
-	public CommitBTN getCommitButton()
-	{
-		return m_btnCommit;
 	}
 	
 //	public TotalHoursCluster getTotalHoursCluster()
