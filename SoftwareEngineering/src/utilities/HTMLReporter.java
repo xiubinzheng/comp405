@@ -1,4 +1,4 @@
-package Controls;
+package utilities;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,9 +12,7 @@ import java.sql.ResultSet;
 import models.*;
 
 
-import exceptions.MyTimeException;
 
-import database.DBConnector;
 
 /**
  * 
@@ -27,10 +25,10 @@ import database.DBConnector;
  * HTML information for all of your various reporting needs.
  */
 
-public class DatabaseReporter 
+public class HTMLReporter 
 {
         //private DatabaseConnect m_databaseConnection;
-        private static DatabaseReporter m_singleton;
+        private static HTMLReporter m_singleton;
         
         private String g_htmlString = "";
         
@@ -39,7 +37,7 @@ public class DatabaseReporter
         private int g_totalSeconds = 0;//measured in seconds
         
         
-        public DatabaseReporter()
+        public HTMLReporter()
         {
             //construct
         	
@@ -51,7 +49,7 @@ public class DatabaseReporter
             
         }
         
-        public DatabaseReporter(Date start, Date stop)
+        public HTMLReporter(Date start, Date stop)
         {
             //construct
             g_dateSpanStart = start;
@@ -63,11 +61,11 @@ public class DatabaseReporter
          *  Returns a singleton instance of the DatabaseReporter class.
          *  
          */
-        public static DatabaseReporter getReporterInstance(Date start, Date stop)
+        public static HTMLReporter getReporterInstance(Date start, Date stop)
         {
                 if(m_singleton == null)
                 {
-                        m_singleton = new DatabaseReporter(start, stop);
+                        m_singleton = new HTMLReporter(start, stop);
                 }
                 return m_singleton;
         }

@@ -1,7 +1,7 @@
 package tests;
 
+import utilities.MyTimeException;
 import models.*;
-import exceptions.MyTimeException;
 import junit.framework.TestCase;
 
 /**

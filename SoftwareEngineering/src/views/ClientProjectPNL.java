@@ -1,11 +1,11 @@
 package views;
 
-import gui.GuiUtilities;
 
 import javax.swing.*;
 
+import utilities.*;
 
-import Controls.ClientDBManager;
+
 
 /**
  * This class provides abstraction between two ComboBoxes contained within it.
@@ -43,7 +43,7 @@ public class ClientProjectPNL extends JPanel
 			{new JLabel("Client "), m_cbClient},
 			{new JLabel("Project "), m_cbProject}
 		};
-		GuiUtilities.generateGridPanel(this, components, true, false);
+		GuiUtilitiesX.generateGridPanel(this, components, true, false);
 		m_cbClient.setSelectedIndex(0);
 	}
 	

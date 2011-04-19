@@ -3,10 +3,10 @@ package tests;
 
 import java.util.ArrayList;
 
-import models.*;
-import Controls.ClientDBManager;
+import utilities.*;
 
-import exceptions.MyTimeException;
+import models.*;
+
 
 import junit.framework.TestCase;
 

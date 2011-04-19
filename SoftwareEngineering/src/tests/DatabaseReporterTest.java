@@ -1,17 +1,17 @@
 package tests;
 
-import database.DBConnector;
 import junit.framework.TestCase;
 import java.io.*;
 import java.util.Date;
 
+import utilities.*;
+
 import models.Client;
 
 
-import Controls.DatabaseReporter;
 public class DatabaseReporterTest extends TestCase {
 	
-	DatabaseReporter dr; 
+	HTMLReporter dr; 
 	
 	protected void setUp() throws Exception
 	{
@@ -20,7 +20,7 @@ public class DatabaseReporterTest extends TestCase {
 		
 		super.setUp();
 		//table populated
-		dr = DatabaseReporter.getReporterInstance(d1, d2);
+		dr = HTMLReporter.getReporterInstance(d1, d2);
 	}
 
 	protected void tearDown() throws Exception

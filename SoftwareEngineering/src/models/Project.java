@@ -2,7 +2,8 @@ package models;
 
 import java.util.ArrayList;
 
-import exceptions.MyTimeException;
+import utilities.MyTimeException;
+
 
 /**
  * {@code Project} creates a Project class to track specific information about a

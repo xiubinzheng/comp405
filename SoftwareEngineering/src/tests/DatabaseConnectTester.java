@@ -3,11 +3,11 @@ package tests;
 
 import java.sql.ResultSet;
 
+import utilities.*;
+
 import models.Client;
 
 import junit.framework.TestCase;
-import database.DBConnector;
-import exceptions.MyTimeException;
 
 
 public class DatabaseConnectTester extends TestCase

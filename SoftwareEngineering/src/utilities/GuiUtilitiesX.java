@@ -1,11 +1,12 @@
-package gui;
+package utilities;
 
 import javax.swing.*;
+
+
 import java.awt.*;
 
-import exceptions.MyTimeException;
 
-public class GuiUtilities {
+public class GuiUtilitiesX {
 	
 	public static JPanel createColumnLabelComponent(JComponent[] left, JComponent[] right) throws MyTimeException
 	{

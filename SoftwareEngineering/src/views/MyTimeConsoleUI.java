@@ -3,13 +3,13 @@ package views;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import utilities.*;
+
 import models.*;
 
 
 
-import exceptions.MyTimeException;
 
-import Controls.ClientDBManager;
 
 public class MyTimeConsoleUI
 {
