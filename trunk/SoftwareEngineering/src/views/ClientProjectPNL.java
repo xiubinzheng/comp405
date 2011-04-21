@@ -22,6 +22,7 @@ public class ClientProjectPNL extends JPanel
 	private MainGUI 			m_mainGUIParent;
 	private JButton 			m_startStopButton;
 	private JPanel				m_cbProjectPanel;
+	private JPanel				m_buttonPanel;
 	/**
 	 * The MainGui parent of this class will provide methods for other classes to
 	 * communicate with it.
@@ -34,7 +35,7 @@ public class ClientProjectPNL extends JPanel
 		m_cbProject = new ProjectCMB(this);
 		m_cbClient = new ClientCMB(this, m_cbProject);
 		m_cbProjectPanel = new JPanel();
-		
+		m_buttonPanel = new JPanel();
 		JComponent[][] components = 
 		{	
 			{new JLabel("Client "), m_cbClient},
@@ -43,7 +44,8 @@ public class ClientProjectPNL extends JPanel
 		JComponent[] fullComponents = {m_startStopButton, m_cbProjectPanel };
 		GUIUtilities.generateGridPanel(m_cbProjectPanel, components, true, false);
 		GUIUtilities.generateGridPanel(this, fullComponents, true, false);
-		m_cbClient.setSelectedIndex(0);
+		if(m_cbClient.getItemCount() != 0)
+			m_cbClient.setSelectedIndex(0);
 	}
 	
 	public MainGUI getMainGui()
