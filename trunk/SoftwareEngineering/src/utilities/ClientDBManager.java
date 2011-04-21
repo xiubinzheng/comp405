@@ -154,6 +154,8 @@ public class ClientDBManager
 				String stopTime = result.getString("Project_End_Time");
 				String startDate = result.getString("Start_Date");
 				String stopDate = result.getString("End_Date");
+				System.out.println("DEBUG "+startDate + " " + startTime);
+				System.out.println("DEBUG "+stopDate);
 				start = m_dateParser.parse(startDate + " " + startTime);
 				stop = m_dateParser.parse(stopDate + " " + stopTime);
 
@@ -290,8 +292,8 @@ public class ClientDBManager
 		{
 
 			String cmd = m_clientTableGen.insert(
-					"Client_Name, Client_Description", c.getClientName() + ", "
-							+ c.getClientDescription());
+					"Client_Name, Client_Description", "'"+esc(c.getClientName()) + "','"
+							+ c.getClientDescription()+"'");
 
 			// insert new client into DB
 			m_database.update(cmd);
@@ -334,7 +336,7 @@ public class ClientDBManager
 		{
 			String cmd = m_clientTableGen.update(
 					"Client_Name, Client_Description",
-					"'"+c.getClientName() + "', '"+ c.getClientDescription()+"'",
+					"'"+esc(c.getClientName()) + "','"+ esc(c.getClientDescription())+"'",
 					"Client_ID = " + c.getClientID());
 
 			// insert new client into DB
@@ -413,9 +415,9 @@ public class ClientDBManager
 		{
 			String cmd = m_projectTableGen
 					.insert("Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
-							p.getClientID() + ", '" + p.getName() + "', '"
-									+ p.getDescription() + "', "
-									+ "'" + p.isComplete() + "', '" + p.isHourly()+"'");
+							p.getClientID() + ",'" + esc(p.getName()) + "','"
+									+ esc(p.getDescription()) + "','"
+									+ esc(Boolean.toString(p.isComplete())) + "','" + esc(Boolean.toString(p.isHourly()))+"'");
 
 			// insert new client into DB
 			m_database.update(cmd);
@@ -456,7 +458,7 @@ public class ClientDBManager
 		{
 			String cmd = m_projectTableGen
 					.update("Client_ID, Project_Name, Project_Description, Project_Complete_Flag, Project_Pay_Type_Hourly",
-							p.getClientID() + ",'"+ p.getName() + "','" + p.getDescription() + "','" + p.isComplete() + "','" + p.isHourly()+"'",
+							p.getClientID() + ",'"+ esc(p.getName()) + "','" + esc(p.getDescription()) + "','" + esc(Boolean.toString(p.isComplete())) + "','" + esc(Boolean.toString(p.isHourly()))+"'",
 							"Project_ID ="+ p.getProjectID());
 
 			// insert new project into DB
@@ -516,9 +518,9 @@ public class ClientDBManager
 		{
 			String cmd = m_timeTableGen
 					.insert(" Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
-							+time.getProjectID() + ", '"
-									+ m_time.format(time.getStart()) + "', '"
-									+ m_time.format(time.getStop()) + "', '"
+							time.getProjectID() + ",'"
+									+ m_time.format(time.getStart()) + "','"
+									+ m_time.format(time.getStop()) + "','"
 									+ m_date.format(time.getStart()) + "','"
 									+ m_date.format(time.getStop())) + "'";
 			m_database.update(cmd);
@@ -560,10 +562,10 @@ public class ClientDBManager
 		{
 			String cmd = m_timeTableGen
 					.update("Project_Start_Time, Project_End_Time, Start_Date, End_Date",
-							m_time.format(time.getStart()) + ", '"
-									+ m_time.format(time.getStop()) + ", "
-									+ m_date.format(time.getStart()) + ","
-									+ m_date.format(time.getStop()),
+							"'"+m_time.format(time.getStart()) + "','"
+									+ m_time.format(time.getStop()) + "','"
+									+ m_date.format(time.getStart()) + "','"
+									+ m_date.format(time.getStop())+"'",
 							"Project_ID=" + time.getProjectID());
 
 			// update time into DB
@@ -616,5 +618,15 @@ public class ClientDBManager
 			}
 		}
 		return project;
+	}
+	
+	/**
+	 * Prevent bad parses when a single quote is used in a string
+	 * @param replace string to have all of its single quotes replaced with "''"
+	 * @return
+	 */
+	private String esc(String replace)
+	{
+		return replace.replace("'", "''");
 	}
 }

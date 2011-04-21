@@ -85,5 +85,5 @@ class SQLGenerator
 			cmd += " \nWHERE " + where;
 		}
 		return cmd;
-	}
+	}	
 }
