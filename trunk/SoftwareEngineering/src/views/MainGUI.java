@@ -44,10 +44,10 @@ public class MainGUI
 	private       	JButton			   	m_btnStartStop;
 	
 	//panels
-	private			ReportViewPNL		m_htmlViewPanel;
+	private			ReportViewPNL		m_reportViewPanel;
 	private			ClientProjectPNL	m_clientProjectPanel;
 	
-	private JPanel m_startStopPanel;
+	private 		JPanel 				m_startStopPanel;
 
 	// action listenters
 	ClientCMBController cbClientListener;
@@ -133,8 +133,10 @@ public class MainGUI
 		// Construct GUI components
 		m_timerField = new JTextField();
 		m_clientProjectPanel = new ClientProjectPNL(this);
+		m_reportViewPanel = new ReportViewPNL(this);
 		m_btnStartStop = new JButton();
 		m_startStopPanel = new JPanel();
+
 
 		// Set GUI component attributes
 		m_clientProjectPanel.setBounds(0, 0, 640, 100);
@@ -152,21 +154,23 @@ public class MainGUI
 		m_clientProjectPanel.getCBClient().addActionListener(cbClientListener);
 		m_clientProjectPanel.getCBProject().addActionListener(cbProjectListener);
 		m_btnStartStop.addActionListener(startStopController);
-		//m_htmlViewPanel.addActionListener(m_htmlViewerListener);
+		//m_reportViewPanel.addActionListener(m_htmlViewerListener);
 		
 		// Add Components to sub-components
 		
 		// Add Components to the main Frame
 		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
-		frame.getContentPane().add(m_timerField, BorderLayout.CENTER);
+		frame.getContentPane().add(m_reportViewPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
 		
-		JButton htmlButton_test = new JButton();
-		htmlButton_test.addActionListener(m_htmlViewerListener);
-		frame.getContentPane().add(htmlButton_test);
+		//JButton htmlButton_test = new JButton();
+		//htmlButton_test.addActionListener(m_htmlViewerListener);
+		//frame.getContentPane().add(htmlButton_test);
 		
-		
-		m_clientProjectPanel.getCBClient().setSelectedIndex(0);
+		if(m_clientProjectPanel.getCBClient().getItemCount() > 0)
+		{
+			m_clientProjectPanel.getCBClient().setSelectedIndex(0);
+		}
 	}
 	
 	public void setCurrentClient(Client client)
