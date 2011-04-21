@@ -85,4 +85,51 @@ public class GUIUtilities {
 		gridPanel.add(centerPanel, BorderLayout.CENTER);
 		return gridPanel;
 	}
+	
+	public static JPanel generateGridPanel(JPanel panel, JComponent[] components, boolean leftmostToWest, boolean rightmostToEast)
+	{
+		JPanel gridPanel;
+		if (panel == null)
+		{
+			gridPanel = new JPanel();
+		}
+		else
+		{
+			gridPanel = panel;
+		}
+		
+		gridPanel.setLayout(new BorderLayout());
+		
+		int xOffset = 0;
+	//	int centerWidth = components[0].length;
+
+		if(leftmostToWest)
+		{
+			System.out.println(components[1]);
+			gridPanel.add(components[0], BorderLayout.WEST);
+			xOffset++;
+	//		centerWidth--;
+		}
+		
+		if(rightmostToEast)
+		{
+			gridPanel.add(components[components.length-1], BorderLayout.EAST);
+	//		centerWidth--;
+		}
+		
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.setRows(components.length);
+	//	gridLayout.setColumns(centerWidth);
+		JPanel centerPanel = new JPanel();		
+		centerPanel.setLayout(gridLayout);
+		for( int y = xOffset; y < components.length - 1 * (rightmostToEast ? 1 : 0); y++ ) 
+		{
+	//		for( int x = 0; x < centerWidth; x++)
+	//		{
+				centerPanel.add(components[y]);
+	//		}
+		}
+		gridPanel.add(centerPanel, BorderLayout.CENTER);
+		return gridPanel;
+	}
 }
