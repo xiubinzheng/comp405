@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.text.EditorKit;
 
+import com.jgoodies.forms.factories.Borders;
+
 import utilities.HTMLReporter;
 
 
@@ -27,11 +29,11 @@ public class ReportViewPNL extends JPanel
 		m_mainGUIParent = parent;
 		
 		setBackground(Color.red);
+		setLayout(new BorderLayout());
+		
 		
 		HTMLReporter dbr = new HTMLReporter();
 		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
-		
-		setLayout(new BorderLayout());
 		
 		this.add(m_pane);
 		
@@ -42,14 +44,12 @@ public class ReportViewPNL extends JPanel
 		
 		add(sp, BorderLayout.CENTER);
 		
-       String fullPath = "file:///"+System.getProperty("user.dir")+"/testReport.html";
-       System.out.println(fullPath);
-       URL helpURL;
+		String fullPath = "file:///"+System.getProperty("user.dir")+"/testReport.html";
+		System.out.println(fullPath);
+		URL helpURL;
 
-       helpURL = new URL(fullPath);
-       m_pane.setPage(helpURL);  
-       setVisible(true);
-		
-
+		helpURL = new URL(fullPath);
+		m_pane.setPage(helpURL);  
+		setVisible(true);
 	}
 }
