@@ -31,26 +31,6 @@ public class HTMLReporter
 
 	private Date				g_dateSpanStart	= new Date();
 	private Date				g_dateSpanStop	= new Date();
-	private long				g_totalSeconds	= 0;			// measured in
-																// seconds
-
-	public HTMLReporter()
-	{
-		// construct
-
-		g_dateSpanStart.getTime();
-		g_dateSpanStart.setYear(80); // set to a time before all other times
-
-		g_dateSpanStop.getTime();
-
-	}
-
-	public HTMLReporter(Date start, Date stop)
-	{
-		// construct
-		g_dateSpanStart = start;
-		g_dateSpanStop = stop;
-	}
 
 	/**
 	 * 
@@ -101,6 +81,24 @@ public class HTMLReporter
 		return g_htmlString;
 	}
 
+	private HTMLReporter()
+	{
+		// construct
+
+		g_dateSpanStart.getTime();
+		g_dateSpanStart.setYear(80); // set to a time before all other times
+
+		g_dateSpanStop.getTime();
+
+	}
+
+	private HTMLReporter(Date start, Date stop)
+	{
+		// construct
+		g_dateSpanStart = start;
+		g_dateSpanStop = stop;
+	}
+
 	/**
 	 * Collects the client information
 	 */
@@ -128,8 +126,8 @@ public class HTMLReporter
 		{
 			outputClientHeader();
 			outputClient(c);
-			generateProjectTable(c);
-
+			long cTime = generateProjectTable(c);
+			outputTotalClientTime(cTime);
 		}
 	}
 
@@ -138,31 +136,29 @@ public class HTMLReporter
 	 * 
 	 * @param c The client object
 	 */
-	private void generateProjectTable(Client c)
+	private long generateProjectTable(Client c)
 	{
 		ArrayList<Project> m_project = new ArrayList<Project>();
 		ArrayList<TimeInterval> t = new ArrayList<TimeInterval>();
-		long m_totalProjectSeconds = 0;// measured in seconds
+		long m_totalClientSeconds = 0;// measured in seconds
 
 		m_project.clear();
 		c.getProjectList(m_project);
 
 		for (Project p : m_project)
 		{
+			outputProjectHeader();
 			outputProject(p);
 
 			p.getTimeIntervals(t);
-			if (!t.isEmpty())
-			{
-				outputProjectHeader();
-				m_totalProjectSeconds = generateTimeTable(p);
-				outputTotalTimeInterval(m_totalProjectSeconds);
-				g_totalSeconds += m_totalProjectSeconds;
-			}
+			// if (!t.isEmpty())
+			// {
+			long pTime = generateTimeTable(p);
+			m_totalClientSeconds += pTime;
+			outputTotalTimeInterval(pTime);
+			// }
 		}
-
-		// TODO output total hours
-		g_totalSeconds += m_totalProjectSeconds;
+		return m_totalClientSeconds;
 	}
 
 	/**
@@ -173,7 +169,7 @@ public class HTMLReporter
 	private long generateTimeTable(Project p)
 	{
 		ArrayList<TimeInterval> m_time = new ArrayList<TimeInterval>();
-		long i = 0;
+		long totalProjectSeconds = 0;
 
 		m_time.clear();
 		p.getTimeIntervals(m_time);
@@ -189,10 +185,11 @@ public class HTMLReporter
 					&& t.getStop().getTime() <= g_dateSpanStop.getTime())
 			{
 				outputTimeInterval(t);
-				i += (t.getStop().getTime() - t.getStart().getTime());
+				totalProjectSeconds += (t.getStop().getTime() - t.getStart()
+						.getTime());
 			}
 		}
-		return i / 1000;// return the number of seconds
+		return (totalProjectSeconds / 1000);// return the number of seconds
 	}
 
 	// the purpose of this comment is to waste precious time so i dont have to
@@ -268,14 +265,19 @@ public class HTMLReporter
 	private void outputTotalTimeInterval(long tmSeconds)
 	{
 		g_htmlString += "<tr><td>  </td>";
-		g_htmlString += "<td>  </td>";
-		g_htmlString += "<td>  </td>";
-		g_htmlString += "<td>  </td>";
 		g_htmlString += "<td class=\"t_totalTime" + "\">"
 				+ "Project Total Time: " + (tmSeconds / 3600) + ":"
 				+ ((tmSeconds % 3600) / 60) + "</td>\n</tr>";
 	}
 
+	private void outputTotalClientTime(long tmSeconds)
+	{
+		g_htmlString += "<tr>";
+		g_htmlString += "<td class=\"t_totalTime" + "\">"
+				+ "Client Total Time: " + (tmSeconds / 3600) + ":"
+				+ ((tmSeconds % 3600) / 60) + "</td>\n</tr>";
+	}
+	
 	// DD/MM/YYYY HH:MM
 	private String formatTime(Date d)
 	{
@@ -312,7 +314,7 @@ public class HTMLReporter
 
 		return ret;
 	}
-	
+
 	/**
 	 * 
 	 * @param clients
@@ -321,15 +323,16 @@ public class HTMLReporter
 	{
 		ArrayList<Project> projects = new ArrayList<Project>();
 		ArrayList<TimeInterval> times = new ArrayList<TimeInterval>();
-		for(int i=0; i<clients.size(); )
+		for (int i = 0; i < clients.size();)
 		{
 			clients.get(i).getProjectList(projects);
-			for(int j=0; j<projects.size(); j++)
+			for (int j = 0; j < projects.size(); j++)
 			{
 				projects.get(j).getTimeIntervals(times);
 				if (times.isEmpty())
 				{
-					clients.get(i).removeProject(projects.get(j).getProjectID());
+					clients.get(i)
+							.removeProject(projects.get(j).getProjectID());
 				}
 			}
 			clients.get(i).getProjectList(projects);
