@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import utilities.MyTimeException;
@@ -42,11 +43,11 @@ public class StartStopBTNController implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource()== m_clock)
+		//Increment seconds counter...
 		{
-			//Increment seconds counter...
 			m_seconds++;
 			//Sends the new string value to the GUI TextField...
-			m_myGUI.getTimerField().setText(CounterUpper());
+			m_myGUI.getStartStopBtn().setText(CounterUpper());
 		}
 		if(e.getSource()==m_myGUI.getStartStopBtn())
 		{	
@@ -56,10 +57,11 @@ public class StartStopBTNController implements ActionListener
 			if (!m_isStarted) //Start Button
 			{
 				//Mutates the button to Red and changes the text to stop...
-				m_myGUI.getStartStopBtn().setText("STOP");
+				m_myGUI.getStartStopBtn().setText(CounterUpper());
 				m_myGUI.getStartStopBtn().setBackground(Color.red);
 				m_timeInt.start();
 				m_myGUI.getTimerField().setText(CounterUpper());
+		
 				m_isStarted = true;
 				
 				m_clock.start();
@@ -68,24 +70,33 @@ public class StartStopBTNController implements ActionListener
 			//this will stop the time interval
 			else //Stop Button
 			{
-				m_myGUI.getStartStopBtn().setText("START");
-				m_myGUI.getStartStopBtn().setBackground(Color.green);
-				m_timeInt.stop();
-				m_seconds = 0;
-				m_clock.stop();
-
-				
-				try 
+				int x = JOptionPane.showConfirmDialog(null,
+			            "Are you sure you want to commit this time to the database?", "Commit Action",
+			            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if (x == JOptionPane.YES_OPTION)
 				{
-					m_myGUI.getCurrentProject().addTime(m_timeInt);
-					m_myGUI.getManager().updateClient(m_myGUI.getCurrentClient());
-				} 
-				catch (MyTimeException e1) 
-				{
-					e1.printStackTrace();
+					
+					m_myGUI.getStartStopBtn().setText("START");
+					m_myGUI.getStartStopBtn().setBackground(Color.green);
+					m_timeInt.stop();
+					m_seconds = 0;
+					m_clock.stop();
+	
+					
+					try 
+					{
+						System.out.println(m_myGUI.getCurrentProject());
+						
+						m_myGUI.getCurrentProject().addTime(m_timeInt);
+						m_myGUI.getManager().updateClient(m_myGUI.getCurrentClient());
+					} 
+					catch (MyTimeException e1) 
+					{
+						e1.printStackTrace();
+					}
+	
+					m_isStarted = false;
 				}
-
-				m_isStarted = false;
 			}
 		}
 	}
