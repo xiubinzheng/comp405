@@ -56,7 +56,7 @@ public class ReportViewDLG extends JDialog implements ActionListener
 		Writer writer = null;
 		//promptForDate(d1, d2);
 		
-		HTMLReporter dbr = new HTMLReporter();
+		HTMLReporter dbr = HTMLReporter.getReporterInstance(d1, d2);
 		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
 		
 		File f = new File("testReport.html");

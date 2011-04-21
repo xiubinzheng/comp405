@@ -2,8 +2,13 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
@@ -31,11 +36,20 @@ public class ReportViewPNL extends JPanel
 		setBackground(Color.red);
 		setLayout(new BorderLayout());
 		
+		Date d1 = new Date();
+		Date d2 = new Date();
+		Writer writer = null;
 		
-		HTMLReporter dbr = new HTMLReporter();
+		HTMLReporter dbr = HTMLReporter.getReporterInstance(d1, d2);
 		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
 		
-		this.add(m_pane);
+		File f = new File("testReport.html");
+		writer = new BufferedWriter(new FileWriter(f));
+		writer.write(s);
+		
+		writer.close();
+		
+		//this.add(m_pane);
 		
 		EditorKit kit = m_pane.getEditorKitForContentType("text/html");
 		m_pane.setEditorKit(kit);
