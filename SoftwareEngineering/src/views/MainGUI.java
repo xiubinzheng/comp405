@@ -133,7 +133,15 @@ public class MainGUI
 		// Construct GUI components
 		m_timerField = new JTextField();
 		m_clientProjectPanel = new ClientProjectPNL(this);
-		m_reportViewPanel = new ReportViewPNL(this);
+		try
+		{
+			m_reportViewPanel = new ReportViewPNL(this);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		m_btnStartStop = new JButton();
 		m_startStopPanel = new JPanel();
 
