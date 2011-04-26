@@ -30,7 +30,8 @@ public class ClientDBManager
 	private final static String				m_clientTableName	= "myTimeClients";
 	private final static String				m_projectTableName	= "myTimeProjects";
 	private final static String				m_timeTableName		= "myTimeInterval";
-
+	private final static String             m_SEQ               = "SQLITE_SEQUENCE";
+	
 	private String							m_databaseName		= "myTimeDB.s3db";
 	private SQLGenerator					m_clientTableGen	= new SQLGenerator(
 																		m_clientTableName);
@@ -38,7 +39,8 @@ public class ClientDBManager
 																		m_projectTableName);
 	private SQLGenerator					m_timeTableGen		= new SQLGenerator(
 																		m_timeTableName);
-
+	private SQLGenerator                    m_SEQgen            = new SQLGenerator(m_SEQ);
+	
 	private DBConnector					    m_database;
 	private HashMap<Integer, Client>		m_clients;
 	private HashMap<Integer, Project>		m_projects;
@@ -112,21 +114,31 @@ public class ClientDBManager
 			m_database.open();
 
 			ResultSet result = m_database.execute(m_clientTableGen.select("*",null));
+			int largestID = -1;
 			while (result.next())
 			{
 				clientID = result.getInt("Client_ID");
+				if(clientID>largestID)
+				{
+					largestID = clientID;
+				}
 				clientName = result.getString("Client_Name");
 				clientDescription = result.getString("Client_Description");
 
 				Client c = new Client(clientID, clientName, clientDescription);
 				m_clients.put(clientID, c);
 			}
+			m_SEQgen.update("seq",Integer.toString(largestID),"name="+m_clientTableName);
 			System.out.println("DEBUG loaded client list:"+m_clients);
 
 			result = m_database.execute(m_projectTableGen.select("*", null));
 			while (result.next())
 			{
 				projectID = result.getInt("Project_ID");
+				if(projectID>largestID)
+				{
+					largestID = projectID;
+				}
 				clientID = result.getInt("Client_ID");
 				projectName = result.getString("Project_Name");
 				projectDescription = result.getString("Project_Description");
@@ -150,12 +162,17 @@ public class ClientDBManager
 				m_clients.get(clientID).addProject(p);
 				m_projects.put(p.getProjectID(), p);
 			}
+			m_SEQgen.update("seq",Integer.toString(largestID),"name="+m_projectTableName);
 			System.out.println("DEBUG loaded project list:"+m_projects);
 
 			result = m_database.execute(m_timeTableGen.select("*", null));
 			while (result.next())
 			{
 				timeIntervalID = result.getInt("Time_ID");
+				if(timeIntervalID > largestID)
+				{
+					largestID = timeIntervalID;
+				}
 				projectID = result.getInt("Project_ID");
 
 				String startTime = result.getString("Project_Start_Time");
@@ -173,6 +190,7 @@ public class ClientDBManager
 				System.out.println(m_projects.containsKey(projectID));
 				m_projects.get(projectID).addTime(tInterval);
 			}
+			m_SEQgen.update("seq",Integer.toString(largestID),"name="+m_timeTableName);
 		}
 		catch (MyTimeException e)
 		{
