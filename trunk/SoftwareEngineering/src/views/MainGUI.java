@@ -120,6 +120,15 @@ public class MainGUI
 		
 		m_dbManager = ClientDBManager.getInstance();
 		
+		try
+		{
+		m_dbManager.initializeDB();
+		}
+		catch (MyTimeException e)
+		{
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		// Main Frame initialization is here
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(450, 300));
