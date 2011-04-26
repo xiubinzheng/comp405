@@ -33,8 +33,9 @@ class SQLGenerator
 			cmd = "SELECT " + columnNames + " FROM " + m_tableName;
 			if (whereClause != null)
 			{
-				cmd += " WHERE " + whereClause + ";";
+				cmd += " WHERE " + whereClause;
 			}
+			cmd += ";";
 		}
 		return cmd;
 	}
@@ -82,7 +83,7 @@ class SQLGenerator
 			{
 				cmd += ", " + updateColumns[i] + "=" + updateValues[i];
 			}
-			cmd += " \nWHERE " + where;
+			cmd += " \nWHERE " + where + ";";
 		}
 		return cmd;
 	}	
