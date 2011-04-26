@@ -16,19 +16,22 @@ import models.*;
  * for all of your various reporting needs.
  */
 
-public class HTMLClientReporter {
+public class HTMLClientReporter
+{
 	// private DatabaseConnect m_databaseConnection;
-	private static HTMLClientReporter m_singleton;
+	private static HTMLClientReporter	m_singleton;
 
-	private String g_htmlString = "";
+	private String						g_htmlString	= "";
 
 	/**
 	 * 
 	 * Returns a singleton instance of the DatabaseReporter class.
 	 * 
 	 */
-	public static HTMLClientReporter getReporterInstance() {
-		if (m_singleton == null) {
+	public static HTMLClientReporter getReporterInstance()
+	{
+		if (m_singleton == null)
+		{
 			m_singleton = new HTMLClientReporter();
 		}
 		return m_singleton;
@@ -38,12 +41,12 @@ public class HTMLClientReporter {
 	 * Returns a String with HTML formatting of the current entries in
 	 * myTimeClients.
 	 * 
-	 * @param cssFile
-	 *            The location to the css File
-	 * @param imageFile
-	 *            The location to the image File
+	 * @param cssFile The location to the css File
+	 * @param imageFile The location to the image File
 	 */
-	public String generateReport(String cssFile, String imageFile) {
+	public String generateReport(String cssFile , String imageFile)
+	{
+		g_htmlString = "";
 		g_htmlString += "<html>";
 		g_htmlString += "<head>";
 		g_htmlString += "<link rel = \"stylesheet\" href = \"" + cssFile
@@ -66,21 +69,21 @@ public class HTMLClientReporter {
 		return g_htmlString;
 	}
 
-	private HTMLClientReporter() 
+	private HTMLClientReporter()
 	{
 	}
 
 	/**
 	 * Collects the client information
 	 */
-	private void generateClientTable() 
+	private void generateClientTable()
 	{
 		ClientDBManager m_manage = ClientDBManager.getInstance();
-		try 
+		try
 		{
 			m_manage.initializeDB();
-		} 
-		catch (MyTimeException e) 
+		}
+		catch (MyTimeException e)
 		{
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -93,23 +96,22 @@ public class HTMLClientReporter {
 		sortClients(m_client);
 
 		System.out.println(m_client.size());
-		for (Client c : m_client) 
+		for (Client c : m_client)
 		{
 			outputClientHeader();
 			outputClient(c);
-			//long cTime = 
+			// long cTime =
 			generateProjectTable(c);
-			//outputTotalClientTime(cTime);
+			// outputTotalClientTime(cTime);
 		}
 	}
 
 	/**
 	 * Collects the project information for this client
 	 * 
-	 * @param c
-	 *            The client object
+	 * @param c The client object
 	 */
-	private void generateProjectTable(Client c) 
+	private void generateProjectTable(Client c)
 	{
 		ArrayList<Project> m_project = new ArrayList<Project>();
 
@@ -117,12 +119,11 @@ public class HTMLClientReporter {
 		c.getProjectList(m_project);
 		outputProjectHeader();
 
-		for (Project p : m_project) 
+		for (Project p : m_project)
 		{
 			outputProject(p);
 		}
 	}
-
 
 	// the purpose of this comment is to waste precious time so i dont have to
 	// think about
@@ -136,13 +137,16 @@ public class HTMLClientReporter {
 		g_htmlString += "<td class=\"header\" colspan=\"20\"><b>Client Description</b></td></tr>";
 	}
 
-	private void outputClient(Client c) {
-		g_htmlString += "<tr><td class=\"c_Name\">" + c.getClientName() + "</td>";
+	private void outputClient(Client c)
+	{
+		g_htmlString += "<tr><td class=\"c_Name\">" + c.getClientName()
+				+ "</td>";
 		g_htmlString += "<td class=\"c_Description\" colspan=\"7\">"
 				+ c.getClientDescription() + "</td></tr>";
 	}
 
-	private void outputProjectHeader() {
+	private void outputProjectHeader()
+	{
 		g_htmlString += "<tr><td class=\"header\">  </td>";
 		g_htmlString += "<td class=\"header\" colspan=\"5\">Project Name</td>";
 		g_htmlString += "<td class=\"header\" colspan=\"10\">Project Description</td></tr>";
@@ -157,20 +161,20 @@ public class HTMLClientReporter {
 				+ p.getDescription() + "</td></tr>";
 	}
 
-
 	/**
 	 * 
 	 * @param clients
 	 */
-	private void sortClients(ArrayList<Client> clients) 
+	private void sortClients(ArrayList<Client> clients)
 	{
 		Collections.sort(clients, new Comparator<Client>()
 		{
-			public int compare(Client c1, Client c2)
+			public int compare(Client c1 , Client c2)
 			{
-				return c1.getClientName().compareToIgnoreCase(c2.getClientName());
+				return c1.getClientName().compareToIgnoreCase(
+						c2.getClientName());
 			}
 		});
 	}
-	
+
 }
