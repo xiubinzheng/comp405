@@ -178,7 +178,9 @@ public class Project
 		else if (tInterval.getStart().compareTo(tInterval.getStop()) >= 0)
 		{
 			throw new MyTimeException(
-					"End time does not come after the Start time!");
+					"End time does not come after the Start time! Start:"
+					+tInterval.getStart()
+					+" Stop:"+tInterval.getStop());
 		}
 		else
 		{
