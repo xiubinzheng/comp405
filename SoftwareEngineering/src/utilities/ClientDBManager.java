@@ -533,8 +533,9 @@ public class ClientDBManager
 	{
 		try
 		{
+			System.out.println("DEBUG adding time interval with Project_ID:"+time.getProjectID());
 			String cmd = m_timeTableGen
-					.insert(" Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
+					.insert("Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
 							time.getProjectID() + ",'"
 									+ m_time.format(time.getStart()) + "','"
 									+ m_time.format(time.getStop()) + "','"
