@@ -6,13 +6,13 @@ import java.util.Date;
 
 import utilities.*;
 
-import models.Client;
-
 
 public class DatabaseReporterTest extends TestCase {
 	
 	HTMLReporter dr; 
+	HTMLClientReporter cr;
 	
+	@SuppressWarnings("deprecation")
 	protected void setUp() throws Exception
 	{
 		Date d1 = new Date();
@@ -24,6 +24,7 @@ public class DatabaseReporterTest extends TestCase {
 		super.setUp();
 		//table populated
 		dr = HTMLReporter.getReporterInstance(d1, d2);
+		cr = HTMLClientReporter.getReporterInstance();
 	}
 
 	protected void tearDown() throws Exception
@@ -35,6 +36,7 @@ public class DatabaseReporterTest extends TestCase {
 	public void test()
 	{
 		String s = "";
+		String clientReport = "";
 		try
 		{
 			Writer writer = null;
@@ -47,6 +49,12 @@ public class DatabaseReporterTest extends TestCase {
 			
 			writer.close();
 			assertTrue(s.contains("html"));
+			
+			File clients = new File("testClientReport.html");
+			clientReport = cr.generateReport("cssFile.css", "smiley.jpg");
+			Writer writer2 = new BufferedWriter(new FileWriter(clients));
+			writer2.write(clientReport);
+			writer2.close();
 		}
 		catch(Exception e)
 		{
