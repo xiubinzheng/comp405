@@ -210,15 +210,13 @@ public class HTMLReporter
 
 	private void outputClientHeader()// int rightSpan
 	{
-		g_htmlString += "<tr><td class=\"header\"><b>Client ID</b></td>";
-		g_htmlString += "<td class=\"header\"><b>Client Name</b></td>";
+		g_htmlString += "<tr><td class=\"header\"><b>Client Name</b></td>";
 		g_htmlString += "<td class=\"header\" colspan=\"20\"><b>Client Description</b></td></tr>";
 	}
 
 	private void outputClient(Client c)
 	{
-		g_htmlString += "<tr><td class=\"c_ID\">" + c.getClientID() + "</td>";
-		g_htmlString += "<td class=\"c_Name\">" + c.getClientName() + "</td>";
+		g_htmlString += "<tr><td class=\"c_Name\">" + c.getClientName() + "</td>";
 		g_htmlString += "<td class=\"c_Description\" colspan=\"7\">"
 				+ c.getClientDescription() + "</td></tr>";
 	}
@@ -226,7 +224,6 @@ public class HTMLReporter
 	private void outputProjectHeader()
 	{
 		g_htmlString += "<tr><td class=\"header\">  </td>";
-		g_htmlString += "<td class=\"header\">Project ID</td>";
 		g_htmlString += "<td class=\"header\" colspan=\"5\">Project Name</td>";
 		g_htmlString += "<td class=\"header\" colspan=\"10\">Project Description</td></tr>";
 	}
@@ -234,7 +231,6 @@ public class HTMLReporter
 	private void outputProject(Project p)// TODO
 	{
 		g_htmlString += "<tr><td>  </td>";
-		g_htmlString += "<td class=\"p_ID\">" + p.getProjectID() + "</td>\n";
 		g_htmlString += "<td class=\"p_Name\" colspan=\"5\">" + p.getName()
 				+ "</td>\n";
 		g_htmlString += "<td class=\"p_Description\" colspan=\"5\">"
@@ -244,7 +240,6 @@ public class HTMLReporter
 	private void outputTimeHeader()
 	{
 		g_htmlString += "<tr><td class=\"header\">  </td>";
-		g_htmlString += "<td>  </td>";
 		g_htmlString += "<td class=\"header\" colspan=\"5\">Start</td>";
 		g_htmlString += "<td class=\"header\" colspan=\"5\">Stop</td>";
 		g_htmlString += "<td class=\"header\" colspan=\"5\">Duration</td>\n</tr>";
@@ -253,7 +248,6 @@ public class HTMLReporter
 	private void outputTimeInterval(TimeInterval t)
 	{
 		g_htmlString += "<tr><td>  </td>";
-		g_htmlString += "<td>  </td>";
 		g_htmlString += "<td class=\"t_From\" + colspan=\"5\"" + "\">"
 				+ formatTime(t.getStart()) + "</td>\n";
 		g_htmlString += "<td class=\"t_To\" + colspan=\"5\"" + "\">"
