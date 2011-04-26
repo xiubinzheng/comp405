@@ -4,13 +4,20 @@ table.report
 	border: 1px solid black;
 	
 }
-body
+
+.bodyAllClients
 {
-background-color: purple;
+background-color: grey;
 color: white;
 
 }
 
+.bodyTotalHrs
+{
+background-color: green;
+color: white;
+
+}
 
 td.header
 {
