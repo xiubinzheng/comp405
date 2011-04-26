@@ -57,7 +57,7 @@ public class HTMLHoursReporter
 	 */
 	public String generateReport(String cssFile , String imageFile)
 	{
-		g_htmlString += " ";
+		g_htmlString = "";
 		g_htmlString += "<html>";
 		g_htmlString += "<head>";
 		g_htmlString += "<link rel = \"stylesheet\" href = \"" + cssFile
