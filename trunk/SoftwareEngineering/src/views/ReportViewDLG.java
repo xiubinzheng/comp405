@@ -20,7 +20,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.EditorKit;
 
-import utilities.HTMLReporter;
+import utilities.HTMLHoursReporter;
 
 
 //import com.toedter.calendar.*;
@@ -56,7 +56,7 @@ public class ReportViewDLG extends JDialog implements ActionListener
 		Writer writer = null;
 		//promptForDate(d1, d2);
 		
-		HTMLReporter dbr = HTMLReporter.getReporterInstance(d1, d2);
+		HTMLHoursReporter dbr = HTMLHoursReporter.getReporterInstance(d1, d2);
 		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
 		
 		File f = new File("testReport.html");
