@@ -1,10 +1,9 @@
 package utilities;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-import org.ibex.nestedvm.util.Sort;
-
-import junit.runner.Sorter;
 import models.*;
 
 /**
@@ -49,8 +48,9 @@ public class HTMLClientReporter {
 		g_htmlString += "<head>";
 		g_htmlString += "<link rel = \"stylesheet\" href = \"" + cssFile
 				+ "\" type = \"text/css\">\n";
-		g_htmlString += "<title>Database Reporter</title>";
+		g_htmlString += "<title>Client Reporter</title>";
 		g_htmlString += "</head>";
+		g_htmlString += "<body class=\"bodyAllClients\">";
 		g_htmlString += "<img class = \"logo\" src = \"" + imageFile
 				+ "\" alt = \"\"/>\n";
 		g_htmlString += "<H2 class=\"r_Title\">Client Report</H2>";
@@ -59,6 +59,7 @@ public class HTMLClientReporter {
 		generateClientTable();
 
 		g_htmlString += "</table>\n";
+		g_htmlString += "</body>";
 		g_htmlString += "</html>\n";
 		// prints the HTML for the Report to the console
 		// System.out.print(g_htmlString);
@@ -163,11 +164,13 @@ public class HTMLClientReporter {
 	 */
 	private void sortClients(ArrayList<Client> clients) 
 	{
-		
-		for(int i=0; i<clients.size(); i++)
+		Collections.sort(clients, new Comparator<Client>()
 		{
-			
-		}
+			public int compare(Client c1, Client c2)
+			{
+				return c1.getClientName().compareToIgnoreCase(c2.getClientName());
+			}
+		});
 	}
-
+	
 }
