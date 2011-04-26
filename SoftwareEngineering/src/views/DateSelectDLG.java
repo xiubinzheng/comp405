@@ -34,7 +34,7 @@ public class DateSelectDLG extends JDialog implements ActionListener
 	{
 		setModal(true);
 		setLayout(new BorderLayout());
-		this.setSize(900, 320);
+		this.setSize(550, 270);
 		this.setLocationRelativeTo(getRootPane());
 		this.add(m_panel, BorderLayout.CENTER);
 			
