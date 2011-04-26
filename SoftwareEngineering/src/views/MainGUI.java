@@ -41,7 +41,6 @@ public class MainGUI
 	private       	ClientDBManager   	m_dbManager;
 	
 	//buttons
-	private       	JButton			   	m_btnStartStop;
 	
 	//panels
 	private			ReportViewPNL		m_reportViewPanel;
@@ -132,6 +131,7 @@ public class MainGUI
 		
 		// Construct GUI components
 		m_timerField = new JTextField();
+		
 		m_clientProjectPanel = new ClientProjectPNL(this);
 		try
 		{
@@ -142,7 +142,6 @@ public class MainGUI
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		m_btnStartStop = new JButton();
 		m_startStopPanel = new JPanel();
 
 
@@ -161,7 +160,7 @@ public class MainGUI
 		// Link ActionListeners to the GUI components
 		m_clientProjectPanel.getCBClient().addActionListener(cbClientListener);
 		m_clientProjectPanel.getCBProject().addActionListener(cbProjectListener);
-		m_btnStartStop.addActionListener(startStopController);
+		m_clientProjectPanel.getStartStopButton().addActionListener(startStopController);
 		//m_reportViewPanel.addActionListener(m_htmlViewerListener);
 		
 		// Add Components to sub-components
@@ -169,7 +168,7 @@ public class MainGUI
 		// Add Components to the main Frame
 		frame.getContentPane().add(m_clientProjectPanel, BorderLayout.NORTH);
 		frame.getContentPane().add(m_reportViewPanel, BorderLayout.CENTER);
-		frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
+		//frame.getContentPane().add(m_btnStartStop, BorderLayout.SOUTH);
 		
 		//JButton htmlButton_test = new JButton();
 		//htmlButton_test.addActionListener(m_htmlViewerListener);
@@ -213,7 +212,8 @@ public class MainGUI
 	
 	public JButton getStartStopBtn()
 	{
-		return m_btnStartStop;
+		System.out.println(m_clientProjectPanel);
+		return m_clientProjectPanel.getStartStopButton();
 	}
 	
 	public JTextField getTimerField()
