@@ -81,7 +81,7 @@ public class StartStopBTNController implements ActionListener
 					m_timeInt.stop();
 					m_seconds = 0;
 					m_clock.stop();
-	
+					m_timeInt.setProjectID(m_myGUI.getCurrentProject().getProjectID());
 					
 					try 
 					{
