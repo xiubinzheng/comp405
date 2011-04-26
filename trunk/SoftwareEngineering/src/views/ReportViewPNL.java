@@ -24,6 +24,7 @@ import javax.swing.text.EditorKit;
 
 import com.jgoodies.forms.factories.Borders;
 
+import utilities.HTMLHoursReporter;
 import utilities.HTMLReporter;
 
 
@@ -66,10 +67,11 @@ public class ReportViewPNL extends JPanel implements ActionListener
 	public void refreshReport() throws IOException
 	{
 		Writer writer = null;
-		HTMLReporter dbr = HTMLReporter.getReporterInstance(m_datePrompt.getBeginDate(), m_datePrompt.getEndDate());
+		HTMLHoursReporter dbr = HTMLHoursReporter.getReporterInstance(m_datePrompt.getBeginDate(), m_datePrompt.getEndDate());
 		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
+		//System.out.println("Start Date: "+ m_datePrompt.getBeginDate().toString());
 		File f = new File("testReport.html");
-		writer = new BufferedWriter(new FileWriter(f));
+		writer = new BufferedWriter(new FileWriter(f, false));
 		writer.write(s);
 		writer.close();
 
