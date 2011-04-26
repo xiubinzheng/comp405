@@ -46,11 +46,11 @@ public class ClientDBManager
 
 	// Formatters for the date and time
 	DateFormat								m_dateParser		= new SimpleDateFormat(
-																		"yyyy-MM-dd hh:mm:ss");
+																		"yyyy-MM-dd kk:mm:ss");
 	DateFormat								m_date				= new SimpleDateFormat(
 																		"yyyy-MM-dd");
 	DateFormat								m_time				= new SimpleDateFormat(
-																		"hh:mm:ss");
+																		"kk:mm:ss");
 
 	/**
 	 * This method creates a manager with default attributes. Manager needs to
@@ -111,8 +111,7 @@ public class ClientDBManager
 		{
 			m_database.open();
 
-			ResultSet result = m_database.execute(m_clientTableGen.select("*",
-					null));
+			ResultSet result = m_database.execute(m_clientTableGen.select("*",null));
 			while (result.next())
 			{
 				clientID = result.getInt("Client_ID");
@@ -122,6 +121,7 @@ public class ClientDBManager
 				Client c = new Client(clientID, clientName, clientDescription);
 				m_clients.put(clientID, c);
 			}
+			System.out.println("DEBUG loaded client list:"+m_clients);
 
 			result = m_database.execute(m_projectTableGen.select("*", null));
 			while (result.next())
@@ -135,6 +135,7 @@ public class ClientDBManager
 
 				Project p = new Project(projectID, projectName,
 						projectDescription, clientID, projectHourly);
+				System.out.println("DEBUG adding project: "+p);
 				if (projectComplete)
 				{
 					p.complete();
@@ -149,11 +150,11 @@ public class ClientDBManager
 				m_clients.get(clientID).addProject(p);
 				m_projects.put(p.getProjectID(), p);
 			}
+			System.out.println("DEBUG loaded project list:"+m_projects);
 
 			result = m_database.execute(m_timeTableGen.select("*", null));
 			while (result.next())
 			{
-				// TODO: time and date might break....
 				timeIntervalID = result.getInt("Time_ID");
 				projectID = result.getInt("Project_ID");
 
@@ -166,9 +167,10 @@ public class ClientDBManager
 				start = m_dateParser.parse(startDate + " " + startTime);
 				stop = m_dateParser.parse(stopDate + " " + stopTime);
 
-				TimeInterval tInterval = new TimeInterval(timeIntervalID,
-						projectID, start, stop);
+				TimeInterval tInterval = new TimeInterval(timeIntervalID, projectID, start, stop);
 				m_timeIntervals.put(timeIntervalID, tInterval);
+				System.out.println("DEBUG: projectID:" + projectID + " time:"+ tInterval);
+				System.out.println(m_projects.containsKey(projectID));
 				m_projects.get(projectID).addTime(tInterval);
 			}
 		}
@@ -185,6 +187,14 @@ public class ClientDBManager
 			throw new MyTimeException(
 					"Failed to parse date and time fetched from database ", e);
 		}
+		System.out.println("DEBUG loaded time intervals:"+m_timeIntervals);
+//		try {
+//			this.wait(1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.exit(-1);
+//		}
 	}
 
 	// should be the only public method for now maybe more later gonna need to
