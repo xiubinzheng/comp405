@@ -529,7 +529,7 @@ public class ClientDBManager
 									+ m_time.format(time.getStart()) + "','"
 									+ m_time.format(time.getStop()) + "','"
 									+ m_date.format(time.getStart()) + "','"
-									+ m_date.format(time.getStop())) + "'";
+									+ m_date.format(time.getStop()) + "'");
 			m_database.update(cmd);
 
 			ResultSet result = m_database.execute(String.format(
