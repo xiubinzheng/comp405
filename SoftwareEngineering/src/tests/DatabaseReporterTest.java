@@ -9,7 +9,7 @@ import utilities.*;
 
 public class DatabaseReporterTest extends TestCase {
 	
-	HTMLReporter dr; 
+	HTMLHoursReporter dr; 
 	HTMLClientReporter cr;
 	
 	@SuppressWarnings("deprecation")
@@ -23,7 +23,7 @@ public class DatabaseReporterTest extends TestCase {
 		
 		super.setUp();
 		//table populated
-		dr = HTMLReporter.getReporterInstance(d1, d2);
+		dr = HTMLHoursReporter.getReporterInstance(d1, d2);
 		cr = HTMLClientReporter.getReporterInstance();
 	}
 
@@ -52,9 +52,9 @@ public class DatabaseReporterTest extends TestCase {
 			
 			File clients = new File("testClientReport.html");
 			clientReport = cr.generateReport("cssFile.css", "smiley.jpg");
-			Writer writer2 = new BufferedWriter(new FileWriter(clients));
-			writer2.write(clientReport);
-			writer2.close();
+			writer = new BufferedWriter(new FileWriter(clients));
+			writer.write(clientReport);
+			writer.close();
 		}
 		catch(Exception e)
 		{
