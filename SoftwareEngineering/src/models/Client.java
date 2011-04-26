@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -102,6 +104,15 @@ public class Client
 		Collection<Project> projects = m_projects.values();
 		projectList.clear();
 		projectList.addAll(projects);
+		
+		Collections.sort(projectList, new Comparator<Project>()
+		{
+			public int compare(Project p1, Project p2)
+			{
+				return p1.getName().compareToIgnoreCase(p2.getName());
+			}
+		});
+
 	}
 
 	public void setClientID(int clientID)
@@ -142,4 +153,5 @@ public class Client
 	{
 		return m_clientID + " " + m_clientName + " " + m_clientDescription;
 	}
+	
 }
