@@ -28,14 +28,13 @@ import utilities.HTMLReporter;
 
 public class ReportViewPNL extends JPanel
 {
-	private static final long serialVersionUID = 1L; // what does this do!?
 	private MainGUI 		m_mainGUIParent;
 	private JEditorPane 	m_pane = new JEditorPane();
-	private JButton 		m_beginBtn = new JButton();
+	private JButton 		m_dateBtn = new JButton();
 	private JButton 		m_endBtn = new JButton();
 	private Date 			m_beginDate = new Date();
 	private Date 			m_endDate = new Date();
-	private JPanel			m_btnFrame = new JPanel();
+	//private JPanel			m_btnFrame = new JPanel();
 	
 	public ReportViewPNL(MainGUI parent) throws IOException
 	{
@@ -46,7 +45,7 @@ public class ReportViewPNL extends JPanel
 		
 		
 		setLayout(new BorderLayout());
-		m_btnFrame.setLayout(new GridLayout(1,2));
+		//m_btnFrame.setLayout(new GridLayout(1,2));
 		
 		Writer writer = null;
 		
@@ -63,15 +62,15 @@ public class ReportViewPNL extends JPanel
 		m_pane.setEditorKit(kit);
 		m_pane.setEditable(false);
 		//m_btnFrame.getContentPane().add(jlbempty, BorderLayout.CENTER);
-		m_btnFrame.setVisible(true);
-		m_beginBtn.setText("Begin Date");
-		m_endBtn.setText("End Date");
+		//m_btnFrame.setVisible(true);
+		//m_beginBtn.setText("Begin Date");
+		m_dateBtn.setText("Set Date");
 		JScrollPane sp = new JScrollPane(m_pane);
 		
 		add(sp, BorderLayout.CENTER);
-		this.add(m_btnFrame, BorderLayout.SOUTH);
-		m_btnFrame.add(m_beginBtn, BorderLayout.SOUTH);
-		m_btnFrame.add(m_endBtn, BorderLayout.SOUTH);
+		//this.add(m_btnFrame, BorderLayout.SOUTH);
+		//m_btnFrame.add(m_beginBtn, BorderLayout.SOUTH);
+		add(m_dateBtn, BorderLayout.SOUTH);
 		
 		String fullPath = "file:///"+System.getProperty("user.dir")+"/testReport.html";
 		System.out.println(fullPath);
