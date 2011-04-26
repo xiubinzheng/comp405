@@ -39,7 +39,7 @@ public class ClientDBManager
 	private SQLGenerator					m_timeTableGen		= new SQLGenerator(
 																		m_timeTableName);
 
-	private DBConnector					m_database;
+	private DBConnector					    m_database;
 	private HashMap<Integer, Client>		m_clients;
 	private HashMap<Integer, Project>		m_projects;
 	private HashMap<Integer, TimeInterval>	m_timeIntervals;
@@ -65,7 +65,12 @@ public class ClientDBManager
 		m_database = DBConnector.getDatabaseInstance(m_databaseName);
 		m_DBInitialized = false;
 	}
-	
+	/**
+	 * There is only one instance of the ClientDBManager.<br>
+	 * !!IMPORTANT: INITIALIZE THE DATABASE WITH initialize()!!
+	 * 
+	 * @return Singleton of the ClientDBManager
+	 */
 	public static ClientDBManager getInstance()
 	{
 		if (DBSingleton == null)
@@ -84,6 +89,8 @@ public class ClientDBManager
 	 */
 	public void initializeDB() throws MyTimeException
 	{
+		if(m_DBInitialized)
+			return;
 		m_DBInitialized = true;
 		int clientID;
 		String clientName;
@@ -133,11 +140,11 @@ public class ClientDBManager
 					p.complete();
 				}
 				
-				//debug
-				System.out.println(m_clients.size());
-				System.out.println(clientID);
-				System.out.println(p);
-				//debug
+//				//debug
+//				System.out.println(m_clients.size());
+//				System.out.println(clientID);
+//				System.out.println(p);
+//				//debug
 				
 				m_clients.get(clientID).addProject(p);
 				m_projects.put(p.getProjectID(), p);
@@ -154,8 +161,8 @@ public class ClientDBManager
 				String stopTime = result.getString("Project_End_Time");
 				String startDate = result.getString("Start_Date");
 				String stopDate = result.getString("End_Date");
-				System.out.println("DEBUG "+startDate + " " + startTime);
-				System.out.println("DEBUG "+stopDate);
+//				System.out.println("DEBUG "+startDate + " " + startTime);
+//				System.out.println("DEBUG "+stopDate);
 				start = m_dateParser.parse(startDate + " " + startTime);
 				stop = m_dateParser.parse(stopDate + " " + stopTime);
 
@@ -340,7 +347,7 @@ public class ClientDBManager
 					"Client_ID = " + c.getClientID());
 
 			// insert new client into DB
-			System.out.println("DEBUG "+cmd);
+//			System.out.println("DEBUG "+cmd);
 			m_database.update(cmd);
 
 		}
