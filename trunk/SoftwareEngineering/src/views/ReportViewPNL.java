@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,14 +28,13 @@ import utilities.HTMLReporter;
 
 
 
-public class ReportViewPNL extends JPanel
+public class ReportViewPNL extends JPanel implements ActionListener
 {
 	private MainGUI 		m_mainGUIParent;
 	private JEditorPane 	m_pane = new JEditorPane();
 	private JButton 		m_dateBtn = new JButton();
 	private JButton 		m_endBtn = new JButton();
-	private Date 			m_beginDate = new Date();
-	private Date 			m_endDate = new Date();
+	DateSelectDLG 			m_datePrompt = new DateSelectDLG();
 	//private JPanel			m_btnFrame = new JPanel();
 	
 	public ReportViewPNL(MainGUI parent) throws IOException
@@ -42,35 +43,36 @@ public class ReportViewPNL extends JPanel
 		
 		//just here so that if the panel does not show the frame will be red and we'll know
 		setBackground(Color.red);
-		
-		
 		setLayout(new BorderLayout());
-		//m_btnFrame.setLayout(new GridLayout(1,2));
 		
-		Writer writer = null;
+		m_datePrompt.getBeginDate().setYear(80);
+
+		m_dateBtn.setText("Set Date");
+		m_dateBtn.addActionListener(this);
 		
-		HTMLReporter dbr = HTMLReporter.getReporterInstance(m_beginDate, m_endDate);
-		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
-		
-		File f = new File("testReport.html");
-		writer = new BufferedWriter(new FileWriter(f));
-		writer.write(s);
-		
-		writer.close();
-		
+		JScrollPane sp = new JScrollPane(m_pane);
 		EditorKit kit = m_pane.getEditorKitForContentType("text/html");
 		m_pane.setEditorKit(kit);
 		m_pane.setEditable(false);
-		//m_btnFrame.getContentPane().add(jlbempty, BorderLayout.CENTER);
-		//m_btnFrame.setVisible(true);
-		//m_beginBtn.setText("Begin Date");
-		m_dateBtn.setText("Set Date");
-		JScrollPane sp = new JScrollPane(m_pane);
-		
 		add(sp, BorderLayout.CENTER);
-		//this.add(m_btnFrame, BorderLayout.SOUTH);
-		//m_btnFrame.add(m_beginBtn, BorderLayout.SOUTH);
+		
+		refreshReport();
+
 		add(m_dateBtn, BorderLayout.SOUTH);
+		
+		setVisible(true);
+	}
+	
+	public void refreshReport() throws IOException
+	{
+		Writer writer = null;
+		HTMLReporter dbr = HTMLReporter.getReporterInstance(m_datePrompt.getBeginDate(), m_datePrompt.getEndDate());
+		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
+		File f = new File("testReport.html");
+		writer = new BufferedWriter(new FileWriter(f));
+		writer.write(s);
+		writer.close();
+
 		
 		String fullPath = "file:///"+System.getProperty("user.dir")+"/testReport.html";
 		System.out.println(fullPath);
@@ -78,6 +80,27 @@ public class ReportViewPNL extends JPanel
 
 		helpURL = new URL(fullPath);
 		m_pane.setPage(helpURL);  
-		setVisible(true);
+		m_pane.repaint();
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == m_dateBtn)
+		{
+
+			m_datePrompt.setVisible(true);
+			try
+			{
+				refreshReport();
+			}
+			catch (IOException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+	}
+	
 }
