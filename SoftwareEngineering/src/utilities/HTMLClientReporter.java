@@ -152,7 +152,7 @@ public class HTMLClientReporter
 		g_htmlString += "<td class=\"header\" colspan=\"10\">Project Description</td></tr>";
 	}
 
-	private void outputProject(Project p)// TODO
+	private void outputProject(Project p)
 	{
 		g_htmlString += "<tr><td>  </td>";
 		g_htmlString += "<td class=\"p_Name\" colspan=\"5\">" + p.getName()
