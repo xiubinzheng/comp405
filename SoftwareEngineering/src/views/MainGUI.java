@@ -35,27 +35,27 @@ import models.*;
 public class MainGUI
 {
 	// components
-	private        	JFrame    			frame;
-	private final 	Action    			action = new SwingAction();
+	private        	JFrame    				frame;
+	private final 	Action    				action = new SwingAction();
 
-	private       	ClientDBManager   	m_dbManager;
+	private       	ClientDBManager   		m_dbManager;
 	
 	//buttons
 	
 	//panels
-	private			ReportViewPNL		m_reportViewPanel;
-	private			ClientProjectPNL	m_clientProjectPanel;
+	private			ReportViewPNL			m_reportViewPanel;
+	private			ClientProjectPNL		m_clientProjectPanel;
 	
-	private 		JPanel 				m_startStopPanel;
+	private 		JPanel 					m_startStopPanel;
 
 	// action listenters
-	ClientCMBController cbClientListener;
-	ProjectCMBController cbProjectListener;
-	ReportBTNController m_htmlViewerListener;
+	private 		ClientCMBController 	cbClientListener;
+	private			ProjectCMBController 	cbProjectListener;
+	//ReportBTNController m_htmlViewerListener;
 	
 	// models
-	DefaultComboBoxModel cbClientModel;
-	DefaultComboBoxModel cbProjectModel;
+					DefaultComboBoxModel 	cbClientModel;
+					DefaultComboBoxModel 	cbProjectModel;
 	
 	Client 			m_currentClient;
 	Project 		m_currentProject;
@@ -160,9 +160,9 @@ public class MainGUI
 		
 		// Construct Listeners
 		cbClientListener = new ClientCMBController();
-		cbProjectListener = new ProjectCMBController();
+		cbProjectListener = new ProjectCMBController(this);
 		StartStopBTNController startStopController = new StartStopBTNController(this);
-		m_htmlViewerListener = new ReportBTNController();
+		//m_htmlViewerListener = new ReportBTNController();
 				
 		// Add Managers to GUI components
 		
@@ -228,6 +228,11 @@ public class MainGUI
 	public JTextField getTimerField()
 	{
 		return m_timerField;
+	}
+	
+	public ReportViewPNL getReportViewPNL()
+	{
+		return m_reportViewPanel;
 	}
 	
 	private class SwingAction extends AbstractAction 
