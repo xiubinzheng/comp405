@@ -26,33 +26,27 @@ public class ClientDBManager
 	// we need to move these to a property file...
 	static private ClientDBManager DBSingleton;
 	
-	private boolean 						m_DBInitialized;
-	private final static String				m_clientTableName	= "myTimeClients";
-	private final static String				m_projectTableName	= "myTimeProjects";
-	private final static String				m_timeTableName		= "myTimeInterval";
+	private boolean                         m_DBInitialized;
+	private final static String             m_clientTableName   = "myTimeClients";
+	private final static String             m_projectTableName  = "myTimeProjects";
+	private final static String             m_timeTableName     = "myTimeInterval";
 	private final static String             m_SEQ               = "SQLITE_SEQUENCE";
 	
-	private String							m_databaseName		= "myTimeDB.s3db";
-	private SQLGenerator					m_clientTableGen	= new SQLGenerator(
-																		m_clientTableName);
-	private SQLGenerator					m_projectTableGen	= new SQLGenerator(
-																		m_projectTableName);
-	private SQLGenerator					m_timeTableGen		= new SQLGenerator(
-																		m_timeTableName);
+	private String                          m_databaseName      = "myTimeDB.s3db";
+	private SQLGenerator                    m_clientTableGen    = new SQLGenerator(m_clientTableName);
+	private SQLGenerator                    m_projectTableGen   = new SQLGenerator(m_projectTableName);
+	private SQLGenerator                    m_timeTableGen      = new SQLGenerator(m_timeTableName);
 	private SQLGenerator                    m_SEQgen            = new SQLGenerator(m_SEQ);
 	
-	private DBConnector					    m_database;
-	private HashMap<Integer, Client>		m_clients;
-	private HashMap<Integer, Project>		m_projects;
-	private HashMap<Integer, TimeInterval>	m_timeIntervals;
+	private DBConnector                     m_database;
+	private HashMap<Integer, Client>        m_clients;
+	private HashMap<Integer, Project>       m_projects;
+	private HashMap<Integer, TimeInterval>  m_timeIntervals;
 
 	// Formatters for the date and time
-	DateFormat								m_dateParser		= new SimpleDateFormat(
-																		"yyyy-MM-dd kk:mm:ss");
-	DateFormat								m_date				= new SimpleDateFormat(
-																		"yyyy-MM-dd");
-	DateFormat								m_time				= new SimpleDateFormat(
-																		"kk:mm:ss");
+	DateFormat                              m_dateParser        = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+	DateFormat                              m_date              = new SimpleDateFormat("yyyy-MM-dd");
+	DateFormat                              m_time              = new SimpleDateFormat("kk:mm:ss");
 
 	/**
 	 * This method creates a manager with default attributes. Manager needs to
@@ -128,7 +122,7 @@ public class ClientDBManager
 				Client c = new Client(clientID, clientName, clientDescription);
 				m_clients.put(clientID, c);
 			}
-			m_SEQgen.update("seq",Integer.toString(largestID),"name="+m_clientTableName);
+			m_database.update(m_SEQgen.update("seq",Integer.toString(largestID+1),"name='"+m_clientTableName+"'"));
 			System.out.println("DEBUG loaded client list:"+m_clients);
 
 			result = m_database.execute(m_projectTableGen.select("*", null));
@@ -145,8 +139,7 @@ public class ClientDBManager
 				projectHourly = result.getBoolean("Project_Pay_Type_Hourly");
 				projectComplete = result.getBoolean("Project_Complete_Flag");
 
-				Project p = new Project(projectID, projectName,
-						projectDescription, clientID, projectHourly);
+				Project p = new Project(projectID, projectName, projectDescription, clientID, projectHourly);
 				System.out.println("DEBUG adding project: "+p);
 				if (projectComplete)
 				{
@@ -162,7 +155,7 @@ public class ClientDBManager
 				m_clients.get(clientID).addProject(p);
 				m_projects.put(p.getProjectID(), p);
 			}
-			m_SEQgen.update("seq",Integer.toString(largestID),"name="+m_projectTableName);
+			m_database.update(m_SEQgen.update("seq",Integer.toString(largestID+1),"name='"+m_projectTableName+"'"));
 			System.out.println("DEBUG loaded project list:"+m_projects);
 
 			result = m_database.execute(m_timeTableGen.select("*", null));
@@ -190,7 +183,7 @@ public class ClientDBManager
 				System.out.println(m_projects.containsKey(projectID));
 				m_projects.get(projectID).addTime(tInterval);
 			}
-			m_SEQgen.update("seq",Integer.toString(largestID),"name="+m_timeTableName);
+			m_database.update(m_SEQgen.update("seq",Integer.toString(largestID+1),"name='"+m_timeTableName+"'"));
 		}
 		catch (MyTimeException e)
 		{
@@ -202,8 +195,7 @@ public class ClientDBManager
 		}
 		catch (ParseException e)
 		{
-			throw new MyTimeException(
-					"Failed to parse date and time fetched from database ", e);
+			throw new MyTimeException("Failed to parse date and time fetched from database ", e);
 		}
 		System.out.println("DEBUG loaded time intervals:"+m_timeIntervals);
 //		try {
@@ -551,7 +543,6 @@ public class ClientDBManager
 	{
 		try
 		{
-			System.out.println("DEBUG adding time interval with Project_ID:"+time.getProjectID());
 			String cmd = m_timeTableGen
 					.insert("Project_ID , Project_Start_Time , Project_End_Time , Start_Date , End_Date",
 							time.getProjectID() + ",'"
@@ -578,6 +569,7 @@ public class ClientDBManager
 
 			time.setTimeID(ID);
 			m_timeIntervals.put(time.getTimeID(), time);
+			System.out.println("DEBUG added time interval (ID:"+ID+") with Project_ID:"+time.getProjectID());
 		}
 		catch (SQLException e)
 		{
