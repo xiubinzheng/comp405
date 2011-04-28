@@ -1,5 +1,6 @@
 package utilities;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -195,50 +196,52 @@ public class HTMLHoursReporter
 
 	private void outputClientHeader()// int rightSpan
 	{
-		g_htmlString += "<tr><td class=\"header\"><b>Client Name</b></td>";
-		g_htmlString += "<td class=\"header\" colspan=\"20\"><b>Client Description</b></td></tr>";
+		g_htmlString += "<tr><td colspan=\"1\" class=\"header\"><b>Client Name</b></td>";
+		g_htmlString += "<td class=\"header\" colspan=\"5\"><b>Client Description</b></td></tr>";
 	}
 
 	private void outputClient(Client c)
 	{
 		g_htmlString += "<tr><td class=\"c_Name\">" + c.getClientName()
 				+ "</td>";
-		g_htmlString += "<td class=\"c_Description\" colspan=\"7\">"
+		g_htmlString += "<td class=\"c_Description\" colspan=\"5\">"
 				+ c.getClientDescription() + "</td></tr>";
 	}
 
 	private void outputProjectHeader()
 	{
 		g_htmlString += "<tr><td class=\"header\">  </td>";
-		g_htmlString += "<td class=\"header\" colspan=\"5\">Project Name</td>";
-		g_htmlString += "<td class=\"header\" colspan=\"10\">Project Description</td></tr>";
+		g_htmlString += "<td class=\"header\" colspan=\"1\">Project Name</td>";
+		g_htmlString += "<td class=\"header\" colspan=\"4\">Project Description</td></tr>";
 	}
 
 	private void outputProject(Project p)
 	{
 		g_htmlString += "<tr><td>  </td>";
-		g_htmlString += "<td class=\"p_Name\" colspan=\"5\">" + p.getName()
+		g_htmlString += "<td class=\"p_Name\" colspan=\"1\">" + p.getName()
 				+ "</td>\n";
-		g_htmlString += "<td class=\"p_Description\" colspan=\"5\">"
+		g_htmlString += "<td class=\"p_Description\" colspan=\"4\">"
 				+ p.getDescription() + "</td></tr>";
 	}
 
 	private void outputTimeHeader()
 	{
-		g_htmlString += "<tr><td class=\"header\">  </td>";
-		g_htmlString += "<td></td> <td class=\"header\" colspan=\"5\">Start</td>";
-		g_htmlString += "<td class=\"header\" colspan=\"5\">Stop</td>";
-		g_htmlString += "<td class=\"header\" colspan=\"5\">Duration</td>\n</tr>";
+		g_htmlString += "<tr><td colspan=\"1\" class=\"header\"> </td>";
+		g_htmlString += "<td></td> <td class=\"header\" colspan=\"1\">Start</td>";
+		g_htmlString += "<td class=\"header\" colspan=\"1\">Stop</td>";
+		g_htmlString += "<td colspan=\"1\"> </td>";
+		g_htmlString += "<td class=\"header\" colspan=\"1\">Duration</td>\n</tr>";
 	}
 
 	private void outputTimeInterval(TimeInterval t)
 	{
-		g_htmlString += "<tr><td>  </td>";
-		g_htmlString += "<td></td> <td class=\"t_From\" + colspan=\"5\"" + "\">"
+		g_htmlString += "<tr><td colspan=\"1\"> </td>";
+		g_htmlString += "<td></td> <td class=\"t_From\" colspan=\"1\">"
 				+ formatTime(t.getStart()) + "</td>\n";
-		g_htmlString += "<td class=\"t_To\" + colspan=\"5\"" + "\">"
+		g_htmlString += "<td class=\"t_To\" colspan=\"1\">"
 				+ formatTime(t.getStop()) + "</td>\n";
-		g_htmlString += "<td class=\"t_Duration" + "\">"
+		g_htmlString += "<td colspan=\"1\"> </td>";
+		g_htmlString += "<td class=\"t_Duration\" colspan=\"1\">"
 				+ getDuration(t.getStart(), t.getStop()) + "</td>\n</tr>";
 	}
 
@@ -262,9 +265,10 @@ public class HTMLHoursReporter
 	private String formatTime(Date d)
 	{
 		String ret = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-
+		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		//DateFormat timesdf = new SimpleDateFormat("hh:mm");
 		ret += sdf.format(d);
+		//ret += " " + timesdf.format(d);
 		return ret;
 	}
 
