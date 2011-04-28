@@ -319,7 +319,7 @@ public class HTMLHoursReporter
 								.getTime());
 					}
 					totalTime = totalTime / 1000;
-					if (totalTime < 59)
+					if (totalTime < 60)
 					{
 						clients.get(i).removeProject(
 								projects.get(j).getProjectID());
