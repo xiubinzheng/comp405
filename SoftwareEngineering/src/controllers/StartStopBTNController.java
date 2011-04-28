@@ -43,7 +43,7 @@ public class StartStopBTNController implements ActionListener
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getSource()== m_clock)
+		if(e.getSource()== m_clock && m_isStarted)
 		//Increment seconds counter...
 		{
 			m_seconds++;
@@ -71,9 +71,19 @@ public class StartStopBTNController implements ActionListener
 			//this will stop the time interval
 			else //Stop Button
 			{
-				int x = JOptionPane.showConfirmDialog(null,
+				m_isStarted = false;
+				int x = -1;
+				if(m_seconds < 60)
+				{
+					JOptionPane.showMessageDialog(null, "You cannot add time intervals\n of less than sixty seconds.");
+					m_isStarted = true;
+				}
+				else
+				{
+					x = JOptionPane.showConfirmDialog(null,
 			            "Are you sure you want to commit this time to the database?", "Commit Action",
 			            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				}
 				if (x == JOptionPane.YES_OPTION)
 				{
 					m_myGUI.getStartStopBtn().setText("START");
@@ -94,7 +104,7 @@ public class StartStopBTNController implements ActionListener
 					{
 						e1.printStackTrace();
 					}
-					m_isStarted = false;
+					//m_isStarted = false;
 					m_timeInt = new TimeInterval();
 					try
 					{
@@ -105,6 +115,10 @@ public class StartStopBTNController implements ActionListener
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}
+				else if(x == JOptionPane.CANCEL_OPTION)
+				{
+					m_isStarted = true;
 				}
 			}
 		}
