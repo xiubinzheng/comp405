@@ -75,7 +75,6 @@ public class StartStopBTNController implements ActionListener
 			            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if (x == JOptionPane.YES_OPTION)
 				{
-					
 					m_myGUI.getStartStopBtn().setText("START");
 					m_myGUI.getStartStopBtn().setBackground(Color.green);
 					m_timeInt.stop();
@@ -94,8 +93,8 @@ public class StartStopBTNController implements ActionListener
 					{
 						e1.printStackTrace();
 					}
-	
 					m_isStarted = false;
+					m_timeInt = new TimeInterval();
 				}
 			}
 		}
