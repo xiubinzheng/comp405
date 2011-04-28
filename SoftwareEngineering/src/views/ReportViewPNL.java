@@ -68,6 +68,8 @@ public class ReportViewPNL extends JPanel implements ActionListener
 	{
 		Writer writer = null;
 		HTMLHoursReporter dbr = HTMLHoursReporter.getReporterInstance(m_datePrompt.getBeginDate(), m_datePrompt.getEndDate());
+		dbr.setStartDate(m_datePrompt.getBeginDate());
+		dbr.setStopDate(m_datePrompt.getEndDate());
 		String s = dbr.generateReport("cssFile.css", "smiley.jpg");
 		//System.out.println("Start Date: "+ m_datePrompt.getBeginDate().toString());
 		File f = new File("testReport.html");
@@ -81,7 +83,7 @@ public class ReportViewPNL extends JPanel implements ActionListener
 		URL helpURL;
 
 		helpURL = new URL(fullPath);
-		m_pane.setPage(helpURL);  
+		m_pane.setText(s);  
 		m_pane.repaint();
 	}
 
