@@ -265,9 +265,7 @@ public class HTMLHoursReporter
 	{
 		String ret = "";
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-		// DateFormat timesdf = new SimpleDateFormat("hh:mm");
 		ret += sdf.format(d);
-		// ret += " " + timesdf.format(d);
 		return ret;
 	}
 
@@ -311,6 +309,21 @@ public class HTMLHoursReporter
 				{
 					clients.get(i)
 							.removeProject(projects.get(j).getProjectID());
+				}
+				else
+				{
+					long totalTime = 0;
+					for (TimeInterval t : times)
+					{
+						totalTime += (t.getStop().getTime() - t.getStart()
+								.getTime());
+					}
+					totalTime = totalTime / 1000;
+					if (totalTime < 59)
+					{
+						clients.get(i).removeProject(
+								projects.get(j).getProjectID());
+					}
 				}
 			}
 			clients.get(i).getProjectList(projects);
