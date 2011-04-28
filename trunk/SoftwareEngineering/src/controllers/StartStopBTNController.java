@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -95,6 +96,15 @@ public class StartStopBTNController implements ActionListener
 					}
 					m_isStarted = false;
 					m_timeInt = new TimeInterval();
+					try
+					{
+						m_myGUI.getReportViewPNL().refreshReport();
+					}
+					catch (IOException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		}
