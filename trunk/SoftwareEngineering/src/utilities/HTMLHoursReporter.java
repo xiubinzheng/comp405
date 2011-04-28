@@ -24,10 +24,10 @@ public class HTMLHoursReporter
 	// private DatabaseConnect m_databaseConnection;
 	private static HTMLHoursReporter	m_singleton;
 
-	private String				g_htmlString	= "";
+	private String						g_htmlString	= "";
 
-	private Date				g_dateSpanStart	= new Date();
-	private Date				g_dateSpanStop	= new Date();
+	private Date						g_dateSpanStart	= new Date();
+	private Date						g_dateSpanStop	= new Date();
 
 	/**
 	 * 
@@ -193,7 +193,6 @@ public class HTMLHoursReporter
 		return (totalProjectSeconds / 1000);// return the number of seconds
 	}
 
-
 	private void outputClientHeader()// int rightSpan
 	{
 		g_htmlString += "<tr><td colspan=\"1\" class=\"header\"><b>Client Name</b></td>";
@@ -266,9 +265,9 @@ public class HTMLHoursReporter
 	{
 		String ret = "";
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-		//DateFormat timesdf = new SimpleDateFormat("hh:mm");
+		// DateFormat timesdf = new SimpleDateFormat("hh:mm");
 		ret += sdf.format(d);
-		//ret += " " + timesdf.format(d);
+		// ret += " " + timesdf.format(d);
 		return ret;
 	}
 
